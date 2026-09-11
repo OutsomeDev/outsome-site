@@ -1,4 +1,4 @@
-var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbyKJoMB3YEE_JXbyFzjeEzbQsxXmt2zYZcPV9CP3O7zmhwKgCOxE_N4e_KE2Tz8Tvus/exec";
+var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbwdCFqeK0OXNwu7YkeM-nzoP7TbW7gzYJUw3SN0-GUgj8-ovdEIwV9vjp4O0ULMMLZZ/exec";
 
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('form[data-name="Contact Form"]').forEach(function(form) {
