@@ -1,0 +1,8 @@
+{
+  "name": "outsome-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p out/programs out/customers out/startups out/resources && cp public/pages/index.html out/index.html && cp public/pages/programs-founder-sprint.html out/programs/founder-sprint.html && cp public/pages/programs-us-track.html out/programs/us-track.html && cp public/pages/startups-contact.html out/startups/contact.html && cp public/pages/startups-startupstories.html out/startups/startupstories.html && cp public/pages/customers-in10slab.html out/customers/in10slab.html && cp public/pages/customers-besir.html out/customers/besir.html && cp public/pages/resources-privacy.html out/resources/privacy.html"
+  }
+}
