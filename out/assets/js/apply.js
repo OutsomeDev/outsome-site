@@ -14,7 +14,7 @@
 
   var INDUSTRIES = ['AI','핀테크','헬스케어','의료','바이오 테크','Dev 툴','보안','하드웨어','블록체인','AR/VR','에듀테크/교육','커뮤니티','미디어','엔터테인먼트','게임','E-Sports','라이프스타일','뷰티','패션','식음료','웰니스/핏니스','펫 푸드/테크','관광/레저','스마트시티','농업','ESG/환경/에너지','오픈소스','그외'];
   var BMS = ['B2B SaaS','B2B 구독서비스','B2C 구독서비스','B2B2C 마켓플레이스','온라인 판매','API','광고모델','수수료 모델','B2G','프로젝트 계약/에이전시','Brokerage/중개업','유통','프랜차이즈','라이센싱','제조','그외'];
-  var STAGES = ['아이디어 단계','프로토타입 / 목업','MVP 개발 중','MVP 완성 · 런칭 전','베타 테스트 중','정식 런칭 · 매출 전','유료 고객 확보','월 매출 발생 중','투자 유치 완료'];
+  var STAGES = ['아이디어 단계','프로토타입 / 목업','MVP 개발 중','MVP 완성, 런칭 전','베타 테스트 중','정식 런칭, 매출 전','유료 고객 확보','월 매출 발생 중','투자 유치 완료'];
   var REFERRALS = ['피터 LinkedIn','Outsome Instagram','Outsome YouTube','Outsome TikTok','피터 Brunch','피터 Disquiet','피터 Facebook','Founder Sprint 알럼나이','지인 소개','검색','기타'];
   var ALUMNI = 'Founder Sprint 알럼나이', OTHER = '기타', ETC = '그외';
 
@@ -143,7 +143,7 @@
   function renderRefs() {
     qsa('.refs[data-refs]').forEach(function (box) {
       var list = REFS[box.dataset.refs]; if (!list) return;
-      box.innerHTML = '<span class="rl"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg>Peter의 글</span>' +
+      box.innerHTML = '<span class="rl"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg>Peter의 글 참고하기</span>' +
         list.map(function (r) { return '<a class="ref" href="' + r[1] + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg><span>' + esc(r[0]) + '</span></a>'; }).join('');
     });
   }
@@ -252,7 +252,7 @@
     inds.forEach(function (x) { if (INDUSTRIES.indexOf(x) > -1 && x !== ETC) known.push(x); else other = x; });
     if (other) { known.push(ETC); d.industryOtherText = other === ETC ? '' : other; }
     d.industry = known.slice(0, CONFIG.maxIndustries).join(', ');
-    var ps = (data.productStage || '').split(', '); d.productStage = STAGES.indexOf(ps[0]) > -1 ? ps[0] : ''; d.stageDetail = STAGES.indexOf(ps[0]) > -1 ? ps.slice(1).join(' · ') : (data.productStage || '');
+    var ps = (data.productStage || '').split(', '); d.productStage = STAGES.indexOf(ps[0]) > -1 ? ps[0] : ''; d.stageDetail = STAGES.indexOf(ps[0]) > -1 ? ps.slice(1).join(', ') : (data.productStage || '');
     if (data.businessModel && BMS.indexOf(data.businessModel) < 0) { d.businessModel = ETC; d.bmOtherText = data.businessModel; }
     var refs = splitList(data.referral), rk = [];
     refs.forEach(function (x) {
@@ -311,7 +311,7 @@
       $('loadingState').classList.remove('show'); $('apply-form').style.display = ''; $('formContainer').style.display = '';
       if (!res || !res.ok) { editToken = null; toast('수정 링크를 찾지 못했어요. 새로 작성해 주세요.'); return; }
       applyRaw(decompose(res.data));
-      $('editBanner').classList.add('show'); $('editMeta').textContent = (res.data.companyName || res.data.founderNameKr || '') + (res.updatedAt ? ' · 마지막 수정 ' + res.updatedAt : '');
+      $('editBanner').classList.add('show'); $('editMeta').textContent = (res.data.companyName || res.data.founderNameKr || '') + (res.updatedAt ? ', 마지막 수정 ' + res.updatedAt : '');
       $('pageTitle').innerHTML = '지원서 <em>수정</em>'; $('pageSub').innerHTML = '바꾸고 싶은 부분만 고치고 저장하세요. <b>저장 즉시</b> 반영돼요.';
       $('submitLabel').textContent = '수정 내용 저장'; $('heroPill').style.display = 'none'; $('statStrip').style.display = 'none';
       currentStep = 4; renderReview(); updateUI();
@@ -398,9 +398,16 @@
 
     var draft = loadDraft();
     if (draft && draft.data && Object.keys(draft.data).some(function (k) { return draft.data[k]; })) {
-      $('resumeMeta').textContent = (draft.data.companyName ? draft.data.companyName + ' · ' : '') + '마지막 저장 ' + ago(draft.savedAt);
+      $('resumeMeta').textContent = (draft.data.companyName ? draft.data.companyName + ', ' : '') + '마지막 저장 ' + ago(draft.savedAt);
       $('resumeBanner').classList.add('show');
     }
     updateProgress();
+
+  // Consent dopamine
+  var consentEl = $('consent');
+  consentEl.addEventListener('change', function () {
+    $('consentBox').classList.toggle('checked', this.checked);
+    if (this.checked) toast('동의 완료');
+  });
   });
 })();
