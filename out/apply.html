@@ -48,6 +48,7 @@ html body .mhl{color:#FF6600!important;font-weight:700!important}
 html{scroll-behavior:smooth}
 .apply-page{background:var(--paper);min-height:100vh;position:relative}
 .apply-page .nav-buttons-wrapper-2 a[href="#apply-form"]{display:none!important}
+.apply-page .w-nav{background-color:rgba(250,250,245,.42)!important;backdrop-filter:blur(16px) saturate(150%)!important;-webkit-backdrop-filter:blur(16px) saturate(150%)!important;border-bottom:1px solid rgba(255,255,255,.35)}
 
 /* ── Ambient background (gives the glass something to refract) ── */
 .apply-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -196,14 +197,15 @@ html{scroll-behavior:smooth}
 .ref span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ── Chips ── */
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1.5px solid rgba(27,25,23,.13);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s cubic-bezier(.2,.8,.2,1);line-height:1.2;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden}
-.chip:hover{background:#fff;transform:translateY(-2px);border-color:var(--ink);box-shadow:0 6px 14px rgba(27,25,23,.08)}
-.chip:active{transform:scale(.96);transition-duration:.1s}
-.chip.on{background:linear-gradient(135deg,#2A2724,#1B1917);color:var(--paper);border-color:transparent;animation:chipPop .35s cubic-bezier(.25,1,.5,1);box-shadow:0 4px 12px rgba(27,25,23,.18)}
+.chips{display:flex;flex-wrap:wrap;gap:9px;padding:2px}
+.chip{border:1.5px solid rgba(27,25,23,.13);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .3s cubic-bezier(.16,1,.3,1);line-height:1.2;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden;will-change:transform}
+.chip:hover{background:#fff;border-color:rgba(27,25,23,.45);transform:scale(1.04)}
+.chip:active{transform:scale(.97);transition-duration:.12s}
+.chip.on{background:linear-gradient(135deg,#2A2724,#1B1917);color:var(--paper);border-color:transparent;transform:scale(1.06);box-shadow:0 3px 12px rgba(27,25,23,.2)}
 .chip.on::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 55%);pointer-events:none}
+.chip.on:hover{transform:scale(1.08);border-color:transparent;background:linear-gradient(135deg,#2A2724,#1B1917)}
 .chip.dim{opacity:.4;pointer-events:none}
-@keyframes chipPop{0%{transform:scale(.95)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+50%{transform:scale(1.04)}100%{transform:scale(1)}}
 .chips-wrap.error .chip{border-color:#F3B3B3}
 .chips-note{font-size:12px;color:var(--muted);margin-top:8px}
 .chips-note b{color:var(--ink)}
