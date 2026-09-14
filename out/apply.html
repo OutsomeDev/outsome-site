@@ -178,7 +178,7 @@ html{scroll-behavior:smooth}
 .word-count{transition:color .2s}
 .word-count.good{color:var(--ok)}
 .word-count.warn{color:var(--err)}
-.hint-toggle{background:none;border:0;padding:0;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;text-decoration:underline dotted}
+.hint-toggle{background:none;border:0;padding:0;font-size:11.5px;color:rgba(27,25,23,.3);cursor:pointer;font-family:inherit;text-decoration:underline dotted}
 .hint-toggle:hover{color:var(--ink)}
 .hint-body{display:none;margin-top:8px;border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:var(--muted-2);line-height:1.6}
 .hint-body.show{display:block;animation:fadeIn .25s ease}
@@ -188,11 +188,11 @@ html{scroll-behavior:smooth}
 
 /* refs (Peter's posts) */
 .refs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px}
-.refs .rl{font-size:11.5px;color:var(--muted);margin-right:2px;display:inline-flex;align-items:center;gap:5px}
-.refs .rl svg{width:12px;height:12px;stroke:var(--muted)}
-.ref{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.9);transition:all .18s;max-width:100%}
-.ref:hover{background:#fff;transform:translateY(-1px);box-shadow:0 6px 14px rgba(27,25,23,.08)}
-.ref svg{width:11px;height:11px;stroke:var(--accent);flex-shrink:0}
+.refs .rl{font-size:11px;color:rgba(27,25,23,.3);margin-right:2px;display:inline-flex;align-items:center;gap:5px}
+.refs .rl svg{width:12px;height:12px;stroke:rgba(27,25,23,.25)}
+.ref{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:rgba(27,25,23,.4);text-decoration:none;padding:4px 9px;border-radius:999px;background:rgba(27,25,23,.025);border:1px solid rgba(27,25,23,.06);transition:all .18s;max-width:100%}
+.ref:hover{color:var(--ink);background:rgba(27,25,23,.04);border-color:rgba(27,25,23,.15);transform:translateY(-1px)}
+.ref svg{width:10px;height:10px;stroke:rgba(27,25,23,.3);flex-shrink:0}
 .ref span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ── Chips ── */
@@ -288,8 +288,8 @@ html{scroll-behavior:smooth}
 .apply-loading .spinner{display:block;position:static;margin:0 auto 14px;border-color:var(--line);border-top-color:var(--ink)}
 
 /* ── Step promo (FS tips) ── */
-.step-promo{position:relative;padding-left:32px!important;background:linear-gradient(135deg,rgba(255,240,225,.55),rgba(255,233,214,.35))!important;border:1px solid rgba(255,180,122,.25)!important;border-left:3px solid var(--accent)!important}
-.step-promo::before{content:"TIP";position:absolute;left:14px;top:8px;font-size:9px;font-weight:800;letter-spacing:.12em;color:var(--accent);opacity:.7}
+.step-promo{position:relative;padding-left:32px!important;background:rgba(27,25,23,.025)!important;border:1px solid rgba(27,25,23,.06)!important;border-left:2px solid rgba(27,25,23,.15)!important}
+.step-promo::before{content:"TIP";position:absolute;left:14px;top:8px;font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(27,25,23,.22)}
 
 /* ── Mobile ── */
 @media (max-width:860px){
