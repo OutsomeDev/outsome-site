@@ -146,11 +146,11 @@ html{scroll-behavior:smooth}
 .form-step{display:none;animation:fadeIn .4s cubic-bezier(.2,.8,.2,1)}
 .form-step.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.step-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px}
+.step-head{position:relative;margin-bottom:26px}
 .step-title{font-size:26px;font-weight:700;color:var(--ink);margin:0 0 6px;letter-spacing:-.02em}
 .step-subtitle{font-size:15px;color:var(--muted);margin:0;line-height:1.5}
-.step-count{font-size:12px;font-weight:600;color:var(--muted);background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);border-radius:999px;padding:6px 11px;white-space:nowrap}
-.step-count b{color:var(--ink)}
+.step-count{position:absolute;top:2px;right:0;font-size:11px;font-weight:500;color:rgba(27,25,23,.25);white-space:nowrap;background:none;border:0;padding:0}
+.step-count b{color:rgba(27,25,23,.35);font-weight:600}
 
 /* ── Fields ── */
 .field-group{margin-bottom:22px;position:relative}
@@ -161,7 +161,7 @@ html{scroll-behavior:smooth}
 .field-label .opt{font-size:11px;font-weight:500;color:var(--muted);background:rgba(27,25,23,.05);padding:2px 7px;border-radius:999px}
 .field-hint{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.5}
 .field-wrap{position:relative}
-.field-input,.field-textarea{width:100%;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(27,25,23,.04);border-radius:var(--r-sm);padding:13px 16px;font-size:15px;color:var(--ink);outline:none;transition:all .2s;font-family:inherit;-webkit-appearance:none;box-sizing:border-box;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.field-input,.field-textarea{width:100%;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(27,25,23,.04);border-radius:var(--r-sm);padding:12px 14px;font-size:13.5px;color:var(--ink);outline:none;transition:all .2s;font-family:inherit;-webkit-appearance:none;box-sizing:border-box;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .field-input::placeholder,.field-textarea::placeholder{color:#B5B1A8}
 .field-input:focus,.field-textarea:focus{background:rgba(255,255,255,.9);border-color:rgba(27,25,23,.35);box-shadow:0 0 0 4px rgba(27,25,23,.06),0 8px 24px rgba(27,25,23,.06);transform:translateY(-1px)}
 .field-input.ok,.field-textarea.ok{border-color:rgba(30,158,90,.35)}
@@ -197,12 +197,13 @@ html{scroll-behavior:smooth}
 
 /* ── Chips ── */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s cubic-bezier(.2,.8,.2,1);line-height:1.2;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden}
-.chip:hover{background:#fff;transform:translateY(-1px);box-shadow:0 6px 14px rgba(27,25,23,.08)}
-.chip.on{background:linear-gradient(135deg,#2A2724,#1B1917);color:var(--paper);border-color:rgba(255,255,255,.15);animation:chipPop .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 6px 16px rgba(27,25,23,.22)}
+.chip{border:1.5px solid rgba(27,25,23,.13);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s cubic-bezier(.2,.8,.2,1);line-height:1.2;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden}
+.chip:hover{background:#fff;transform:translateY(-2px);border-color:var(--ink);box-shadow:0 6px 14px rgba(27,25,23,.08)}
+.chip:active{transform:scale(.93);transition-duration:.08s}
+.chip.on{background:linear-gradient(135deg,#2A2724,#1B1917);color:var(--paper);border-color:transparent;animation:chipPop .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 6px 16px rgba(27,25,23,.22)}
 .chip.on::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 55%);pointer-events:none}
 .chip.dim{opacity:.4;pointer-events:none}
-@keyframes chipPop{0%{transform:scale(.92)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes chipPop{0%{transform:scale(.88);box-shadow:0 0 0 0 rgba(255,102,0,.5)}40%{transform:scale(1.1);box-shadow:0 0 0 8px rgba(255,102,0,.15)}70%{transform:scale(.97)}100%{transform:scale(1);box-shadow:0 6px 16px rgba(27,25,23,.22)}}
 .chips-wrap.error .chip{border-color:#F3B3B3}
 .chips-note{font-size:12px;color:var(--muted);margin-top:8px}
 .chips-note b{color:var(--ink)}
@@ -285,6 +286,10 @@ html{scroll-behavior:smooth}
 .apply-loading{display:none;text-align:center;padding:80px 24px;color:var(--muted);font-size:14px}
 .apply-loading.show{display:block}
 .apply-loading .spinner{display:block;position:static;margin:0 auto 14px;border-color:var(--line);border-top-color:var(--ink)}
+
+/* ── Step promo (FS tips) ── */
+.step-promo{position:relative;padding-left:32px!important;background:linear-gradient(135deg,rgba(255,240,225,.55),rgba(255,233,214,.35))!important;border:1px solid rgba(255,180,122,.25)!important;border-left:3px solid var(--accent)!important}
+.step-promo::before{content:"TIP";position:absolute;left:14px;top:8px;font-size:9px;font-weight:800;letter-spacing:.12em;color:var(--accent);opacity:.7}
 
 /* ── Mobile ── */
 @media (max-width:860px){
@@ -404,7 +409,7 @@ html{scroll-behavior:smooth}
       <!-- Step 1 -->
       <div class="form-step active" data-step="1">
         <div class="step-head">
-          <div><h2 class="step-title">대표자 정보</h2><p class="step-subtitle">연락드릴 수 있게 기본 정보만 먼저요. 1분이면 끝나요.</p></div>
+          <div><h2 class="step-title">대표자 정보</h2><p class="step-subtitle">연락드릴수 있게 기본 정보만 먼저. 1분이면 돼요.</p></div>
           <div class="step-count"><b class="done">0</b> / 5</div>
         </div>
         <div class="field-row">
@@ -452,7 +457,7 @@ html{scroll-behavior:smooth}
       <!-- Step 2 -->
       <div class="form-step" data-step="2">
         <div class="step-head">
-          <div><h2 class="step-title">기업 정보</h2><p class="step-subtitle">무엇을, 누구에게, 어떻게 파는지. 완벽하지 않아도 괜찮아요.</p></div>
+          <div><h2 class="step-title">기업 정보</h2><p class="step-subtitle">우리 팀이 뭘 만들고 있는지, 대략적으로만 알려주세요.</p></div>
           <div class="step-count"><b class="done">0</b> / 7</div>
         </div>
         <div class="field-row">
