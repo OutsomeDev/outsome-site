@@ -139,7 +139,7 @@ html{scroll-behavior:smooth}
 .prog li{list-style:none;display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:12px;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6);font-size:13px;color:var(--muted-2);line-height:1.35}
 .prog li b{color:var(--ink);font-weight:600;display:block;font-size:12px}
 .prog li small{display:block;font-size:10.5px;color:var(--muted);margin-top:1px}
-.prog .ic{width:26px;height:26px;border-radius:8px;background:var(--ink);border:0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prog .ic{width:26px;height:26px;border-radius:50%;background:transparent;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .prog .ic svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── Steps ── */
@@ -271,9 +271,9 @@ html{scroll-behavior:smooth}
 .success-icon{width:84px;height:84px;background:linear-gradient(135deg,var(--accent-2),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:scaleIn .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 14px 40px rgba(255,102,0,.38),0 1px 0 rgba(255,255,255,.4) inset}
 @keyframes scaleIn{from{transform:scale(0)}60%{transform:scale(1.12)}to{transform:scale(1)}}
 .success-icon svg{width:38px;height:38px}
-.apply-success h2{font-size:34px;font-weight:700;color:var(--ink);margin:0 0 10px;letter-spacing:-.02em}
-.apply-success .lead{font-size:16px;color:var(--muted-2);line-height:1.65;margin:0 0 32px}
-.apply-success .lead b{color:var(--ink)}
+.apply-success h2{font-size:34px;font-weight:700;color:var(--ink);margin:0 0 10px;letter-spacing:-.02em;font-family:inherit}
+.apply-success .lead{font-size:16px;color:var(--muted-2);line-height:1.65;margin:0 0 32px;font-family:inherit}
+.apply-success .lead b{color:var(--ink);font-family:inherit}
 .timeline{display:grid;grid-template-columns:repeat(4,1fr);text-align:left;margin:0 0 30px;position:relative}
 .tl{padding:0 10px;position:relative}
 .tl .dot{width:12px;height:12px;border-radius:50%;background:rgba(27,25,23,.15);margin-bottom:12px;position:relative;z-index:1;border:3px solid #fff}
@@ -286,7 +286,7 @@ html{scroll-behavior:smooth}
 .success-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .edit-note{margin-top:20px;font-size:13px;color:var(--muted-2);border-radius:var(--r-sm);padding:14px 16px;line-height:1.55;text-align:left}
 .edit-note b{color:var(--ink)}
-.edit-note code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#fff;padding:2px 6px;border-radius:6px;border:1px solid var(--line);word-break:break-all}
+.edit-note code{font-family:inherit;font-size:12px;background:#fff;padding:2px 6px;border-radius:6px;border:1px solid var(--line);word-break:break-all}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:999}
 
 /* ── Loading (edit mode) ── */
@@ -296,7 +296,7 @@ html{scroll-behavior:smooth}
 
 
 /* ── Tip inline icon ── */
-.tip-ic{width:28px;height:28px;border-radius:8px;background:var(--ink);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.tip-ic{width:26px;height:26px;border-radius:50%;background:transparent;border:1.5px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .tip-ic svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── Step promo (FS tips) ── */
