@@ -16,6 +16,7 @@ Apps Script 프로젝트: "Webflow Contact Us Forms" (script.google.com, peter@o
   - GET `?token=` → 지원서 JSON (수정 모드 프리필)
   - POST formType `application_update` + token → 해당 행 덮어쓰기, Updated At 기록
   - 작성 중 임시저장: localStorage `outsome_fs8_apply_draft`
+  - v3 필드 규칙: Industry = 최대 3개 콤마 구분 / Product Stage = `단계 · 상세` / Referral = 복수 콤마 구분, 알럼나이·기타는 `(상세)` 괄호
 
 ## 코드 변경 후 배포
 편집기에서 저장 → 배포 > 배포 관리 > 수정 > 버전: 새 버전 > 배포. (URL은 그대로 유지됨)
