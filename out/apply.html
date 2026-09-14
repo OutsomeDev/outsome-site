@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <title>Apply | Outsome Founder Sprint</title>
-<meta content="Outsome Founder Sprint 프로그램에 지원하세요. Pre-Seed 단계 스타트업을 위한 실리콘밸리 스타일 액셀러레이팅 프로그램." name="description"/>
+<meta content="Outsome Founder Sprint 8기에 지원하세요. Pre-Seed 단계 스타트업을 위한 4주 실리콘밸리 스타일 액셀러레이팅 프로그램." name="description"/>
 <meta content="Apply | Outsome Founder Sprint" property="og:title"/>
-<meta content="Outsome Founder Sprint 프로그램에 지원하세요. Pre-Seed 단계 스타트업을 위한 실리콘밸리 스타일 액셀러레이팅 프로그램." property="og:description"/>
+<meta content="Outsome Founder Sprint 8기에 지원하세요. Pre-Seed 단계 스타트업을 위한 4주 실리콘밸리 스타일 액셀러레이팅 프로그램." property="og:description"/>
 <meta content="https://assets.outsome.co/697c6a48edd6e073484fe65f/697dc26b2760b16241c691b0_Website%20Open%20Graph%20Image.png" property="og:image"/>
+<meta content="https://outsome.co/apply" property="og:url"/>
+<link rel="canonical" href="https://outsome.co/apply"/>
 <meta content="Apply | Outsome Founder Sprint" name="twitter:title"/>
 <meta content="https://assets.outsome.co/697c6a48edd6e073484fe65f/697dc26b2760b16241c691b0_Website%20Open%20Graph%20Image.png" name="twitter:image"/>
 <meta property="og:type" content="website"/>
@@ -33,644 +35,474 @@ a.button-2.w-inline-block{border-radius:999px!important}
 html body .mhl{color:#FF6600!important;font-weight:700!important}
 </style>
 
-<!-- Apply page custom styles -->
+<!-- Apply page styles (v2) -->
 <style>
+:root{
+  --ink:#1B1917; --paper:#FAFAF5; --muted:#8A8575; --line:#E0DDD5; --line-soft:#EEEDE8;
+  --accent:#FF6600; --accent-soft:#FFF1E8; --ok:#1E9E5A; --ok-soft:#E8F7EE; --err:#E53E3E;
+  --card:#FFFFFF; --tint:#F5F4EF;
+}
+.apply-page{background:var(--paper);min-height:100vh}
+.apply-page .nav-buttons-wrapper-2 a[href="#apply-form"]{display:none!important}
+
+/* ── Top progress ── */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);transition:width .5s cubic-bezier(.2,.8,.2,1);z-index:1000;box-shadow:0 0 12px rgba(255,102,0,.5)}
+
+/* ── Banners ── */
+.apply-banner{display:none;max-width:960px;margin:88px auto 0;padding:0 24px}
+.apply-banner.show{display:block;animation:fadeIn .35s ease}
+.apply-banner-inner{display:flex;align-items:center;gap:14px;background:var(--ink);color:var(--paper);border-radius:14px;padding:14px 18px;font-size:14px}
+.apply-banner-inner .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(255,102,0,.25);flex-shrink:0}
+.apply-banner-inner .grow{flex:1;line-height:1.4}
+.apply-banner-inner .grow strong{color:#fff}
+.apply-banner-inner button{background:var(--paper);color:var(--ink);border:0;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.apply-banner-inner button.ghost{background:transparent;color:rgba(250,250,245,.7)}
+.apply-banner-inner button.ghost:hover{color:#fff}
+.apply-banner.edit .apply-banner-inner{background:var(--accent-soft);color:var(--ink);border:1px solid #FFD5B8}
+.apply-banner.edit .dot{background:var(--accent)}
+
+/* ── Header ── */
+.apply-header{max-width:800px;margin:0 auto;padding:72px 24px 36px;text-align:center;position:relative}
+.apply-banner.show ~ .apply-header{padding-top:40px}
+.apply-header::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(27,25,23,.08) 1px,transparent 1px);background-size:22px 22px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 70%);pointer-events:none;z-index:0}
+.apply-header>*{position:relative;z-index:1}
+.badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.01em;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.badge.hot{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.badge.hot .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,102,0,.6)}50%{box-shadow:0 0 0 6px rgba(255,102,0,0)}}
+.apply-header h1{font-size:44px;font-weight:700;color:var(--ink);margin:0 0 12px;letter-spacing:-.025em;line-height:1.1}
+.apply-header h1 em{font-style:normal;color:var(--accent)}
+.apply-header p{font-size:17px;color:var(--muted);margin:0;line-height:1.6}
+.apply-meta{display:flex;justify-content:center;gap:18px;margin-top:18px;font-size:13px;color:var(--muted)}
+.apply-meta span{display:inline-flex;align-items:center;gap:6px}
+.apply-meta svg{width:14px;height:14px;stroke:var(--muted)}
+
 /* ── Layout ── */
-.apply-page { background: #FAFAF5; min-height: 100vh; }
+.apply-container{max-width:1000px;margin:0 auto;padding:0 24px 96px;display:flex;gap:56px}
+.apply-sidebar{width:220px;flex-shrink:0;position:sticky;top:96px;align-self:flex-start}
+.apply-form-area{flex:1;min-width:0}
 
-.apply-header {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 100px 24px 40px;
-  text-align: center;
-}
-.apply-header h1 {
-  font-size: 42px;
-  font-weight: 700;
-  color: #1B1917;
-  margin: 0 0 12px;
-  letter-spacing: -0.02em;
-}
-.apply-header p {
-  font-size: 17px;
-  color: #8A8575;
-  margin: 0;
-  line-height: 1.6;
-}
+/* ── Stepper ── */
+.step-item{display:flex;align-items:flex-start;gap:14px;padding:12px 0;cursor:pointer;position:relative;user-select:none}
+.step-item:not(:last-child)::after{content:"";position:absolute;left:17px;top:50px;bottom:-2px;width:1.5px;background:var(--line);transition:background .4s}
+.step-item.completed:not(:last-child)::after{background:var(--accent)}
+.step-number{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0;background:var(--line-soft);color:var(--muted);transition:all .3s cubic-bezier(.2,.8,.2,1);position:relative}
+.step-item.active .step-number{background:var(--ink);color:var(--paper);box-shadow:0 0 0 4px rgba(27,25,23,.08)}
+.step-item.completed .step-number{background:var(--accent);color:#fff;animation:pop .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.step-text{padding-top:6px;min-width:0}
+.step-label{font-size:14px;font-weight:500;color:var(--muted);line-height:1.3;transition:color .2s}
+.step-item.active .step-label,.step-item.completed .step-label{color:var(--ink);font-weight:600}
+.step-sub{font-size:12px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px}
+.step-sub .mini{height:3px;width:44px;background:var(--line);border-radius:2px;overflow:hidden}
+.step-sub .mini i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s ease}
 
-.apply-container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 24px 80px;
-  display: flex;
-  gap: 48px;
-}
+/* ── Sidebar info card ── */
+.side-card{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:13px;color:var(--muted);line-height:1.55}
+.side-card .t{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+.side-card ul{list-style:none;margin:0;padding:0}
+.side-card li{display:flex;gap:8px;margin-bottom:7px}
+.side-card li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:7px}
+.side-card b{color:var(--ink);font-weight:600}
 
-/* ── Sidebar ── */
-.apply-sidebar {
-  width: 200px;
-  flex-shrink: 0;
-  padding-top: 12px;
-  position: sticky;
-  top: 100px;
-  align-self: flex-start;
-}
-.step-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 0;
-  cursor: pointer;
-  position: relative;
-  transition: opacity .2s;
-}
-.step-item:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  left: 17px;
-  top: 48px;
-  bottom: -6px;
-  width: 1.5px;
-  background: #E0DDD5;
-  transition: background .3s;
-}
-.step-item.completed:not(:last-child)::after { background: #FF6600; }
-.step-number {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 600;
-  flex-shrink: 0;
-  background: #EEEDE8;
-  color: #8A8575;
-  transition: all .3s ease;
-}
-.step-item.active .step-number { background: #1B1917; color: #FAFAF5; }
-.step-item.completed .step-number { background: #FF6600; color: #FAFAF5; }
-.step-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #8A8575;
-  padding-top: 8px;
-  line-height: 1.3;
-  transition: color .2s;
-}
-.step-item.active .step-label { color: #1B1917; font-weight: 600; }
-.step-item.completed .step-label { color: #1B1917; }
-
-/* ── Form Area ── */
-.apply-form-area {
-  flex: 1;
-  min-width: 0;
-}
-.form-step {
-  display: none;
-  animation: fadeIn .35s ease;
-}
-.form-step.active { display: block; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.step-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1B1917;
-  margin: 0 0 6px;
-  letter-spacing: -0.01em;
-}
-.step-subtitle {
-  font-size: 15px;
-  color: #8A8575;
-  margin: 0 0 32px;
-  line-height: 1.5;
-}
+/* ── Steps ── */
+.form-step{display:none;animation:fadeIn .4s cubic-bezier(.2,.8,.2,1)}
+.form-step.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.step-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:28px}
+.step-title{font-size:26px;font-weight:700;color:var(--ink);margin:0 0 6px;letter-spacing:-.015em}
+.step-subtitle{font-size:15px;color:var(--muted);margin:0;line-height:1.5}
+.step-count{font-size:12px;font-weight:600;color:var(--muted);background:var(--tint);border-radius:999px;padding:6px 10px;white-space:nowrap}
+.step-count b{color:var(--ink)}
 
 /* ── Fields ── */
-.field-group {
-  margin-bottom: 24px;
-}
-.field-row {
-  display: flex;
-  gap: 16px;
-}
-.field-row .field-group { flex: 1; }
-.field-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1B1917;
-  margin-bottom: 6px;
-}
-.field-label .required {
-  color: #FF6600;
-  margin-left: 2px;
-}
-.field-hint {
-  font-size: 13px;
-  color: #8A8575;
-  margin-bottom: 6px;
-}
-.field-input,
-.field-select,
-.field-textarea {
-  width: 100%;
-  background: #FFFFFF;
-  border: 1.5px solid #E0DDD5;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 15px;
-  color: #1B1917;
-  outline: none;
-  transition: border-color .2s, box-shadow .2s;
-  font-family: inherit;
-  -webkit-appearance: none;
-  box-sizing: border-box;
-}
-.field-input::placeholder,
-.field-textarea::placeholder {
-  color: #B5B1A8;
-}
-.field-input:focus,
-.field-select:focus,
-.field-textarea:focus {
-  border-color: #1B1917;
-  box-shadow: 0 0 0 3px rgba(27,25,23,.06);
-}
-.field-input.error,
-.field-select.error,
-.field-textarea.error {
-  border-color: #E53E3E;
-}
-.field-error-msg {
-  font-size: 13px;
-  color: #E53E3E;
-  margin-top: 4px;
-  display: none;
-}
-.field-select {
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238A8575' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 40px;
-  cursor: pointer;
-}
-.field-textarea {
-  min-height: 120px;
-  resize: vertical;
-  line-height: 1.6;
-}
-.field-conditional {
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height .3s ease, opacity .3s ease, margin .3s ease;
-  margin-top: 0;
-}
-.field-conditional.show {
-  max-height: 100px;
-  opacity: 1;
-  margin-top: 12px;
-}
+.field-group{margin-bottom:22px;position:relative}
+.field-row{display:flex;gap:16px}
+.field-row .field-group{flex:1}
+.field-label{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.field-label .required{color:var(--accent)}
+.field-label .opt{font-size:11px;font-weight:500;color:var(--muted);background:var(--tint);padding:2px 7px;border-radius:999px}
+.field-hint{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.field-wrap{position:relative}
+.field-input,.field-textarea{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:13px 16px;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,transform .2s;font-family:inherit;-webkit-appearance:none;box-sizing:border-box}
+.field-input::placeholder,.field-textarea::placeholder{color:#B5B1A8}
+.field-input:focus,.field-textarea:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(27,25,23,.06),0 6px 20px rgba(27,25,23,.05);transform:translateY(-1px)}
+.field-input.ok,.field-textarea.ok{border-color:#CFE7D8}
+.field-input.error,.field-textarea.error{border-color:var(--err);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.field-ok{position:absolute;right:14px;top:50%;transform:translateY(-50%) scale(0);width:20px;height:20px;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center;transition:transform .25s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.field-ok svg{width:11px;height:11px}
+.field-input.ok + .field-ok{transform:translateY(-50%) scale(1)}
+.field-textarea + .field-ok{top:16px;transform:scale(0)}
+.field-textarea.ok + .field-ok{transform:scale(1)}
+.field-error-msg{font-size:13px;color:var(--err);margin-top:6px;display:none}
+.field-textarea{min-height:130px;resize:vertical;line-height:1.6;padding-right:44px}
+.field-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px;color:#B5B1A8}
+.word-count{transition:color .2s}
+.word-count.good{color:var(--ok)}
+.word-count.warn{color:var(--err)}
+.hint-toggle{background:none;border:0;padding:0;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;text-decoration:underline dotted}
+.hint-toggle:hover{color:var(--ink)}
+.hint-body{display:none;margin-top:8px;background:var(--tint);border-radius:10px;padding:12px 14px;font-size:13px;color:#5A5750;line-height:1.6}
+.hint-body.show{display:block;animation:fadeIn .25s ease}
+.hint-body b{color:var(--ink)}
+.field-conditional{overflow:hidden;max-height:0;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease;margin-top:0}
+.field-conditional.show{max-height:100px;opacity:1;margin-top:12px}
 
-/* ── Radio Group (Consent) ── */
-.radio-group {
-  display: flex;
-  gap: 12px;
-}
-.radio-option {
-  flex: 1;
-  position: relative;
-}
-.radio-option input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.radio-option label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  border: 1.5px solid #E0DDD5;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 500;
-  color: #8A8575;
-  cursor: pointer;
-  transition: all .2s;
-  background: #FFFFFF;
-}
-.radio-option input[type="radio"]:checked + label {
-  border-color: #1B1917;
-  color: #1B1917;
-  background: #F5F4EF;
-  font-weight: 600;
-}
-.radio-option label:hover {
-  border-color: #1B1917;
-}
+/* ── Chips ── */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s cubic-bezier(.2,.8,.2,1);line-height:1.2}
+.chip:hover{border-color:var(--ink);transform:translateY(-1px)}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink);animation:chipPop .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes chipPop{0%{transform:scale(.92)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.chips-wrap.error .chip{border-color:#F3B3B3}
 
-/* ── Consent Box ── */
-.consent-box {
-  background: #F5F4EF;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  color: #5A5750;
-  line-height: 1.6;
-}
-.consent-box strong {
-  color: #1B1917;
-}
+/* ── Review ── */
+.review-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+.review-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.review-head h3{font-size:14px;font-weight:700;color:var(--ink);margin:0;letter-spacing:.02em}
+.review-edit{background:none;border:0;padding:0;font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;font-family:inherit}
+.review-edit:hover{text-decoration:underline}
+.review-row{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--line-soft);font-size:14px}
+.review-row:first-of-type{border-top:0}
+.review-k{color:var(--muted)}
+.review-v{color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.review-v.empty{color:#B5B1A8;font-style:italic}
 
-/* ── Buttons ── */
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid #EEEDE8;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .2s;
-  border: none;
-  font-family: inherit;
-}
-.btn-primary {
-  background: #1B1917;
-  color: #FAFAF5;
-}
-.btn-primary:hover { background: #2F2C25; }
-.btn-primary:disabled {
-  background: #B5B1A8;
-  cursor: not-allowed;
-}
-.btn-secondary {
-  background: transparent;
-  color: #1B1917;
-  border: 1.5px solid #E0DDD5;
-}
-.btn-secondary:hover {
-  border-color: #1B1917;
-}
-.btn-ghost {
-  background: transparent;
-  color: #8A8575;
-  padding: 14px 16px;
-}
-.btn-ghost:hover { color: #1B1917; }
-.btn .arrow { transition: transform .2s; }
-.btn:hover .arrow { transform: translateX(3px); }
-.btn-loading .btn-text { opacity: 0; }
-.btn-loading .spinner { display: block; }
-.spinner {
-  display: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(250,250,245,.3);
-  border-top-color: #FAFAF5;
-  border-radius: 50%;
-  animation: spin .6s linear infinite;
-  position: absolute;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* ── Consent ── */
+.consent{display:flex;gap:12px;align-items:flex-start;background:var(--tint);border-radius:12px;padding:16px;margin:24px 0 0;cursor:pointer;border:1.5px solid transparent;transition:border-color .2s}
+.consent.error{border-color:var(--err)}
+.consent input{margin-top:3px;width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.consent .c-body{font-size:13.5px;color:#5A5750;line-height:1.55}
+.consent .c-body b{color:var(--ink)}
+.consent a{color:var(--accent);text-decoration:underline}
 
-/* ── Progress Bar ── */
-.progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  background: #FF6600;
-  transition: width .4s ease;
-  z-index: 1000;
-}
+/* ── Actions ── */
+.form-actions{display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line-soft);gap:12px}
+.actions-right{display:flex;align-items:center;gap:14px}
+.autosave{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;opacity:0;transition:opacity .3s}
+.autosave.show{opacity:1}
+.autosave i{width:6px;height:6px;border-radius:50%;background:var(--ok);display:inline-block}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:999px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s cubic-bezier(.2,.8,.2,1);border:0;font-family:inherit;position:relative;text-decoration:none}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:#2F2C25;transform:translateY(-1px);box-shadow:0 8px 24px rgba(27,25,23,.18)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary:disabled{background:#B5B1A8;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-secondary{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-secondary:hover{border-color:var(--ink)}
+.btn-ghost{background:transparent;color:var(--muted);padding:14px 10px}
+.btn-ghost:hover{color:var(--ink)}
+.btn .arrow{transition:transform .2s}
+.btn:hover .arrow{transform:translateX(3px)}
+.btn-loading .btn-text{opacity:0}
+.btn-loading .spinner{display:block}
+.spinner{display:none;width:18px;height:18px;border:2px solid rgba(250,250,245,.3);border-top-color:var(--paper);border-radius:50%;animation:spin .6s linear infinite;position:absolute;left:calc(50% - 9px);top:calc(50% - 9px)}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── Success State ── */
-.apply-success {
-  display: none;
-  text-align: center;
-  padding: 80px 24px;
-  max-width: 560px;
-  margin: 0 auto;
-  animation: fadeIn .5s ease;
-}
-.apply-success.show { display: block; }
-.success-icon {
-  width: 72px;
-  height: 72px;
-  background: #FF6600;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  animation: scaleIn .4s ease;
-}
-@keyframes scaleIn {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
-}
-.success-icon svg { width: 32px; height: 32px; }
-.apply-success h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1B1917;
-  margin: 0 0 12px;
-}
-.apply-success p {
-  font-size: 16px;
-  color: #8A8575;
-  line-height: 1.6;
-  margin: 0 0 32px;
-}
+/* ── Toast ── */
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:11px 16px;border-radius:999px;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.2,.8,.2,1);z-index:1001;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .tick{width:18px;height:18px;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center}
+.toast .tick svg{width:10px;height:10px}
 
-/* ── Word Count ── */
-.word-count {
-  font-size: 12px;
-  color: #B5B1A8;
-  text-align: right;
-  margin-top: 4px;
-  transition: color .2s;
-}
-.word-count.warn { color: #E53E3E; }
+/* ── Success ── */
+.apply-success{display:none;max-width:640px;margin:0 auto;padding:64px 24px 96px;text-align:center;animation:fadeIn .5s ease}
+.apply-success.show{display:block}
+.success-icon{width:84px;height:84px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 26px;animation:scaleIn .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 12px 40px rgba(255,102,0,.35)}
+@keyframes scaleIn{from{transform:scale(0)}60%{transform:scale(1.12)}to{transform:scale(1)}}
+.success-icon svg{width:38px;height:38px}
+.apply-success h2{font-size:34px;font-weight:700;color:var(--ink);margin:0 0 10px;letter-spacing:-.02em}
+.apply-success .lead{font-size:16px;color:var(--muted);line-height:1.65;margin:0 0 36px}
+.apply-success .lead b{color:var(--ink)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;text-align:left;margin:0 0 32px;position:relative}
+.tl{padding:0 10px;position:relative}
+.tl .dot{width:12px;height:12px;border-radius:50%;background:var(--line);margin-bottom:12px;position:relative;z-index:1;border:3px solid var(--paper)}
+.tl.done .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(30,158,90,.2)}
+.tl.next .dot{background:var(--accent)}
+.tl::after{content:"";position:absolute;left:22px;right:-10px;top:6px;height:1.5px;background:var(--line)}
+.tl:last-child::after{display:none}
+.tl .tt{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.tl .td{font-size:12px;color:var(--muted);line-height:1.4}
+.success-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.edit-note{margin-top:22px;font-size:13px;color:var(--muted);background:var(--tint);border-radius:12px;padding:14px 16px;line-height:1.55}
+.edit-note b{color:var(--ink)}
+.edit-note code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#fff;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+/* ── Loading (edit mode) ── */
+.apply-loading{display:none;text-align:center;padding:80px 24px;color:var(--muted);font-size:14px}
+.apply-loading.show{display:block}
+.apply-loading .spinner{display:block;position:static;margin:0 auto 14px;border-color:var(--line);border-top-color:var(--ink)}
 
 /* ── Mobile ── */
-@media (max-width: 768px) {
-  .apply-header { padding: 80px 20px 32px; }
-  .apply-header h1 { font-size: 30px; }
-  .apply-container {
-    flex-direction: column;
-    gap: 0;
-    padding: 0 20px 60px;
-  }
-  .apply-sidebar {
-    width: 100%;
-    position: static;
-    display: flex;
-    gap: 0;
-    padding: 0 0 24px;
-    border-bottom: 1px solid #EEEDE8;
-    margin-bottom: 32px;
-  }
-  .step-item {
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 6px;
-    padding: 8px 0;
-  }
-  .step-item:not(:last-child)::after {
-    left: calc(50% + 18px);
-    top: 18px;
-    bottom: auto;
-    right: -50%;
-    width: auto;
-    height: 1.5px;
-  }
-  .step-number { width: 32px; height: 32px; font-size: 13px; }
-  .step-label { font-size: 12px; padding-top: 0; }
-  .field-row { flex-direction: column; gap: 0; }
-  .form-actions { gap: 12px; }
-  .btn { padding: 12px 24px; font-size: 14px; }
+@media (max-width:820px){
+  .apply-banner{margin-top:76px}
+  .apply-header{padding:56px 20px 28px}
+  .apply-header h1{font-size:32px}
+  .apply-meta{flex-wrap:wrap;gap:10px 16px}
+  .apply-container{flex-direction:column;gap:0;padding:0 20px 72px}
+  .apply-sidebar{width:100%;position:static;display:flex;gap:0;padding:0 0 20px;border-bottom:1px solid var(--line-soft);margin-bottom:28px}
+  .step-item{flex:1;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px 0}
+  .step-item:not(:last-child)::after{left:calc(50% + 18px);top:16px;bottom:auto;right:calc(-50% + 18px);width:auto;height:1.5px}
+  .step-number{width:32px;height:32px;font-size:13px}
+  .step-text{padding-top:0}
+  .step-label{font-size:11.5px}
+  .step-sub{display:none}
+  .side-card{display:none}
+  .field-row{flex-direction:column;gap:0}
+  .step-head{flex-direction:column;align-items:flex-start;gap:10px}
+  .review-row{grid-template-columns:1fr;gap:2px}
+  .timeline{grid-template-columns:1fr;gap:14px}
+  .tl::after{display:none}
+  .tl{display:flex;gap:12px;align-items:flex-start}
+  .tl .dot{margin:4px 0 0}
+  .form-actions{flex-wrap:wrap}
+  .autosave{order:3;width:100%;justify-content:flex-end}
+  .btn{padding:12px 22px;font-size:14px}
 }
 </style>
 </head>
-
 <body class="apply-page">
-<div class="progress-bar" id="progressBar" style="width: 33%"></div>
+<div class="progress-bar" id="progressBar" style="width:25%"></div>
+<canvas id="confetti"></canvas>
 
 <!-- ══════ NAV ══════ -->
 <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav"><div class="main-container-2 navbar-container"><div class="navbar-row"><a href="/" class="nav-logo-link w-inline-block"><img src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4846f_Outsome%20Full_Black.svg" alt="Outsome" width="115" class="nav-logo"/></a><div class="navigation-wrap"><nav role="navigation" class="navbar-menu w-nav-menu"><div class="nav-links"><div data-hover="true" data-delay="150" class="nav-dropdown show-screen w-dropdown"><div class="dropdown-toggle w-dropdown-toggle"><div>Programs</div></div><nav class="dropdown-wrap wide w-dropdown-list"><div class="dropdown-content-wide"><div class="main-container dropdown-container"><div class="dropdown-columns"><div class="dropdown-column"><div id="w-node-b6d603d1-fcc8-3e06-a78d-00aa8fc28c35-6d7bf580" class="text---badge dropdown-title">For Startups</div><a href="/programs/founder-sprint" class="dropdown-item w-inline-block"><div class="text---bold">Founder Sprint</div><div class="dropdown-item-text">Build the foundation that actually holds in 4 weeks here in Seoul.</div></a><a href="/programs/us-track" class="dropdown-item w-inline-block"><div class="text---bold">US Track</div><div class="dropdown-item-text">Enter the US market under real pressure. On-the-ground immersion in SF.</div></a></div><div id="w-node-_9ea90178-8518-898a-1708-8a4f650ee9c5-6d7bf580" class="dropdown-cta-wrap"><img sizes="100vw" srcset="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM-p-500.png 500w, https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM-p-800.png 800w, https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM-p-1080.png 1080w, https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM.png 1170w" alt="" src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM.png" class="dropdown-cta-bg"/><div class="glass-surface dropdown-cta-content"><div class="text---badge">Outsome</div><div class="heading---h4">Hands-on Acceleration</div><a data-wf--button--variant="default" href="#apply-form" class="button w-inline-block"><div class="button-text-wrap"><div class="button-text-initial">Apply Now</div><div class="button-text-reveal">Apply Now</div></div></a></div></div></div></div></div></nav></div><div data-hover="true" data-delay="200" class="nav-dropdown w-dropdown"><div class="dropdown-toggle w-dropdown-toggle"><div>Startups</div></div><nav class="dropdown-wrap w-dropdown-list"><div class="dropdown-content"><div class="dropdown-menus"><div id="w-node-_6e76180c-f8b7-3ad2-2d76-f82e2eb806c6-6d7bf580" class="links"><a href="/startups/startupstories" class="dropdown-link">Startup Stories</a></div><div id="w-node-_72b2d463-1e62-a70a-d7af-761ff50c480b-6d7bf580" class="links"><a rel="nofollow" href="https://bookface.outsome.co/" target="_blank" class="dropdown-link">Join Bookface</a><a href="/startups/contact" class="dropdown-link">Contact</a></div></div></div></nav></div><div data-hover="true" data-delay="200" class="nav-dropdown w-dropdown"><div class="dropdown-toggle w-dropdown-toggle"><div>Resources</div></div><nav class="dropdown-wrap w-dropdown-list"><div class="dropdown-content narrow"><div class="links"><a href="/resources/program-design" class="dropdown-link">Program Design</a><a href="/resources/privacy" class="dropdown-link">Privacy Policy</a><a href="/resources/style-guide" class="dropdown-link">Style Guide</a></div></div></nav></div></div></nav></div><div class="navbar-right-contents"><div class="nav-buttons-wrapper-2"><a href="/startups/contact" rel="nofollow" class="button-2 bg-light-2---small w-inline-block"><div class="button-text-wrap-2 bg-light-2---small-2"><div class="button-text-initial bg-light-2---small-3">Book a call</div><div class="button-text-reveal bg-light-2---small-4">Book a call</div></div></a><a data-wf--application-button--variant="open" href="#apply-form" class="button-2 default---small-5-copy w-inline-block"><div class="button-text-wrap-2 default---small-6"><div class="button-text-initial default---small-7">Join the Next Batch</div><div class="button-text-reveal default---small-4">Join the Next Batch</div></div></a></div><div class="menu-button w-nav-button"><div class="menu-button-icon-wrapper"><img alt="Menu icon" src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4837d_icon-interface-menu.svg" class="menu-button-icon"/><img alt="Cross icon" src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4831a_icon-interface-cross.svg" class="menu-button-icon"/></div></div></div></div></div></div>
 
+<!-- ══════ RESUME / EDIT BANNERS ══════ -->
+<div class="apply-banner" id="resumeBanner">
+  <div class="apply-banner-inner">
+    <span class="dot"></span>
+    <div class="grow">작성 중이던 지원서가 있어요. <strong id="resumeMeta"></strong></div>
+    <button type="button" onclick="resumeDraft()">이어서 작성</button>
+    <button type="button" class="ghost" onclick="discardDraft()">새로 시작</button>
+  </div>
+</div>
+<div class="apply-banner edit" id="editBanner">
+  <div class="apply-banner-inner">
+    <span class="dot"></span>
+    <div class="grow"><strong>지원서 수정 모드</strong> · <span id="editMeta"></span> · 마감 전까지 몇 번이든 수정할 수 있어요.</div>
+  </div>
+</div>
+
 <!-- ══════ HEADER ══════ -->
 <div class="apply-header" id="apply-form">
-  <h1>Founder Sprint Application</h1>
-  <p>Pre-Seed 단계 스타트업을 위한 실리콘밸리 스타일 액셀러레이팅 프로그램에 지원하세요.</p>
+  <div class="badges">
+    <span class="badge hot"><span class="pulse"></span>Founder Sprint · Batch 8</span>
+    <span class="badge" id="deadlineBadge">최종 마감 10.30</span>
+    <span class="badge">10팀 선발</span>
+  </div>
+  <h1 id="pageTitle">실리콘밸리로 가는<br/><em>첫 번째 질문</em>에 답해주세요</h1>
+  <p id="pageSub">4주 동안 Peter와 1:1, YC 파운더·SV 빅테크 PM/CTO 멘토링, 그리고 한·미 VC 웜인트로.<br/>11월 9일 시작. 대표님의 이야기를 들려주세요.</p>
+  <div class="apply-meta">
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>약 10분</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/></svg>4단계 · 17개 질문</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>자동 저장, 언제든 이어서</span>
+  </div>
 </div>
+
+<div class="apply-loading" id="loadingState"><div class="spinner"></div>지원서를 불러오는 중…</div>
 
 <!-- ══════ FORM ══════ -->
 <div class="apply-container" id="formContainer">
 
-  <!-- Sidebar -->
   <aside class="apply-sidebar">
     <div class="step-item active" data-step="1" onclick="goToStep(1)">
       <div class="step-number">1</div>
-      <div class="step-label">대표자 정보</div>
+      <div class="step-text"><div class="step-label">대표자 정보</div><div class="step-sub"><span class="mini"><i></i></span><span class="cnt">0/5</span></div></div>
     </div>
     <div class="step-item" data-step="2" onclick="goToStep(2)">
       <div class="step-number">2</div>
-      <div class="step-label">기업 정보</div>
+      <div class="step-text"><div class="step-label">기업 정보</div><div class="step-sub"><span class="mini"><i></i></span><span class="cnt">0/7</span></div></div>
     </div>
     <div class="step-item" data-step="3" onclick="goToStep(3)">
       <div class="step-number">3</div>
-      <div class="step-label">심층 질문</div>
+      <div class="step-text"><div class="step-label">심층 질문</div><div class="step-sub"><span class="mini"><i></i></span><span class="cnt">0/4</span></div></div>
+    </div>
+    <div class="step-item" data-step="4" onclick="goToStep(4)">
+      <div class="step-number">4</div>
+      <div class="step-text"><div class="step-label">검토 &amp; 제출</div><div class="step-sub"><span class="mini"><i></i></span><span class="cnt">0/1</span></div></div>
+    </div>
+    <div class="side-card">
+      <div class="t">프로그램 한눈에</div>
+      <ul>
+        <li><span><b>4주</b> · 11.9 – 12.4, 서울</span></li>
+        <li><span>Peter와 <b>1:1 집중 멘토링</b></span></li>
+        <li><span>YC 파운더 · SV 빅테크 PM/CTO 멘토링</span></li>
+        <li><span>선발팀 <b>SF 현지 2주</b> (별도)</span></li>
+        <li><span>한·미 VC <b>웜인트로</b></span></li>
+        <li><span>월·목 대면, 주 12–13시간</span></li>
+      </ul>
     </div>
   </aside>
 
-  <!-- Form Area -->
   <div class="apply-form-area">
-    <form id="applicationForm" novalidate>
+    <form id="applicationForm" novalidate autocomplete="on">
 
-      <!-- ── Step 1: 대표자 정보 ── -->
+      <!-- Step 1 -->
       <div class="form-step active" data-step="1">
-        <h2 class="step-title">대표자 정보</h2>
-        <p class="step-subtitle">팀의 대표자 정보를 입력해 주세요.</p>
-
+        <div class="step-head">
+          <div><h2 class="step-title">대표자 정보</h2><p class="step-subtitle">연락드릴 수 있게 기본 정보만 먼저요. 1분이면 끝나요.</p></div>
+          <div class="step-count"><b class="done">0</b> / 5</div>
+        </div>
         <div class="field-row">
           <div class="field-group">
-            <label class="field-label">한글 이름 <span class="required">*</span></label>
-            <input type="text" name="founderNameKr" class="field-input" placeholder="홍길동" required />
+            <label class="field-label" for="founderNameKr">한글 이름 <span class="required">*</span></label>
+            <div class="field-wrap"><input type="text" id="founderNameKr" name="founderNameKr" class="field-input" placeholder="홍길동" required autocomplete="name"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
             <div class="field-error-msg">이름을 입력해 주세요.</div>
           </div>
           <div class="field-group">
-            <label class="field-label">영문 이름</label>
-            <input type="text" name="founderNameEn" class="field-input" placeholder="Gildong Hong" />
+            <label class="field-label" for="founderNameEn">영문 이름</label>
+            <div class="field-wrap"><input type="text" id="founderNameEn" name="founderNameEn" class="field-input" placeholder="Gildong Hong"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </div>
         </div>
-
-        <div class="field-group">
-          <label class="field-label">연락처</label>
-          <input type="tel" name="phone" class="field-input" placeholder="010-1234-5678" />
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">이메일 주소 <span class="required">*</span></label>
-          <input type="email" name="email" class="field-input" placeholder="founder@startup.com" required />
-          <div class="field-error-msg">유효한 이메일을 입력해 주세요.</div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">LinkedIn URL</label>
-          <input type="url" name="linkedin" class="field-input" placeholder="https://linkedin.com/in/username" />
-        </div>
-
-        <div class="form-actions">
-          <div></div>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">
-            다음 <span class="arrow">&rarr;</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- ── Step 2: 기업 정보 ── -->
-      <div class="form-step" data-step="2">
-        <h2 class="step-title">기업 정보</h2>
-        <p class="step-subtitle">기업과 서비스에 대해 알려주세요.</p>
-
         <div class="field-row">
           <div class="field-group">
-            <label class="field-label">기업명 <span class="required">*</span></label>
-            <input type="text" name="companyName" class="field-input" placeholder="(주)스타트업" required />
-            <div class="field-error-msg">기업명을 입력해 주세요.</div>
+            <label class="field-label" for="phone">연락처 <span class="required">*</span></label>
+            <div class="field-wrap"><input type="tel" id="phone" name="phone" class="field-input" placeholder="010-1234-5678" required autocomplete="tel" inputmode="numeric"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="field-error-msg">연락처를 입력해 주세요.</div>
           </div>
           <div class="field-group">
-            <label class="field-label">서비스 웹사이트</label>
-            <input type="url" name="website" class="field-input" placeholder="https://startup.com" />
+            <label class="field-label" for="email">이메일 <span class="required">*</span></label>
+            <div class="field-wrap"><input type="email" id="email" name="email" class="field-input" placeholder="founder@startup.com" required autocomplete="email"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="field-error-msg">유효한 이메일을 입력해 주세요. 확인 메일과 수정 링크가 여기로 가요.</div>
           </div>
         </div>
-
         <div class="field-group">
-          <label class="field-label">한 문장 서비스 설명 <span class="required">*</span></label>
-          <div class="field-hint">30자 이내로 간결하게 작성해 주세요.</div>
-          <input type="text" name="oneLiner" class="field-input" placeholder="AI 기반 B2B SaaS로 물류비를 50% 절감합니다." maxlength="30" required />
-          <div class="field-error-msg">서비스 설명을 입력해 주세요.</div>
+          <label class="field-label" for="linkedin">LinkedIn URL <span class="required">*</span></label>
+          <div class="field-wrap"><input type="url" id="linkedin" name="linkedin" class="field-input" placeholder="linkedin.com/in/username" required/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-error-msg">LinkedIn 프로필 주소를 입력해 주세요.</div>
         </div>
-
-        <div class="field-group">
-          <label class="field-label">프로덕트/서비스 분야</label>
-          <select name="industry" class="field-select" onchange="toggleConditional('industryOther', this.value === '그외')">
-            <option value="" disabled selected>분야를 선택해 주세요</option>
-            <option>핀테크</option><option>스마트시티</option><option>엔터테인먼트</option>
-            <option>AR/VR</option><option>바이오 테크</option><option>Dev 툴</option>
-            <option>라이프스타일</option><option>의료</option><option>E-Sports</option>
-            <option>뷰티</option><option>미디어</option><option>하드웨어</option>
-            <option>AI</option><option>블록체인</option><option>식음료</option>
-            <option>웰니스/핏니스</option><option>농업</option><option>커뮤니티</option>
-            <option>에듀테크/교육</option><option>게임</option><option>보안</option>
-            <option>관광/레저</option><option>헬스케어</option><option>패션</option>
-            <option>오픈소스</option><option>ESG/환경/에너지</option><option>펫 푸드/테크</option>
-            <option>그외</option>
-          </select>
-          <div class="field-conditional" id="industryOther">
-            <input type="text" name="industryOtherText" class="field-input" placeholder="분야를 직접 입력해 주세요" />
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">IR 덱 링크</label>
-          <div class="field-hint">Google Drive, Notion 등 공유 링크를 붙여넣어 주세요. (선택)</div>
-          <input type="url" name="deckUrl" class="field-input" placeholder="https://drive.google.com/..." />
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">프로덕트 개발 정도</label>
-          <div class="field-hint">Pre-launch인 경우, 예정 런칭 날짜도 적어주세요.</div>
-          <input type="text" name="productStage" class="field-input" placeholder="MVP 완성, 베타 테스트 중" />
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">서비스의 Business Model</label>
-          <select name="businessModel" class="field-select" onchange="toggleConditional('bmOther', this.value === '그외')">
-            <option value="" disabled selected>비즈니스 모델을 선택해 주세요</option>
-            <option>API</option><option>광고모델</option>
-            <option>프로젝트 계약/에이전시</option><option>B2B SaaS</option>
-            <option>B2B 구독서비스</option><option>온라인 판매</option>
-            <option>B2C 구독서비스</option><option>B2B2C 마켓플레이스</option>
-            <option>B2G</option><option>Brokerage/중개업</option>
-            <option>유통</option><option>프랜차이즈</option>
-            <option>라이센싱</option><option>제조</option>
-            <option>수수료 모델</option><option>그외</option>
-          </select>
-          <div class="field-conditional" id="bmOther">
-            <input type="text" name="bmOtherText" class="field-input" placeholder="비즈니스 모델을 직접 입력해 주세요" />
-          </div>
-        </div>
-
         <div class="form-actions">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">
-            &larr; 이전
-          </button>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">
-            다음 <span class="arrow">&rarr;</span>
-          </button>
+          <div></div>
+          <div class="actions-right">
+            <span class="autosave" id="autosave1"><i></i><span>자동 저장됨</span></span>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">다음 <span class="arrow">&rarr;</span></button>
+          </div>
         </div>
       </div>
 
-      <!-- ── Step 3: 심층 질문 ── -->
+      <!-- Step 2 -->
+      <div class="form-step" data-step="2">
+        <div class="step-head">
+          <div><h2 class="step-title">기업 정보</h2><p class="step-subtitle">무엇을, 누구에게, 어떻게 파는지. 완벽하지 않아도 괜찮아요.</p></div>
+          <div class="step-count"><b class="done">0</b> / 7</div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="companyName">기업명 <span class="required">*</span></label>
+            <div class="field-wrap"><input type="text" id="companyName" name="companyName" class="field-input" placeholder="(주)스타트업 · 예비창업자는 팀명" required autocomplete="organization"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="field-error-msg">기업명 또는 팀명을 입력해 주세요.</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="website">서비스 웹사이트 <span class="opt">선택</span></label>
+            <div class="field-wrap"><input type="url" id="website" name="website" class="field-input" placeholder="startup.com"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="oneLiner">한 문장 서비스 설명 <span class="required">*</span></label>
+          <div class="field-hint">30자 이내. "누구의 어떤 문제를 어떻게"가 한 줄에 들어가면 좋아요.</div>
+          <div class="field-wrap"><input type="text" id="oneLiner" name="oneLiner" class="field-input" placeholder="예: 중소 물류사의 배차 비용을 AI로 절반으로" maxlength="30" required/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-foot"><span></span><span class="word-count" id="cc-oneLiner">0 / 30자</span></div>
+          <div class="field-error-msg">서비스 설명을 입력해 주세요.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">프로덕트/서비스 분야 <span class="required">*</span></label>
+          <div class="chips-wrap" id="industryChips"><div class="chips"></div></div>
+          <input type="hidden" name="industry" id="industry" required/>
+          <div class="field-conditional" id="industryOther"><input type="text" name="industryOtherText" class="field-input" placeholder="분야를 직접 입력해 주세요"/></div>
+          <div class="field-error-msg">분야를 하나 선택해 주세요.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="productStage">프로덕트 개발 정도 <span class="required">*</span></label>
+          <div class="field-hint">Pre-launch면 예정 런칭일도 함께. 예: "MVP 완성, 유료 고객 3곳 베타 중" / "2026.12 런칭 예정"</div>
+          <div class="field-wrap"><input type="text" id="productStage" name="productStage" class="field-input" placeholder="MVP 완성, 베타 테스트 중" required/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-error-msg">개발 단계를 알려주세요.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Business Model <span class="required">*</span></label>
+          <div class="chips-wrap" id="bmChips"><div class="chips"></div></div>
+          <input type="hidden" name="businessModel" id="businessModel" required/>
+          <div class="field-conditional" id="bmOther"><input type="text" name="bmOtherText" class="field-input" placeholder="비즈니스 모델을 직접 입력해 주세요"/></div>
+          <div class="field-error-msg">비즈니스 모델을 하나 선택해 주세요.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="deckUrl">IR 덱 / 회사 소개서 링크 <span class="opt">선택</span></label>
+          <div class="field-hint">Google Drive, Notion, Pitch 등 공유 링크. 있으면 심사가 훨씬 빨라져요.</div>
+          <div class="field-wrap"><input type="url" id="deckUrl" name="deckUrl" class="field-input" placeholder="drive.google.com/…"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">&larr; 이전</button>
+          <div class="actions-right">
+            <span class="autosave" id="autosave2"><i></i><span>자동 저장됨</span></span>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">다음 <span class="arrow">&rarr;</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
       <div class="form-step" data-step="3">
-        <h2 class="step-title">심층 질문</h2>
-        <p class="step-subtitle">팀의 비전과 방향성에 대해 더 알려주세요.</p>
-
-        <div class="field-group">
-          <label class="field-label">팀이 타겟하는 분야 또는 문제가 무엇인가요?</label>
-          <div class="field-hint">최대 100단어 이내</div>
-          <textarea name="targetProblem" class="field-textarea" placeholder="우리 팀이 해결하려는 핵심 문제를 설명해 주세요." oninput="updateWordCount(this, 100)"></textarea>
-          <div class="word-count" id="wc-targetProblem">0 / 100 단어</div>
+        <div class="step-head">
+          <div><h2 class="step-title">심층 질문</h2><p class="step-subtitle">여기가 진짜예요. 멋진 문장보다 구체적인 사실이 더 강해요.</p></div>
+          <div class="step-count"><b class="done">0</b> / 4</div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">프로덕트의 타겟 고객에 대해 자세히 설명해 주세요.</label>
-          <textarea name="targetCustomer" class="field-textarea" placeholder="누가 우리의 첫 번째 고객인지, 그들이 현재 어떤 대안을 쓰고 있는지 알려주세요."></textarea>
+          <label class="field-label" for="targetProblem">팀이 타겟하는 분야 또는 문제가 무엇인가요? <span class="required">*</span></label>
+          <div class="field-wrap"><textarea id="targetProblem" name="targetProblem" class="field-textarea" placeholder="누가, 어떤 상황에서, 무엇 때문에 고통받는지. 지금은 그걸 어떻게 해결하고 있는지." required data-words="100"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-foot"><button type="button" class="hint-toggle" onclick="toggleHint(this)">좋은 답의 기준</button><span class="word-count" id="wc-targetProblem">0 / 100 단어</span></div>
+          <div class="hint-body"><b>구체성이 전부예요.</b> "물류 산업의 비효율"보다 "직원 20명 이하 물류사 대표가 매일 밤 엑셀로 배차를 짜다가 놓치는 주문"이 훨씬 좋아요. 본인이 그 문제를 직접 겪었거나 가까이서 본 이야기가 있으면 꼭 적어주세요.</div>
+          <div class="field-error-msg">타겟 문제를 적어주세요.</div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">우리가 한국보다 미국에서 더 잘 될 이유가 뭔가요?</label>
-          <textarea name="whyUS" class="field-textarea" placeholder="미국 시장에서의 기회와 차별화 포인트를 설명해 주세요."></textarea>
+          <label class="field-label" for="targetCustomer">프로덕트의 타겟 고객에 대해 자세히 설명해 주세요. <span class="required">*</span></label>
+          <div class="field-wrap"><textarea id="targetCustomer" name="targetCustomer" class="field-textarea" placeholder="첫 번째 고객 10명은 누구인가요? 그들은 지금 어떤 대안을 쓰고, 얼마를 내고 있나요?" required data-words="150"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-foot"><button type="button" class="hint-toggle" onclick="toggleHint(this)">좋은 답의 기준</button><span class="word-count" id="wc-targetCustomer">0 / 150 단어</span></div>
+          <div class="hint-body"><b>"모두"는 아무도 아니에요.</b> 직군, 회사 규모, 지역, 지금 쓰는 대안, 지불 의사까지. 실제로 대화해본 고객이 있다면 몇 명과 무슨 얘기를 했는지 한 줄이면 충분해요.</div>
+          <div class="field-error-msg">타겟 고객을 적어주세요.</div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">어떻게 알고 신청하게 되셨나요?</label>
-          <textarea name="referral" class="field-textarea" placeholder="소개, 검색, SNS 등" style="min-height: 80px;"></textarea>
+          <label class="field-label" for="whyUS">우리가 한국보다 미국에서 더 잘 될 이유가 뭔가요? <span class="required">*</span></label>
+          <div class="field-wrap"><textarea id="whyUS" name="whyUS" class="field-textarea" placeholder="시장 크기 말고요. 왜 '지금', 왜 '우리 팀'이, 왜 '미국'인지." required data-words="150"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-foot"><button type="button" class="hint-toggle" onclick="toggleHint(this)">좋은 답의 기준</button><span class="word-count" id="wc-whyUS">0 / 150 단어</span></div>
+          <div class="hint-body"><b>"시장이 커서"는 모두가 쓰는 답이에요.</b> 미국 고객이 한국 고객과 다르게 행동하는 지점, 한국에선 없는데 미국엔 있는 규제·유통·결제 구조, 팀에 미국 경험이 있다면 그것. 솔직하게 "아직 모른다, 그래서 검증하러 간다"도 좋은 답이에요.</div>
+          <div class="field-error-msg">미국 진출 이유를 적어주세요.</div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">개인정보 수집 및 이용 동의 <span class="required">*</span></label>
-          <div class="consent-box">
-            <strong>개인정보 수집 목적:</strong> Founder Sprint 지원서 심사 및 연락<br/>
-            <strong>수집 항목:</strong> 이름, 이메일, 연락처, LinkedIn URL, 기업 정보<br/>
-            <strong>보유 기간:</strong> 지원 심사 완료 후 1년, 또는 동의 철회 시 즉시 파기<br/>
-            자세한 사항은 <a href="/resources/privacy" target="_blank" style="color:#FF6600;text-decoration:underline;">개인정보처리방침</a>을 확인해 주세요.
-          </div>
-          <div class="radio-group">
-            <div class="radio-option">
-              <input type="radio" id="consentYes" name="consent" value="YES" required />
-              <label for="consentYes">동의합니다</label>
-            </div>
-            <div class="radio-option">
-              <input type="radio" id="consentNo" name="consent" value="NO" />
-              <label for="consentNo">동의하지 않습니다</label>
-            </div>
-          </div>
-          <div class="field-error-msg" id="consentError">개인정보 수집에 동의해 주셔야 지원이 가능합니다.</div>
+          <label class="field-label" for="referral">어떻게 알고 신청하게 되셨나요? <span class="required">*</span></label>
+          <div class="field-wrap"><textarea id="referral" name="referral" class="field-textarea" placeholder="소개(누구), LinkedIn 글, 웨비나, 검색 등" required style="min-height:80px"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-error-msg">알게 된 경로를 적어주세요.</div>
         </div>
 
         <div class="form-actions">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">
-            &larr; 이전
-          </button>
-          <button type="submit" class="btn btn-primary" id="submitBtn" style="position:relative;">
-            <span class="btn-text">지원서 제출하기</span>
-            <span class="spinner"></span>
-          </button>
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">&larr; 이전</button>
+          <div class="actions-right">
+            <span class="autosave" id="autosave3"><i></i><span>자동 저장됨</span></span>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">검토하기 <span class="arrow">&rarr;</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Review -->
+      <div class="form-step" data-step="4">
+        <div class="step-head">
+          <div><h2 class="step-title">검토 &amp; 제출</h2><p class="step-subtitle">마지막으로 한 번 훑어보세요. 제출 후에도 마감 전까지 수정할 수 있어요.</p></div>
+        </div>
+        <div id="reviewArea"></div>
+        <label class="consent" id="consentBox">
+          <input type="checkbox" id="consent" name="consent" value="YES" required/>
+          <div class="c-body"><b>개인정보 수집 및 이용에 동의합니다.</b><br/>목적: Founder Sprint 지원서 심사 및 연락 · 항목: 이름, 이메일, 연락처, LinkedIn, 기업 정보 · 보유: 심사 완료 후 1년 또는 동의 철회 시 즉시 파기. <a href="/resources/privacy" target="_blank">개인정보처리방침</a></div>
+        </label>
+        <div class="field-error-msg" id="consentError">개인정보 수집에 동의해 주셔야 지원이 가능합니다.</div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">&larr; 이전</button>
+          <div class="actions-right">
+            <button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text" id="submitLabel">지원서 제출하기</span><span class="spinner"></span></button>
+          </div>
         </div>
       </div>
 
@@ -680,12 +512,20 @@ html body .mhl{color:#FF6600!important;font-weight:700!important}
 
 <!-- ══════ SUCCESS ══════ -->
 <div class="apply-success" id="successState">
-  <div class="success-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#FAFAF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FAFAF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <h2 id="successTitle">지원 완료</h2>
+  <p class="lead" id="successLead"></p>
+  <div class="timeline" id="timeline">
+    <div class="tl done"><div class="dot"></div><div class="tt">접수 완료</div><div class="td">방금</div></div>
+    <div class="tl next"><div class="dot"></div><div class="tt">서류 검토</div><div class="td">롤링 리뷰 · 순차 연락</div></div>
+    <div class="tl"><div class="dot"></div><div class="tt">진단 미팅 · 인터뷰</div><div class="td">온라인 또는 대면</div></div>
+    <div class="tl"><div class="dot"></div><div class="tt">합격 통보</div><div class="td">11.4 · 10팀</div></div>
   </div>
-  <h2>지원이 완료되었습니다!</h2>
-  <p>소중한 지원서를 잘 받았습니다.<br/>심사 결과는 입력하신 이메일로 안내드리겠습니다.</p>
-  <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
+  <div class="success-actions">
+    <a class="btn btn-primary" id="editLink" href="#">지원서 수정하기</a>
+    <a class="btn btn-secondary" href="/">홈으로</a>
+  </div>
+  <div class="edit-note" id="editNote"></div>
 </div>
 
 <!-- ══════ FOOTER ══════ -->
@@ -697,154 +537,6 @@ html body .mhl{color:#FF6600!important;font-weight:700!important}
 <script src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/js/webflow.schunk.5986ee9e16c37b60.js" type="text/javascript"></script>
 <script src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/js/webflow.3ad10de2.c17e5f61295199b1.js" type="text/javascript"></script>
 <script src="/assets/js/form-handler.js"></script>
-
-<script>
-/* ── Apply Form Logic ── */
-var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbwdCFqeK0OXNwu7YkeM-nzoP7TbW7gzYJUw3SN0-GUgj8-ovdEIwV9vjp4O0ULMMLZZ/exec";
-var currentStep = 1;
-var totalSteps = 3;
-
-function goToStep(step) {
-  if (step < 1 || step > totalSteps) return;
-  /* validate current step before moving forward */
-  if (step > currentStep && !validateStep(currentStep)) return;
-  currentStep = step;
-  updateUI();
-}
-function nextStep() { goToStep(currentStep + 1); }
-function prevStep() { goToStep(currentStep - 1); }
-
-function updateUI() {
-  /* Steps */
-  document.querySelectorAll('.form-step').forEach(function(el) {
-    el.classList.toggle('active', +el.dataset.step === currentStep);
-  });
-  /* Sidebar */
-  document.querySelectorAll('.step-item').forEach(function(el) {
-    var s = +el.dataset.step;
-    el.classList.remove('active', 'completed');
-    if (s === currentStep) el.classList.add('active');
-    else if (s < currentStep) el.classList.add('completed');
-  });
-  /* Completed step numbers → checkmark */
-  document.querySelectorAll('.step-item.completed .step-number').forEach(function(el) {
-    el.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FAFAF5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-  });
-  /* Restore numbers for non-completed */
-  document.querySelectorAll('.step-item:not(.completed) .step-number').forEach(function(el) {
-    el.textContent = el.closest('.step-item').dataset.step;
-  });
-  /* Progress bar */
-  document.getElementById('progressBar').style.width = (currentStep / totalSteps * 100) + '%';
-  /* Scroll to top of form */
-  document.getElementById('apply-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function validateStep(step) {
-  var stepEl = document.querySelector('.form-step[data-step="' + step + '"]');
-  var valid = true;
-  stepEl.querySelectorAll('[required]').forEach(function(input) {
-    var errEl = input.closest('.field-group') ?
-      input.closest('.field-group').querySelector('.field-error-msg') : null;
-    if (!input.value.trim() || (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value))) {
-      input.classList.add('error');
-      if (errEl) errEl.style.display = 'block';
-      valid = false;
-    } else {
-      input.classList.remove('error');
-      if (errEl) errEl.style.display = 'none';
-    }
-  });
-  /* Special: consent radio on step 3 */
-  if (step === 3) {
-    var consent = document.querySelector('input[name="consent"]:checked');
-    var consentErr = document.getElementById('consentError');
-    if (!consent || consent.value !== 'YES') {
-      consentErr.style.display = 'block';
-      valid = false;
-    } else {
-      consentErr.style.display = 'none';
-    }
-  }
-  return valid;
-}
-
-function toggleConditional(id, show) {
-  var el = document.getElementById(id);
-  el.classList.toggle('show', show);
-  if (!show) el.querySelector('input').value = '';
-}
-
-function updateWordCount(textarea, limit) {
-  var words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
-  var el = document.getElementById('wc-' + textarea.name);
-  if (el) {
-    el.textContent = words + ' / ' + limit + ' 단어';
-    el.classList.toggle('warn', words > limit);
-  }
-}
-
-/* Clear errors on input */
-document.addEventListener('input', function(e) {
-  if (e.target.classList.contains('error')) {
-    e.target.classList.remove('error');
-    var errEl = e.target.closest('.field-group') ?
-      e.target.closest('.field-group').querySelector('.field-error-msg') : null;
-    if (errEl) errEl.style.display = 'none';
-  }
-});
-
-/* Form submit */
-document.getElementById('applicationForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  if (!validateStep(3)) return;
-
-  var btn = document.getElementById('submitBtn');
-  btn.classList.add('btn-loading');
-  btn.disabled = true;
-
-  var form = this;
-  var data = {
-    formType: 'application',
-    founderNameKr: form.founderNameKr.value,
-    founderNameEn: form.founderNameEn.value,
-    phone: form.phone.value,
-    email: form.email.value,
-    linkedin: form.linkedin.value,
-    companyName: form.companyName.value,
-    website: form.website.value,
-    oneLiner: form.oneLiner.value,
-    industry: form.industry.value === '그외'
-      ? (form.industryOtherText.value || '그외')
-      : form.industry.value,
-    deckUrl: form.deckUrl.value,
-    productStage: form.productStage.value,
-    businessModel: form.businessModel.value === '그외'
-      ? (form.bmOtherText.value || '그외')
-      : form.businessModel.value,
-    targetProblem: form.targetProblem.value,
-    targetCustomer: form.targetCustomer.value,
-    whyUS: form.whyUS.value,
-    referral: form.referral.value,
-    consent: form.consent.value
-  };
-
-  fetch(FORM_ENDPOINT, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    mode: 'no-cors'
-  }).then(function() {
-    document.getElementById('formContainer').style.display = 'none';
-    document.querySelector('.apply-header').style.display = 'none';
-    var success = document.getElementById('successState');
-    success.classList.add('show');
-    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }).catch(function() {
-    alert('제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
-    btn.classList.remove('btn-loading');
-    btn.disabled = false;
-  });
-});
-</script>
+<script src="/assets/js/apply.js?v=2"></script>
 </body>
 </html>

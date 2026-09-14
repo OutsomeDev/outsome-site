@@ -1,77 +1,124 @@
 # Form → Google Sheets 연결 가이드
 
-## 1단계: Google Sheets 만들기
-1. Google Sheets에서 새 스프레드시트 생성
-2. 이름: "Outsome Form Submissions"
-3. Sheet1 이름을 "Contact" 으로 변경 → 헤더: Name, Email, Phone, Message, Date
-4. Sheet2 추가, 이름 "Subscribers" → 헤더: Email, Date
-
-## 2단계: Apps Script 배포
-1. Sheets에서 Extensions > Apps Script 클릭
-2. 아래 코드 붙여넣기
-3. Deploy > New deployment > Web app > Anyone 선택 > Deploy
-4. URL 복사
-
-## Apps Script 코드:
-```javascript
-function doPost(e) {
-  var sheet = SpreadsheetApp.openById("1ke-AcuJK9LFV__UsMGvAwlak1YYpg-ETzWamj4jtdqY");
-  var data = JSON.parse(e.postData.contents);
-  
-  if (data.formType === "contact") {
-    var s = sheet.getSheets()[0];
-    s.appendRow([
-      new Date().toISOString().split("T")[0],
-      data.name,
-      data.email,
-      data.phone,
-      data.message,
-      "New"
-    ]);
-  }
-  
-  if (data.formType === "subscribe") {
-    var s2 = sheet.getSheetByName("시트2") || sheet.getSheets()[2];
-    s2.appendRow([
-      data.email,
-      data.source || "Website",
-      new Date().toISOString().split("T")[0]
-    ]);
-  }
-  
-  if (data.formType === "application") {
-    var sa = sheet.getSheetByName("Applications") || sheet.getSheets()[1];
-    sa.appendRow([
-      new Date().toISOString().split("T")[0],
-      data.founderNameKr || "",
-      data.founderNameEn || "",
-      data.phone || "",
-      data.email || "",
-      data.linkedin || "",
-      data.companyName || "",
-      data.website || "",
-      data.oneLiner || "",
-      data.industry || "",
-      data.deckUrl || "",
-      data.productStage || "",
-      data.businessModel || "",
-      data.targetProblem || "",
-      data.targetCustomer || "",
-      data.whyUS || "",
-      data.referral || "",
-      data.consent || ""
-    ]);
-  }
-  
-  return ContentService.createTextOutput(JSON.stringify({result: "ok"})).setMimeType(ContentService.MimeType.JSON);
-}
-```
+스프레드시트: https://docs.google.com/spreadsheets/d/1ke-AcuJK9LFV__UsMGvAwlak1YYpg-ETzWamj4jtdqY/edit
+Apps Script 프로젝트: "Webflow Contact Us Forms" (script.google.com, peter@outsome.co)
+웹 앱 URL: https://script.google.com/macros/s/AKfycbwdCFqeK0OXNwu7YkeM-nzoP7TbW7gzYJUw3SN0-GUgj8-ovdEIwV9vjp4O0ULMMLZZ/exec
 
 ## Sheets 구조
 - 시트1 (index 0): Contact — Date, Name, Email, Phone, Message, Status
-- Applications (index 1): Applications — Date, Founder Name (KR/EN), Phone, Email, LinkedIn, Company, Website, One Liner, Industry, Deck URL, Product Stage, BM, Target Problem/Customer, Why US, Referral, Consent
+- Applications (index 1): Date | 17 fields (Founder KR/EN, Phone, Email, LinkedIn, Company, Website, One Liner, Industry, Deck URL, Product Stage, BM, Target Problem, Target Customer, Why US, Referral, Consent) | Edit Token | Updated At | Source
 - 시트2 (index 2): Subscribers — Email, Source, Date
 
-## 3단계: HTML 폼 업데이트
-- Contact/Subscribe: form-handler.js에서 처리
-- Application: apply.html 내 인라인 스크립트에서 처리 (formType: 'application')
+## 프론트엔드
+- Contact/Subscribe: `out/assets/js/form-handler.js` (no-cors POST)
+- Application: `out/apply.html` + `out/assets/js/apply.js`
+  - POST formType `application` → 토큰 발급 + 확인 메일(MailApp, 수정 링크 포함) → 응답 `{ok, token}`
+  - GET `?token=` → 지원서 JSON (수정 모드 프리필)
+  - POST formType `application_update` + token → 해당 행 덮어쓰기, Updated At 기록
+  - 작성 중 임시저장: localStorage `outsome_fs8_apply_draft`
+
+## 코드 변경 후 배포
+편집기에서 저장 → 배포 > 배포 관리 > 수정 > 버전: 새 버전 > 배포. (URL은 그대로 유지됨)
+MailApp 등 새 권한이 추가되면 편집기에서 `authorizeScopes` 한 번 실행해 승인.
+
+## Apps Script 코드 (Code.gs)
+```javascript
+var SS_ID = "1ke-AcuJK9LFV__UsMGvAwlak1YYpg-ETzWamj4jtdqY";
+var APP_SHEET = "Applications";
+var APP_FIELDS = ["founderNameKr","founderNameEn","phone","email","linkedin","companyName","website","oneLiner","industry","deckUrl","productStage","businessModel","targetProblem","targetCustomer","whyUS","referral","consent"];
+// Applications columns: A Date | B..R = APP_FIELDS (17) | S Edit Token | T Updated At | U Source
+var COL_TOKEN = 19, COL_UPDATED = 20, COL_SOURCE = 21;
+
+function fmt(v) { return (v instanceof Date) ? Utilities.formatDate(v, "Asia/Seoul", "yyyy-MM-dd HH:mm") : (v == null ? "" : String(v)); }
+function json(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+function now() { return Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd HH:mm"); }
+function today() { return Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd"); }
+function appSheet() { var ss = SpreadsheetApp.openById(SS_ID); return ss.getSheetByName(APP_SHEET) || ss.getSheets()[1]; }
+
+function findRowByToken(sheet, token) {
+  if (!token) return -1;
+  var last = sheet.getLastRow(); if (last < 2) return -1;
+  var col = sheet.getRange(2, COL_TOKEN, last - 1, 1).getValues();
+  for (var i = 0; i < col.length; i++) if (String(col[i][0]) === String(token)) return i + 2;
+  return -1;
+}
+
+function doGet(e) {
+  var token = e && e.parameter && e.parameter.token;
+  if (!token) return json({ ok: true, service: "outsome-forms" });
+  var s = appSheet(), row = findRowByToken(s, token);
+  if (row < 0) return json({ ok: false, error: "not_found" });
+  var vals = s.getRange(row, 1, 1, COL_SOURCE).getValues()[0];
+  var data = {};
+  APP_FIELDS.forEach(function (k, i) { data[k] = vals[i + 1] == null ? "" : String(vals[i + 1]); });
+  return json({ ok: true, data: data, submittedAt: fmt(vals[0]), updatedAt: fmt(vals[COL_UPDATED - 1]) });
+}
+
+function doPost(e) {
+  var ss = SpreadsheetApp.openById(SS_ID);
+  var data;
+  try { data = JSON.parse(e.postData.contents); } catch (err) { return json({ ok: false, error: "bad_json" }); }
+
+  if (data.formType === "contact") {
+    ss.getSheets()[0].appendRow([today(), data.name, data.email, data.phone, data.message, "New"]);
+    return json({ ok: true });
+  }
+
+  if (data.formType === "subscribe") {
+    var s2 = ss.getSheetByName("시트2") || ss.getSheets()[2];
+    s2.appendRow([data.email, data.source || "Website", today()]);
+    return json({ ok: true });
+  }
+
+  if (data.formType === "application") {
+    var s = appSheet();
+    var token = Utilities.getUuid().replace(/-/g, "");
+    var row = [today()].concat(APP_FIELDS.map(function (k) { return data[k] || ""; }));
+    row[COL_TOKEN - 1] = token; row[COL_UPDATED - 1] = ""; row[COL_SOURCE - 1] = data.source || "";
+    s.appendRow(row);
+    try { sendConfirmation(data, token); } catch (err) { Logger.log("mail failed: " + err); }
+    return json({ ok: true, token: token });
+  }
+
+  if (data.formType === "application_update") {
+    var sa = appSheet(), r = findRowByToken(sa, data.token);
+    if (r < 0) return json({ ok: false, error: "not_found" });
+    var vals = APP_FIELDS.map(function (k) { return data[k] || ""; });
+    sa.getRange(r, 2, 1, APP_FIELDS.length).setValues([vals]);
+    sa.getRange(r, COL_UPDATED).setValue(now());
+    return json({ ok: true, token: data.token });
+  }
+
+  return json({ ok: false, error: "unknown_form" });
+}
+
+function sendConfirmation(d, token) {
+  if (!d.email) return;
+  var editUrl = "https://outsome.co/apply?edit=" + token;
+  var name = d.founderNameKr || "대표님";
+  var subject = "[Outsome] Founder Sprint 8기 지원서가 접수되었습니다";
+  var html =
+    '<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1B1917;line-height:1.6">' +
+    '<p style="font-size:12px;letter-spacing:.08em;color:#8A8575;text-transform:uppercase;margin:0 0 16px">Outsome · Founder Sprint Batch 8</p>' +
+    '<h2 style="font-size:22px;margin:0 0 12px">' + name + '님, 지원서 잘 받았어요.</h2>' +
+    '<p style="margin:0 0 20px;color:#5A5750">' + (d.companyName ? '<b>' + d.companyName + '</b>의 이야기, 꼼꼼히 읽을게요. ' : '') + '서류는 롤링으로 검토하고 순차적으로 연락드려요. 최종 마감은 <b>10월 30일</b>, 합격 통보는 <b>11월 4일</b>이에요.</p>' +
+    '<div style="background:#F5F4EF;border-radius:12px;padding:16px 18px;margin:0 0 20px">' +
+    '<p style="margin:0 0 8px;font-weight:600">마감 전까지 언제든 수정할 수 있어요</p>' +
+    '<p style="margin:0 0 12px;font-size:14px;color:#5A5750">아래 링크는 이 지원서 전용이에요. 다른 사람과 공유하지 마세요.</p>' +
+    '<a href="' + editUrl + '" style="display:inline-block;background:#1B1917;color:#FAFAF5;text-decoration:none;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px">지원서 수정하기</a>' +
+    '<p style="margin:12px 0 0;font-size:12px;color:#8A8575;word-break:break-all">' + editUrl + '</p>' +
+    '</div>' +
+    '<p style="margin:0 0 6px;font-size:14px;color:#5A5750"><b>다음 단계</b></p>' +
+    '<ol style="margin:0 0 20px;padding-left:18px;font-size:14px;color:#5A5750"><li>서류 검토 (롤링)</li><li>진단 미팅 · 인터뷰 (온라인 또는 대면)</li><li>합격 통보 11.4 · 10팀</li><li>FS 8기 시작 11.9</li></ol>' +
+    '<p style="margin:0;font-size:14px;color:#5A5750">궁금한 게 있으면 이 메일에 바로 답장 주세요.<br/>— Peter Shin, Outsome</p>' +
+    '</div>';
+  MailApp.sendEmail({ to: d.email, subject: subject, htmlBody: html, name: "Outsome", replyTo: "peter@outsome.co" });
+}
+
+function authorizeScopes() {
+  // Run once from the editor to grant Sheets + Mail scopes to the web app.
+  Logger.log("mail quota: " + MailApp.getRemainingDailyQuota());
+  Logger.log("sheet: " + SpreadsheetApp.openById(SS_ID).getName());
+}
+
+```
