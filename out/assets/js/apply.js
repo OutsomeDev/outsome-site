@@ -198,11 +198,23 @@
   }
 
   /* ---------- navigation ---------- */
-  function goToStep(step) {
+  /* silent validity (no error UI) for sidebar state */
+  function stepValid(step) {
+    var stepEl = qs('.form-step[data-step="' + step + '"]'), ok = true;
+    qsa('[required]', stepEl).forEach(function (input) {
+      var v = input.type === 'checkbox' ? input.checked : input.value.trim();
+      if (!v || (input.type === 'email' && !isEmail(input.value))) ok = false;
+    });
+    return ok;
+  }
+  /* free=true (sidebar): browse any step without validation. Next button: validate current step first. */
+  function goToStep(step, free) {
     if (step < 1 || step > CONFIG.totalSteps) return;
-    if (step > currentStep) {
+    if (!free && step > currentStep) {
       for (var s = currentStep; s < step; s++) { if (!validateStep(s)) { currentStep = s; updateUI(); return; } }
-      if (!celebrated[currentStep]) { celebrated[currentStep] = true; toast(qs('.step-item[data-step="' + currentStep + '"] .step-label').textContent + ' 완료'); }
+    }
+    if (step !== currentStep && stepValid(currentStep) && currentStep < 4 && !celebrated[currentStep]) {
+      celebrated[currentStep] = true; toast(qs('.step-item[data-step="' + currentStep + '"] .step-label').textContent + ' 완료');
     }
     currentStep = step;
     if (step === 4) renderReview();
@@ -213,9 +225,10 @@
     qsa('.form-step').forEach(function (el) { el.classList.toggle('active', +el.dataset.step === currentStep); });
     qsa('.step-item').forEach(function (el) {
       var s = +el.dataset.step; el.classList.remove('active', 'completed');
-      if (s === currentStep) el.classList.add('active'); else if (s < currentStep) el.classList.add('completed');
+      var done = s < 4 && s !== currentStep && stepValid(s);
+      if (s === currentStep) el.classList.add('active'); else if (done) el.classList.add('completed');
       var num = qs('.step-number', el);
-      if (s < currentStep) num.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'; else num.textContent = s;
+      if (done) num.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'; else num.textContent = s;
     });
     updateProgress();
     $('apply-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -356,10 +369,11 @@
   }
 
   /* ---------- misc UX ---------- */
-  function onChange(e) { var t = e && e.target; if (t) markField(t); updateCounters(); updateProgress(); saveDraft(false); }
+  function onChange(e) { var t = e && e.target; if (t) markField(t); updateCounters(); updateProgress(); refreshStepMarks(); saveDraft(false); }
+  function refreshStepMarks() { qsa('.step-item').forEach(function (el) { var s = +el.dataset.step; if (s === currentStep || s === 4) return; var done = stepValid(s); el.classList.toggle('completed', done); var num = qs('.step-number', el); num.innerHTML = done ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : String(s); }); }
   function formatPhone(el) { var v = el.value.replace(/[^\d]/g, ''); if (v.length >= 10 && v.indexOf('0') === 0) { el.value = v.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3'); } }
   window.toggleHint = function (btn) { var body = btn.closest('.field-group').querySelector('.hint-body'); body.classList.toggle('show'); btn.textContent = body.classList.contains('show') ? '닫기' : '좋은 답의 기준'; };
-  window.goToStep = goToStep; window.nextStep = function () { goToStep(currentStep + 1); }; window.prevStep = function () { goToStep(currentStep - 1); };
+  window.goToStep = function (s, free) { goToStep(s, !!free); }; window.nextStep = function () { goToStep(currentStep + 1); }; window.prevStep = function () { goToStep(currentStep - 1); };
 
   /* ---------- init ---------- */
   document.addEventListener('DOMContentLoaded', function () {
