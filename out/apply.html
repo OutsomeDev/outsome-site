@@ -78,7 +78,7 @@ html{scroll-behavior:smooth}
 .apply-banner.show{display:block;animation:fadeIn .35s ease}
 .apply-banner-inner{display:flex;align-items:center;gap:10px;border-radius:var(--r-md);padding:12px 16px;font-size:13.5px;color:var(--ink);flex-wrap:nowrap}
 .apply-banner-inner .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(255,102,0,.2);flex-shrink:0;}
-.apply-banner-inner .grow{flex:1;line-height:normal;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.apply-banner-inner .ab-text{align-self:center;flex:1;line-height:normal;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .apply-banner-inner button{background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0;line-height:normal}
 .apply-banner-inner button.ghost{background:transparent;color:var(--muted);flex-shrink:0;line-height:normal}
 .apply-banner-inner button.ghost:hover{color:var(--ink)}
@@ -135,7 +135,7 @@ html{scroll-behavior:smooth}
 .side-card .t{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .side-card .tag{font-size:11px;font-weight:700;color:var(--paper);background:linear-gradient(135deg,#2A2724,#1B1917);padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.15)}
 .side-card .tag span{position:relative;z-index:3}
-.prog{display:flex;flex-direction:column;gap:6px}
+.prog{display:flex;flex-direction:column;gap:6px;padding:0;margin:0;list-style:none}
 .prog li{list-style:none;display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:12px;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6);font-size:13px;color:var(--muted-2);line-height:1.35}
 .prog li b{color:var(--ink);font-weight:600;display:block;font-size:12px}
 .prog li small{display:block;font-size:10.5px;color:var(--muted);}
@@ -349,7 +349,7 @@ html{scroll-behavior:smooth}
 <div class="apply-banner" id="resumeBanner">
   <div class="apply-banner-inner glass">
     <span class="dot"></span>
-    <div class="grow">작성 중이던 지원서가 있어요. <b id="resumeMeta"></b></div>
+    <div class="ab-text">작성 중이던 지원서가 있어요. <b id="resumeMeta"></b></div>
     <button type="button" onclick="resumeDraft()">이어서 작성</button>
     <button type="button" class="ghost" onclick="discardDraft()">새로 시작</button>
   </div>
@@ -357,7 +357,7 @@ html{scroll-behavior:smooth}
 <div class="apply-banner" id="editBanner">
   <div class="apply-banner-inner glass">
     <span class="dot"></span>
-    <div class="grow"><b>지원서 수정 모드</b> · <span id="editMeta"></span> 마감 전까지 몇 번이든 수정 가능해요.</div>
+    <div class="ab-text"><b>지원서 수정 모드</b> · <span id="editMeta"></span> 마감 전까지 몇 번이든 수정 가능해요.</div>
   </div>
 </div>
 
