@@ -217,8 +217,8 @@ html{scroll-behavior:smooth}
 /* ── Rainbow ring (알럼나이 / 지인 소개) ── */
 @property --rb{syntax:'<angle>';inherits:false;initial-value:0deg}
 .chip.rainbow{border-color:transparent;background-clip:padding-box}
-.chip.rainbow::before{content:"";position:absolute;inset:-1.5px;border-radius:999px;padding:1.5px;background:conic-gradient(from var(--rb),#FF5F6D,#FFC371,#F9F871,#7CF29C,#5AD1FF,#8A7CFF,#FF6DD0,#FF5F6D);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rbspin 3s linear infinite;pointer-events:none}
-.chip.rainbow.on::before{inset:-2px;padding:2px}
+.chip.rainbow::before{content:"";position:absolute;inset:-1px;border-radius:999px;padding:1px;background:conic-gradient(from var(--rb),#FF5F6D,#FFC371,#F9F871,#7CF29C,#5AD1FF,#8A7CFF,#FF6DD0,#FF5F6D);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rbspin 3s linear infinite;pointer-events:none}
+.chip.rainbow.on::before{inset:-1.25px;padding:1.25px}
 .chip.rainbow.dim::before{display:none}
 @keyframes rbspin{to{--rb:360deg}}
 @supports not (background:conic-gradient(from var(--rb),red,blue)){.chip.rainbow{border-color:#FFB27A}.chip.rainbow::before{display:none}}
