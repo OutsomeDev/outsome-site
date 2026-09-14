@@ -15,7 +15,7 @@
   var INDUSTRIES = ['AI','핀테크','헬스케어','의료','바이오 테크','Dev 툴','보안','하드웨어','블록체인','AR/VR','에듀테크/교육','커뮤니티','미디어','엔터테인먼트','게임','E-Sports','라이프스타일','뷰티','패션','식음료','웰니스/핏니스','펫 푸드/테크','관광/레저','스마트시티','농업','ESG/환경/에너지','오픈소스','그외'];
   var BMS = ['B2B SaaS','B2B 구독서비스','B2C 구독서비스','B2B2C 마켓플레이스','온라인 판매','API','광고모델','수수료 모델','B2G','프로젝트 계약/에이전시','Brokerage/중개업','유통','프랜차이즈','라이센싱','제조','그외'];
   var STAGES = ['아이디어 단계','프로토타입 / 목업','MVP 개발 중','MVP 완성, 런칭 전','베타 테스트 중','정식 런칭, 매출 전','유료 고객 확보','월 매출 발생 중','투자 유치 완료'];
-  var REFERRALS = ['피터 LinkedIn','Outsome LinkedIn','Outsome Instagram','Outsome Threads','Outsome YouTube','Outsome TikTok','피터 Brunch','피터 Disquiet','피터 Facebook','Founder Sprint 알럼나이','지인 소개','Naver 검색','Google 검색','기타'];
+  var REFERRALS = ['피터 LinkedIn','Outsome LinkedIn','Outsome Instagram','Outsome Threads','Outsome YouTube','Outsome TikTok','피터 Brunch','피터 Disquiet','피터 Facebook','Naver 검색','Google 검색','Founder Sprint 알럼나이','지인 소개','기타'];
   var RAINBOW = ['Founder Sprint 알럼나이','지인 소개'];
   var ALUMNI = 'Founder Sprint 알럼나이', OTHER = '기타', ETC = '그외';
 
