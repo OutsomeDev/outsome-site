@@ -136,11 +136,11 @@ html{scroll-behavior:smooth}
 .side-card .tag{font-size:11px;font-weight:700;color:var(--paper);background:linear-gradient(135deg,#2A2724,#1B1917);padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.15)}
 .side-card .tag span{position:relative;z-index:3}
 .prog{display:flex;flex-direction:column;gap:6px}
-.prog li{list-style:none;display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6);font-size:13px;color:var(--muted-2);line-height:1.35}
-.prog li b{color:var(--ink);font-weight:600;display:block;font-size:13px}
-.prog li small{display:block;font-size:11.5px;color:var(--muted);margin-top:1px}
-.prog .ic{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#FFF3E8,#FFE2C9);border:1px solid rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 0 #fff inset}
-.prog .ic svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.prog li{list-style:none;display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:12px;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6);font-size:13px;color:var(--muted-2);line-height:1.35}
+.prog li b{color:var(--ink);font-weight:600;display:block;font-size:12px}
+.prog li small{display:block;font-size:10.5px;color:var(--muted);margin-top:1px}
+.prog .ic{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#FFF3E8,#FFE2C9);border:1px solid rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 0 #fff inset}
+.prog .ic svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── Steps ── */
 .form-step{display:none;animation:fadeIn .4s cubic-bezier(.2,.8,.2,1)}
@@ -340,7 +340,7 @@ html{scroll-behavior:smooth}
 <div class="apply-banner" id="editBanner">
   <div class="apply-banner-inner glass">
     <span class="dot"></span>
-    <div class="grow"><b>지원서 수정 모드</b> · <span id="editMeta"></span> · 마감 전까지 몇 번이든 수정할 수 있어요.</div>
+    <div class="grow"><b>지원서 수정 모드</b> · <span id="editMeta"></span> 마감 전까지 몇 번이든 수정 가능해요.</div>
   </div>
 </div>
 
@@ -349,16 +349,16 @@ html{scroll-behavior:smooth}
 <div class="apply-header" id="apply-form">
   <div class="hero-pill glossy dark" id="heroPill"><span class="pulse"></span><span>Founder Sprint · Batch 8 · 지원 접수 중</span></div>
   <h1 id="pageTitle">실리콘밸리로 가는<br/><em>첫 번째 질문</em>에 답해주세요</h1>
-  <p class="lead" id="pageSub">4주 동안 <b>Peter와 1:1</b>로 미국 진출의 첫 단추를 끼웁니다.<br/>대표님의 이야기를 들려주세요.</p>
+  <p class="lead" id="pageSub">4주 동안 <b>Peter와 1:1</b>로 미국 진출의 첫 단추를 끼워요.<br/>대표님 이야기를 들려주세요.</p>
   <div class="stats glass glossy" id="statStrip">
     <div class="stat"><div class="k">최종 마감</div><div class="v">10.30<small id="dday"></small></div></div>
-    <div class="stat"><div class="k">선발</div><div class="v">10팀</div></div>
+    <div class="stat"><div class="k">선발</div><div class="v">10팀만</div></div>
     <div class="stat"><div class="k">시작</div><div class="v">11.9<small>서울</small></div></div>
   </div>
   <div class="apply-meta">
     <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>약 10분</span>
-    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/></svg>4단계 · 17개 질문</span>
-    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>자동 저장 · 제출 후 수정 가능</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/></svg>4단계, 17개 질문</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>자동 저장, 제출 후 수정 가능</span>
   </div>
 </div>
 
@@ -389,11 +389,11 @@ html{scroll-behavior:smooth}
     <div class="side-card glass">
       <div class="head"><div class="t">프로그램</div><div class="tag glossy dark"><span>FS · Batch 8</span></div></div>
       <ul class="prog">
-        <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span><b>4주 집중</b><small>11.9 – 12.4 · 서울 · 월/목 대면</small></span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span><b>4주 집중</b><small>11.9~12.4, 서울</small></span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><span><b>Peter와 1:1</b><small>매주 직접 멘토링</small></span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg></span><span><b>YC 파운더 · SV 빅테크</b><small>PM/CTO 1:1 세션</small></span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/><circle cx="12" cy="12" r="10"/></svg></span><span><b>SF 현지 2주</b><small>선발팀 · 별도</small></span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span><b>한·미 VC 웜인트로</b><small>팀별 맞춤</small></span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg></span><span><b>YC 파운더, SV 빅테크</b><small>PM/CTO 1:1</small></span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/><circle cx="12" cy="12" r="10"/></svg></span><span><b>SF 현지 2주</b><small>선발팀 대상</small></span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span><b>한미 VC 웜인트로</b><small>팀별 맞춤</small></span></li>
       </ul>
     </div>
   </aside>
@@ -435,6 +435,11 @@ html{scroll-behavior:smooth}
           <div class="field-wrap"><input type="url" id="linkedin" name="linkedin" class="field-input" placeholder="linkedin.com/in/username" required/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           <div class="field-error-msg">LinkedIn 프로필 주소를 입력해 주세요.</div>
         </div>
+
+        <div class="step-promo glass" style="margin:28px 0 4px;padding:16px 18px;border-radius:14px;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted-2);line-height:1.5">
+          <span style="font-size:28px;flex-shrink:0">🚀</span>
+          <span>Founder Sprint는 4주 동안 미국 진출에 필요한 모든 걸 같이 만드는 프로그램이에요. 지원서를 읽으면서 Peter가 어떻게 도울수 있을지 먼저 그려봅니다.</span>
+        </div>
         <div class="form-actions">
           <div></div>
           <div class="actions-right">
@@ -453,7 +458,7 @@ html{scroll-behavior:smooth}
         <div class="field-row">
           <div class="field-group">
             <label class="field-label" for="companyName">기업명 <span class="required">*</span></label>
-            <div class="field-wrap"><input type="text" id="companyName" name="companyName" class="field-input" placeholder="(주)스타트업 · 예비창업자는 팀명" required autocomplete="organization"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="field-wrap"><input type="text" id="companyName" name="companyName" class="field-input" placeholder="(주)스타트업 또는 팀명" required autocomplete="organization"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
             <div class="field-error-msg">기업명 또는 팀명을 입력해 주세요.</div>
           </div>
           <div class="field-group">
@@ -468,11 +473,17 @@ html{scroll-behavior:smooth}
           <div class="field-foot"><span></span><span class="word-count" id="cc-oneLiner">0 / 30자</span></div>
           <div class="refs" data-refs="oneLiner"></div>
           <div class="field-error-msg">서비스 설명을 입력해 주세요.</div>
+
+        <div class="step-promo glass" style="margin:10px 0 22px;padding:16px 18px;border-radius:14px;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted-2);line-height:1.5">
+          <span style="font-size:28px;flex-shrink:0">💡</span>
+          <span>Founder Sprint에서 4주간 가장 먼저 하는 건 이 한 문장을 같이 다듬는 거예요. 지금은 대략적으로만 적어도 괜찮아요.</span>
+        </div>
+
         </div>
         <div class="field-group">
           <label class="field-label">프로덕트/서비스 분야 <span class="required">*</span> <span class="opt">최대 3개</span></label>
           <div class="chips-wrap" id="industryChips"><div class="chips"></div></div>
-          <div class="chips-note" id="industryNote">해당하는 분야를 <b>최대 3개</b>까지 골라주세요.</div>
+          <div class="chips-note" id="industryNote">해당하는 분야를 <b>최대 3개</b>까지 골라주세요</div>
           <input type="hidden" name="industry" id="industry" required/>
           <div class="field-conditional" id="industryOther"><input type="text" name="industryOtherText" class="field-input" placeholder="그외 분야를 직접 입력해 주세요"/></div>
           <div class="field-error-msg">분야를 최소 하나 선택해 주세요.</div>
@@ -482,7 +493,7 @@ html{scroll-behavior:smooth}
           <div class="field-hint">가장 가까운 단계 하나. 숫자가 있으면 아래에 한 줄 더 적어주세요.</div>
           <div class="chips-wrap" id="stageChips"><div class="chips"></div></div>
           <input type="hidden" name="productStage" id="productStage" required/>
-          <div class="field-wrap" style="margin-top:12px"><input type="text" id="stageDetail" name="stageDetail" class="field-input" placeholder="예: 유료 고객 3곳 · MRR 200만원 / 2026.12 런칭 예정 (선택)"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="field-wrap" style="margin-top:12px"><input type="text" id="stageDetail" name="stageDetail" class="field-input" placeholder="예: 유료 고객 3곳, MRR 200만원 / 2026.12 런칭 예정 (선택)"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           <div class="refs" data-refs="productStage"></div>
           <div class="field-error-msg">현재 단계를 하나 선택해 주세요.</div>
         </div>
@@ -496,7 +507,7 @@ html{scroll-behavior:smooth}
         </div>
         <div class="field-group">
           <label class="field-label" for="deckUrl">IR 덱 / 회사 소개서 링크 <span class="opt">선택</span></label>
-          <div class="field-hint">Google Drive, Notion, Pitch 등 공유 링크. 있으면 심사가 훨씬 빨라져요.</div>
+          <div class="field-hint">Google Drive, Notion 등 공유 링크. 있으면 심사가 빨라져요.</div>
           <div class="field-wrap"><input type="url" id="deckUrl" name="deckUrl" class="field-input" placeholder="drive.google.com/…"/><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
         </div>
         <div class="form-actions">
@@ -511,7 +522,7 @@ html{scroll-behavior:smooth}
       <!-- Step 3 -->
       <div class="form-step" data-step="3">
         <div class="step-head">
-          <div><h2 class="step-title">심층 질문</h2><p class="step-subtitle">여기가 진짜예요. 멋진 문장보다 구체적인 사실이 더 강해요.</p></div>
+          <div><h2 class="step-title">심층 질문</h2><p class="step-subtitle">여기가 진짜예요. 멋진 문장보다 구체적인 사실이 훨씬 좋아요.</p></div>
           <div class="step-count"><b class="done">0</b> / 4</div>
         </div>
 
@@ -519,7 +530,7 @@ html{scroll-behavior:smooth}
           <label class="field-label" for="targetProblem">팀이 타겟하는 분야 또는 문제가 무엇인가요? <span class="required">*</span></label>
           <div class="field-wrap"><textarea id="targetProblem" name="targetProblem" class="field-textarea" placeholder="누가, 어떤 상황에서, 무엇 때문에 고통받는지. 지금은 그걸 어떻게 해결하고 있는지." required data-words="100"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           <div class="field-foot"><button type="button" class="hint-toggle" onclick="toggleHint(this)">좋은 답의 기준</button><span class="word-count" id="wc-targetProblem">0 / 100 단어</span></div>
-          <div class="hint-body glass"><b>구체성이 전부예요.</b> "물류 산업의 비효율"보다 "직원 20명 이하 물류사 대표가 매일 밤 엑셀로 배차를 짜다가 놓치는 주문"이 훨씬 좋아요. 본인이 그 문제를 직접 겪었거나 가까이서 본 이야기가 있으면 꼭 적어주세요.</div>
+          <div class="hint-body glass">구체성이 전부입니다. "물류 산업의 비효율" 이런건 누구나 쓸수 있는 말이고, "직원 20명 이하 물류사 대표가 매일 밤 엑셀로 배차 짜다가 주문을 놓친다" 이 정도로 좁혀야 읽는 사람 머릿속에 그림이 그려져요. 본인이 직접 겪었거나 가까이서 본 이야기가 있으면 그게 제일 좋아요.</div>
           <div class="refs" data-refs="targetProblem"></div>
           <div class="field-error-msg">타겟 문제를 적어주세요.</div>
         </div>
@@ -528,16 +539,21 @@ html{scroll-behavior:smooth}
           <label class="field-label" for="targetCustomer">프로덕트의 타겟 고객에 대해 자세히 설명해 주세요. <span class="required">*</span></label>
           <div class="field-wrap"><textarea id="targetCustomer" name="targetCustomer" class="field-textarea" placeholder="첫 번째 고객 10명은 누구인가요? 그들은 지금 어떤 대안을 쓰고, 얼마를 내고 있나요?" required data-words="150"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           <div class="field-foot"><button type="button" class="hint-toggle" onclick="toggleHint(this)">좋은 답의 기준</button><span class="word-count" id="wc-targetCustomer">0 / 150 단어</span></div>
-          <div class="hint-body glass"><b>"모두"는 아무도 아니에요.</b> 직군, 회사 규모, 지역, 지금 쓰는 대안, 지불 의사까지. 실제로 대화해본 고객이 있다면 몇 명과 무슨 얘기를 했는지 한 줄이면 충분해요.</div>
+          <div class="hint-body glass">"타겟 고객이 모두입니다" 이건 사실상 아무도 아닌거예요. 직군, 회사 규모, 지역, 지금 쓰는 대안, 지불 의사까지 좁혀서 적어주세요. 실제로 대화해본 고객이 있다면 몇 명이랑 어떤 얘기를 했는지 한 줄이면 충분해요.</div>
           <div class="refs" data-refs="targetCustomer"></div>
           <div class="field-error-msg">타겟 고객을 적어주세요.</div>
         </div>
 
+
+        <div class="step-promo glass" style="margin:10px 0 22px;padding:16px 18px;border-radius:14px;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted-2);line-height:1.5">
+          <span style="font-size:28px;flex-shrink:0">🇺🇸</span>
+          <span>Founder Sprint 선발팀은 SF 현지에서 2주 동안 실제 고객, VC, 파트너를 직접 만나요. 아래 질문은 그 2주를 어떻게 쓸지 함께 설계하기 위한 질문이에요.</span>
+        </div>
         <div class="field-group">
           <label class="field-label" for="whyUS">우리가 한국보다 미국에서 더 잘 될 이유가 뭔가요? <span class="required">*</span></label>
           <div class="field-wrap"><textarea id="whyUS" name="whyUS" class="field-textarea" placeholder="시장 크기 말고요. 왜 '지금', 왜 '우리 팀'이, 왜 '미국'인지." required data-words="150"></textarea><span class="field-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           <div class="field-foot"><button type="button" class="hint-toggle" onclick="toggleHint(this)">좋은 답의 기준</button><span class="word-count" id="wc-whyUS">0 / 150 단어</span></div>
-          <div class="hint-body glass"><b>"시장이 커서"는 모두가 쓰는 답이에요.</b> 미국 고객이 한국 고객과 다르게 행동하는 지점, 한국에선 없는데 미국엔 있는 규제·유통·결제 구조, 팀에 미국 경험이 있다면 그것. 솔직하게 "아직 모른다, 그래서 검증하러 간다"도 좋은 답이에요.</div>
+          <div class="hint-body glass">"미국 시장이 크니까" 이건 모든 팀이 쓰는 답이라 차별점이 안 됩니다. 미국 고객이 한국 고객이랑 다르게 행동하는 지점이 뭔지, 한국엔 없는데 미국엔 있는 규제나 유통 구조가 뭔지, 팀에 미국 경험이 있으면 어떤건지. "솔직히 아직 모르겠다, 그래서 검증하러 간다" 이것도 좋은 답이에요.</div>
           <div class="refs" data-refs="whyUS"></div>
           <div class="field-error-msg">미국 진출 이유를 적어주세요.</div>
         </div>
@@ -568,7 +584,7 @@ html{scroll-behavior:smooth}
         <div id="reviewArea"></div>
         <label class="consent glass" id="consentBox">
           <input type="checkbox" id="consent" name="consent" value="YES" required/>
-          <div class="c-body"><b>개인정보 수집 및 이용에 동의합니다.</b><br/>목적: Founder Sprint 지원서 심사 및 연락 · 항목: 이름, 이메일, 연락처, LinkedIn, 기업 정보 · 보유: 심사 완료 후 1년 또는 동의 철회 시 즉시 파기. <a href="/resources/privacy" target="_blank">개인정보처리방침</a></div>
+          <div class="c-body"><b>개인정보 수집 및 이용에 동의합니다.</b><br/>목적: Founder Sprint 지원서 심사 및 연락. 항목: 이름, 이메일, 연락처, LinkedIn, 기업 정보. 보유: 심사 완료 후 1년 또는 동의 철회 시 즉시 파기. <a href="/resources/privacy" target="_blank">개인정보처리방침</a></div>
         </label>
         <div class="field-error-msg" id="consentError">개인정보 수집에 동의해 주셔야 지원이 가능합니다.</div>
         <div class="form-actions">
@@ -591,9 +607,9 @@ html{scroll-behavior:smooth}
     <p class="lead" id="successLead"></p>
     <div class="timeline" id="timeline">
       <div class="tl done"><div class="dot"></div><div class="tt">접수 완료</div><div class="td">방금</div></div>
-      <div class="tl next"><div class="dot"></div><div class="tt">서류 검토</div><div class="td">롤링 리뷰 · 순차 연락</div></div>
+      <div class="tl next"><div class="dot"></div><div class="tt">서류 검토</div><div class="td">롤링 리뷰, 순차 연락</div></div>
       <div class="tl"><div class="dot"></div><div class="tt">진단 미팅 · 인터뷰</div><div class="td">온라인 또는 대면</div></div>
-      <div class="tl"><div class="dot"></div><div class="tt">합격 통보</div><div class="td">11.4 · 10팀</div></div>
+      <div class="tl"><div class="dot"></div><div class="tt">합격 통보</div><div class="td">11.4, 10팀</div></div>
     </div>
     <div class="success-actions">
       <a class="btn btn-primary" id="editLink" href="#">지원서 수정하기</a>

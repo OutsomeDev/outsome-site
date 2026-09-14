@@ -127,7 +127,7 @@
         var cur = selected(), i = cur.indexOf(label);
         if (opts.multi) {
           if (i > -1) cur.splice(i, 1);
-          else if (opts.max && cur.length >= opts.max) { toast('최대 ' + opts.max + '개까지 선택할 수 있어요'); return; }
+          else if (opts.max && cur.length >= opts.max) { toast('최대 ' + opts.max + '개까지 고를수 있어요'); return; }
           else cur.push(label);
         } else cur = [label];
         setSelected(cur);
@@ -238,7 +238,7 @@
       companyName: d.companyName, website: normUrl(d.website), oneLiner: d.oneLiner,
       industry: ind.join(', '),
       deckUrl: normUrl(d.deckUrl),
-      productStage: d.productStage + (d.stageDetail ? ' · ' + d.stageDetail : ''),
+      productStage: d.productStage + (d.stageDetail ? ', ' + d.stageDetail : ''),
       businessModel: d.businessModel === ETC ? (d.bmOtherText || ETC) : d.businessModel,
       targetProblem: d.targetProblem, targetCustomer: d.targetCustomer, whyUS: d.whyUS,
       referral: ref.join(', '), consent: 'YES'
@@ -252,7 +252,7 @@
     inds.forEach(function (x) { if (INDUSTRIES.indexOf(x) > -1 && x !== ETC) known.push(x); else other = x; });
     if (other) { known.push(ETC); d.industryOtherText = other === ETC ? '' : other; }
     d.industry = known.slice(0, CONFIG.maxIndustries).join(', ');
-    var ps = (data.productStage || '').split(' · '); d.productStage = STAGES.indexOf(ps[0]) > -1 ? ps[0] : ''; d.stageDetail = STAGES.indexOf(ps[0]) > -1 ? ps.slice(1).join(' · ') : (data.productStage || '');
+    var ps = (data.productStage || '').split(', '); d.productStage = STAGES.indexOf(ps[0]) > -1 ? ps[0] : ''; d.stageDetail = STAGES.indexOf(ps[0]) > -1 ? ps.slice(1).join(' · ') : (data.productStage || '');
     if (data.businessModel && BMS.indexOf(data.businessModel) < 0) { d.businessModel = ETC; d.bmOtherText = data.businessModel; }
     var refs = splitList(data.referral), rk = [];
     refs.forEach(function (x) {
@@ -367,7 +367,7 @@
     var indReveal = {}; indReveal[ETC] = 'industryOther';
     var bmReveal = {}; bmReveal[ETC] = 'bmOther';
     var refReveal = {}; refReveal[ALUMNI] = 'referralAlumni'; refReveal[OTHER] = 'referralOther';
-    groups.industry = chipGroup({ wrapId: 'industryChips', hiddenId: 'industry', list: INDUSTRIES, multi: true, max: CONFIG.maxIndustries, reveals: indReveal, onChange: function (arr) { $('industryNote').innerHTML = arr.length ? '<b>' + arr.length + '/' + CONFIG.maxIndustries + '</b> 선택됨' + (arr.length >= CONFIG.maxIndustries ? ' · 꽉 찼어요. 바꾸려면 하나를 해제하세요.' : '') : '해당하는 분야를 <b>최대 3개</b>까지 골라주세요.'; } });
+    groups.industry = chipGroup({ wrapId: 'industryChips', hiddenId: 'industry', list: INDUSTRIES, multi: true, max: CONFIG.maxIndustries, reveals: indReveal, onChange: function (arr) { $('industryNote').innerHTML = arr.length ? '<b>' + arr.length + '/' + CONFIG.maxIndustries + '</b> 선택됨' + (arr.length >= CONFIG.maxIndustries ? '. 바꾸려면 하나 빼고 다시 골라주세요' : '') : '해당하는 분야를 <b>최대 3개</b>까지 골라주세요'; } });
     groups.stage = chipGroup({ wrapId: 'stageChips', hiddenId: 'productStage', list: STAGES });
     groups.bm = chipGroup({ wrapId: 'bmChips', hiddenId: 'businessModel', list: BMS, reveals: bmReveal });
     groups.referral = chipGroup({ wrapId: 'referralChips', hiddenId: 'referral', list: REFERRALS, multi: true, reveals: refReveal });
