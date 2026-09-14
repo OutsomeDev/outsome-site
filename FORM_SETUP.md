@@ -123,3 +123,14 @@ function authorizeScopes() {
 }
 
 ```
+
+## Analytics (GA4)
+- 속성: Google Analytics 계정 "Outsome" / 속성 "outsome.co" (ID 553872459), 스트림 "outsome.co web", 측정 ID `G-LR0M0YV67G`. 로그인: peter@outsome.co
+- 태그: 모든 HTML `<head>` 상단 (out/ 11개 + public/pages 9개). 페이지뷰/스크롤/이탈 클릭은 향상된 측정으로 자동.
+- /apply 이벤트 (apply.js `track()`; PII 없음, 범주값만):
+  apply_start, apply_step_view{step,step_name,via}, apply_step_complete{step,step_name}, apply_select{field,value,step},
+  apply_validation_error{step,step_name}, apply_hint_open{field}, apply_ref_click{title,field},
+  apply_draft_resume{step}, apply_draft_discard, apply_submit_attempt, apply_submit_success{industry,stage,business_model,referral,has_deck,has_website} (핵심 이벤트),
+  apply_submit_error{message}, apply_edit_open, apply_edit_save_attempt, apply_edit_save
+- 맞춤 측정기준(이벤트 범위): step_name, via, field, value, industry, stage, business_model, referral, has_deck
+- 퍼널 보기: 탐색 > 유입경로 탐색 분석에서 apply_start → apply_step_view(step=2) → (3) → (4) → apply_submit_success

@@ -65,6 +65,11 @@
   };
 
   var form, currentStep = 1, editToken = null, saveTimer = null, celebrated = {};
+  /* ---------- analytics (GA4). Categorical params only, never PII ---------- */
+  function track(name, params) { try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) { } }
+  var STEP_NAMES = { 1: 'founder', 2: 'company', 3: 'deep_dive', 4: 'review' };
+  var startedTracked = false;
+
 
   /* ---------- helpers ---------- */
   function $(id) { return document.getElementById(id); }
@@ -131,6 +136,7 @@
           else cur.push(label);
         } else cur = [label];
         setSelected(cur);
+        if (cur.indexOf(label) > -1) track('apply_select', { field: opts.hiddenId, value: label, step: currentStep });
         if (opts.reveals && opts.reveals[label] && cur.indexOf(label) > -1) setTimeout(function () { $(opts.reveals[label]).querySelector('input').focus(); }, 150);
         onChange();
       });
@@ -193,6 +199,7 @@
       if (err && input.type !== 'checkbox') err.style.display = bad ? 'block' : 'none';
       if (bad) { valid = false; if (!first) first = input.type === 'hidden' ? group : input; }
     });
+    if (!valid) track('apply_validation_error', { step: step, step_name: STEP_NAMES[step] });
     if (first) { first.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (first.focus && first.type !== 'hidden' && first.tagName !== 'DIV') setTimeout(function () { first.focus(); }, 300); }
     return valid;
   }
@@ -214,8 +221,9 @@
       for (var s = currentStep; s < step; s++) { if (!validateStep(s)) { currentStep = s; updateUI(); return; } }
     }
     if (step !== currentStep && stepValid(currentStep) && currentStep < 4 && !celebrated[currentStep]) {
-      celebrated[currentStep] = true; toast(qs('.step-item[data-step="' + currentStep + '"] .step-label').textContent + ' 완료');
+      celebrated[currentStep] = true; track('apply_step_complete', { step: currentStep, step_name: STEP_NAMES[currentStep] }); toast(qs('.step-item[data-step="' + currentStep + '"] .step-label').textContent + ' 완료');
     }
+    if (step !== currentStep) track('apply_step_view', { step: step, step_name: STEP_NAMES[step], via: free ? 'sidebar' : 'button' });
     currentStep = step;
     if (step === 4) renderReview();
     updateUI();
@@ -313,8 +321,8 @@
     qsa('.field-input, .field-textarea', form).forEach(markField); updateCounters(); updateProgress();
   }
   function ago(ts) { var m = Math.round((Date.now() - ts) / 60000); if (m < 1) return '방금'; if (m < 60) return m + '분 전'; var h = Math.round(m / 60); if (h < 24) return h + '시간 전'; return Math.round(h / 24) + '일 전'; }
-  window.resumeDraft = function () { var d = loadDraft(); if (!d) return; applyRaw(d.data); currentStep = Math.min(d.step || 1, 3); updateUI(); $('resumeBanner').classList.remove('show'); toast('이어서 작성할게요'); };
-  window.discardDraft = function () { try { localStorage.removeItem(CONFIG.draftKey); } catch (e) { } $('resumeBanner').classList.remove('show'); };
+  window.resumeDraft = function () { var d = loadDraft(); if (!d) return; track('apply_draft_resume', { step: d.step || 1 }); applyRaw(d.data); currentStep = Math.min(d.step || 1, 3); updateUI(); $('resumeBanner').classList.remove('show'); toast('이어서 작성할게요'); };
+  window.discardDraft = function () { track('apply_draft_discard', {}); try { localStorage.removeItem(CONFIG.draftKey); } catch (e) { } $('resumeBanner').classList.remove('show'); };
 
   /* ---------- edit mode ---------- */
   function enterEditMode(token) {
@@ -323,6 +331,7 @@
     fetch(CONFIG.endpoint + '?token=' + encodeURIComponent(token)).then(function (r) { return r.json(); }).then(function (res) {
       $('loadingState').classList.remove('show'); $('apply-form').style.display = ''; $('formContainer').style.display = '';
       if (!res || !res.ok) { editToken = null; toast('수정 링크를 찾지 못했어요. 새로 작성해 주세요.'); return; }
+      track('apply_edit_open', {});
       applyRaw(decompose(res.data));
       $('editBanner').classList.add('show'); $('editMeta').textContent = (res.data.companyName || res.data.founderNameKr || '') + (res.updatedAt ? ', 마지막 수정 ' + res.updatedAt : '');
       $('pageTitle').innerHTML = '지원서 <em>수정</em>'; $('pageSub').innerHTML = '바꾸고 싶은 부분만 고치고 저장하세요. <b>저장 즉시</b> 반영돼요.';
@@ -338,16 +347,18 @@
     for (var s = 1; s <= 3; s++) { if (!validateStep(s)) { goToStep(s); return; } }
     var btn = $('submitBtn'); btn.classList.add('btn-loading'); btn.disabled = true;
     var c = composed();
+    track(editToken ? 'apply_edit_save_attempt' : 'apply_submit_attempt', {});
     var payload = Object.assign({ formType: editToken ? 'application_update' : 'application', token: editToken || undefined, source: location.href }, c);
     fetch(CONFIG.endpoint, { method: 'POST', body: JSON.stringify(payload) })
       .then(function (r) { return r.json(); })
       .then(function (res) {
         if (!res || !res.ok) throw new Error(res && res.error || 'bad response');
         var token = res.token || editToken;
+        track(editToken ? 'apply_edit_save' : 'apply_submit_success', { industry: c.industry, stage: (c.productStage || '').split(',')[0], business_model: c.businessModel, referral: c.referral, has_deck: c.deckUrl ? 'yes' : 'no', has_website: c.website ? 'yes' : 'no' });
         try { localStorage.removeItem(CONFIG.draftKey); if (token) localStorage.setItem(CONFIG.tokenKey, token); } catch (x) { }
         showSuccess(c, token, !!editToken);
       })
-      .catch(function (err) { console.error(err); btn.classList.remove('btn-loading'); btn.disabled = false; toast('제출에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
+      .catch(function (err) { console.error(err); track('apply_submit_error', { message: String(err && err.message || err).slice(0, 80) }); btn.classList.remove('btn-loading'); btn.disabled = false; toast('제출에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
   }
   function showSuccess(d, token, wasEdit) {
     $('formContainer').style.display = 'none'; $('apply-form').style.display = 'none'; $('editBanner').classList.remove('show'); $('resumeBanner').classList.remove('show');
@@ -369,10 +380,10 @@
   }
 
   /* ---------- misc UX ---------- */
-  function onChange(e) { var t = e && e.target; if (t) markField(t); updateCounters(); updateProgress(); refreshStepMarks(); saveDraft(false); }
+  function onChange(e) { if (!startedTracked && !editToken) { startedTracked = true; track('apply_start', {}); } var t = e && e.target; if (t) markField(t); updateCounters(); updateProgress(); refreshStepMarks(); saveDraft(false); }
   function refreshStepMarks() { qsa('.step-item').forEach(function (el) { var s = +el.dataset.step; if (s === currentStep || s === 4) return; var done = stepValid(s); el.classList.toggle('completed', done); var num = qs('.step-number', el); num.innerHTML = done ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : String(s); }); }
   function formatPhone(el) { var v = el.value.replace(/[^\d]/g, ''); if (v.length >= 10 && v.indexOf('0') === 0) { el.value = v.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3'); } }
-  window.toggleHint = function (btn) { var body = btn.closest('.field-group').querySelector('.hint-body'); body.classList.toggle('show'); btn.textContent = body.classList.contains('show') ? '닫기' : '좋은 답의 기준'; };
+  window.toggleHint = function (btn) { var body = btn.closest('.field-group').querySelector('.hint-body'); body.classList.toggle('show'); if (body.classList.contains('show')) track('apply_hint_open', { field: (btn.closest('.field-group').querySelector('textarea,input') || {}).name || '' }); btn.textContent = body.classList.contains('show') ? '닫기' : '좋은 답의 기준'; };
   window.goToStep = function (s, free) { goToStep(s, !!free); }; window.nextStep = function () { goToStep(currentStep + 1); }; window.prevStep = function () { goToStep(currentStep - 1); };
 
   /* ---------- init ---------- */
@@ -386,6 +397,7 @@
     groups.bm = chipGroup({ wrapId: 'bmChips', hiddenId: 'businessModel', list: BMS, reveals: bmReveal });
     groups.referral = chipGroup({ wrapId: 'referralChips', hiddenId: 'referral', list: REFERRALS, multi: true, reveals: refReveal });
     renderRefs();
+    document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a.ref'); if (a) track('apply_ref_click', { title: a.textContent.trim().slice(0, 60), field: (a.closest('.refs') || {}).dataset ? a.closest('.refs').dataset.refs : '' }); });
 
     var dl = daysLeft(), dd = $('dday');
     if (dl > 0) dd.textContent = 'D-' + dl; else if (dl === 0) dd.textContent = '오늘'; else dd.textContent = '마감';
