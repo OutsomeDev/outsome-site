@@ -215,6 +215,13 @@ html{scroll-behavior:smooth}
 .chips-note b{color:var(--ink)}
 
 
+
+/* ── Question dividers: a faint line before every new question; a tip stays attached to the question above it ── */
+.form-step > .field-group, .form-step > .field-row{border-top:1px solid rgba(27,25,23,.07);padding-top:20px}
+.form-step > .step-head + .field-group, .form-step > .step-head + .field-row{border-top:0;padding-top:0}
+.form-step > .step-promo{margin-top:-6px!important;margin-bottom:22px!important}
+.form-step > .field-group{margin-bottom:22px}
+
 /* ── Rainbow ring (알럼나이 / 지인 소개) ── */
 @property --rb{syntax:'<angle>';inherits:false;initial-value:0deg}
 .chip.rainbow{border-color:transparent;background-clip:padding-box}
