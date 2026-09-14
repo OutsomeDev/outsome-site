@@ -15,22 +15,63 @@
 ## Apps Script 코드:
 ```javascript
 function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = SpreadsheetApp.openById("1ke-AcuJK9LFV__UsMGvAwlak1YYpg-ETzWamj4jtdqY");
   var data = JSON.parse(e.postData.contents);
   
-  if (data.formType === 'contact') {
-    var s = sheet.getSheetByName('Contact');
-    s.appendRow([data.name, data.email, data.phone, data.message, new Date()]);
-  } else if (data.formType === 'subscribe') {
-    var s = sheet.getSheetByName('Subscribers');
-    s.appendRow([data.email, new Date()]);
+  if (data.formType === "contact") {
+    var s = sheet.getSheets()[0];
+    s.appendRow([
+      new Date().toISOString().split("T")[0],
+      data.name,
+      data.email,
+      data.phone,
+      data.message,
+      "New"
+    ]);
   }
   
-  return ContentService.createTextOutput(JSON.stringify({result: 'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
+  if (data.formType === "subscribe") {
+    var s2 = sheet.getSheetByName("시트2") || sheet.getSheets()[2];
+    s2.appendRow([
+      data.email,
+      data.source || "Website",
+      new Date().toISOString().split("T")[0]
+    ]);
+  }
+  
+  if (data.formType === "application") {
+    var sa = sheet.getSheetByName("Applications") || sheet.getSheets()[1];
+    sa.appendRow([
+      new Date().toISOString().split("T")[0],
+      data.founderNameKr || "",
+      data.founderNameEn || "",
+      data.phone || "",
+      data.email || "",
+      data.linkedin || "",
+      data.companyName || "",
+      data.website || "",
+      data.oneLiner || "",
+      data.industry || "",
+      data.deckUrl || "",
+      data.productStage || "",
+      data.businessModel || "",
+      data.targetProblem || "",
+      data.targetCustomer || "",
+      data.whyUS || "",
+      data.referral || "",
+      data.consent || ""
+    ]);
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify({result: "ok"})).setMimeType(ContentService.MimeType.JSON);
 }
 ```
 
+## Sheets 구조
+- 시트1 (index 0): Contact — Date, Name, Email, Phone, Message, Status
+- Applications (index 1): Applications — Date, Founder Name (KR/EN), Phone, Email, LinkedIn, Company, Website, One Liner, Industry, Deck URL, Product Stage, BM, Target Problem/Customer, Why US, Referral, Consent
+- 시트2 (index 2): Subscribers — Email, Source, Date
+
 ## 3단계: HTML 폼 업데이트
-Apps Script URL을 받으면, Aside에게 알려주세요. 
-HTML 폼의 action을 그 URL로 바꿔드립니다.
+- Contact/Subscribe: form-handler.js에서 처리
+- Application: apply.html 내 인라인 스크립트에서 처리 (formType: 'application')

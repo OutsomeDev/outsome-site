@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<title>Apply | Outsome Founder Sprint</title>
+<meta content="Outsome Founder Sprint 프로그램에 지원하세요. Pre-Seed 단계 스타트업을 위한 실리콘밸리 스타일 액셀러레이팅 프로그램." name="description"/>
+<meta content="Apply | Outsome Founder Sprint" property="og:title"/>
+<meta content="Outsome Founder Sprint 프로그램에 지원하세요. Pre-Seed 단계 스타트업을 위한 실리콘밸리 스타일 액셀러레이팅 프로그램." property="og:description"/>
+<meta content="https://assets.outsome.co/697c6a48edd6e073484fe65f/697dc26b2760b16241c691b0_Website%20Open%20Graph%20Image.png" property="og:image"/>
+<meta content="Apply | Outsome Founder Sprint" name="twitter:title"/>
+<meta content="https://assets.outsome.co/697c6a48edd6e073484fe65f/697dc26b2760b16241c691b0_Website%20Open%20Graph%20Image.png" name="twitter:image"/>
+<meta property="og:type" content="website"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/css/outsome-fa3c4968bed3cb46792e2848686e521.webflow.shared.009311edb.css" rel="stylesheet" type="text/css"/>
+<link href="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b807c02294b40ca9001fb1_outsome%20favikon.png" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b807ca10d4e2727abcb360_outsome%20webclip.png" rel="apple-touch-icon"/>
+<script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+<!-- Site-wide overrides (same as other pages) -->
+<style>
+body{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+.paragraph,.text---lead,.text---lead-6,.subheading-narrow{font-size:17px!important;line-height:1.65!important}
+.text---muted,.text---small{color:#8A8575!important}
+a.button.w-inline-block{background-color:#000!important;color:#FAFAF5!important;border-radius:999px!important;border:1px solid #000!important;font-weight:500!important;transition:all .2s ease!important}
+a.button.w-inline-block:hover{background-color:#2F2C25!important;border-color:#2F2C25!important}
+a.button-2.w-inline-block{border-radius:999px!important}
+.card{box-shadow:none!important;border:1px solid #E0DDD5!important;border-radius:8px!important;transition:transform .3s ease,box-shadow .3s ease!important}
+.card:hover{transform:translateY(-3px)!important;box-shadow:0 8px 24px rgba(0,0,0,.06)!important}
+.customer-video-section,.footer{background-color:#1B1917!important}
+.logo-section img{filter:grayscale(100%)!important;opacity:.55!important;transition:all .3s ease!important}
+.logo-section img:hover{filter:grayscale(0%)!important;opacity:1!important}
+.w-nav{backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;background-color:rgba(250,250,245,.85)!important}
+html body .mhl{color:#FF6600!important;font-weight:700!important}
+</style>
+
+<!-- Apply page custom styles -->
+<style>
+/* ── Layout ── */
+.apply-page { background: #FAFAF5; min-height: 100vh; }
+
+.apply-header {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 100px 24px 40px;
+  text-align: center;
+}
+.apply-header h1 {
+  font-size: 42px;
+  font-weight: 700;
+  color: #1B1917;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+.apply-header p {
+  font-size: 17px;
+  color: #8A8575;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.apply-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  display: flex;
+  gap: 48px;
+}
+
+/* ── Sidebar ── */
+.apply-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  padding-top: 12px;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+}
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  cursor: pointer;
+  position: relative;
+  transition: opacity .2s;
+}
+.step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 48px;
+  bottom: -6px;
+  width: 1.5px;
+  background: #E0DDD5;
+  transition: background .3s;
+}
+.step-item.completed:not(:last-child)::after { background: #FF6600; }
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+  background: #EEEDE8;
+  color: #8A8575;
+  transition: all .3s ease;
+}
+.step-item.active .step-number { background: #1B1917; color: #FAFAF5; }
+.step-item.completed .step-number { background: #FF6600; color: #FAFAF5; }
+.step-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #8A8575;
+  padding-top: 8px;
+  line-height: 1.3;
+  transition: color .2s;
+}
+.step-item.active .step-label { color: #1B1917; font-weight: 600; }
+.step-item.completed .step-label { color: #1B1917; }
+
+/* ── Form Area ── */
+.apply-form-area {
+  flex: 1;
+  min-width: 0;
+}
+.form-step {
+  display: none;
+  animation: fadeIn .35s ease;
+}
+.form-step.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1B1917;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.step-subtitle {
+  font-size: 15px;
+  color: #8A8575;
+  margin: 0 0 32px;
+  line-height: 1.5;
+}
+
+/* ── Fields ── */
+.field-group {
+  margin-bottom: 24px;
+}
+.field-row {
+  display: flex;
+  gap: 16px;
+}
+.field-row .field-group { flex: 1; }
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1B1917;
+  margin-bottom: 6px;
+}
+.field-label .required {
+  color: #FF6600;
+  margin-left: 2px;
+}
+.field-hint {
+  font-size: 13px;
+  color: #8A8575;
+  margin-bottom: 6px;
+}
+.field-input,
+.field-select,
+.field-textarea {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1.5px solid #E0DDD5;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #1B1917;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  font-family: inherit;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+.field-input::placeholder,
+.field-textarea::placeholder {
+  color: #B5B1A8;
+}
+.field-input:focus,
+.field-select:focus,
+.field-textarea:focus {
+  border-color: #1B1917;
+  box-shadow: 0 0 0 3px rgba(27,25,23,.06);
+}
+.field-input.error,
+.field-select.error,
+.field-textarea.error {
+  border-color: #E53E3E;
+}
+.field-error-msg {
+  font-size: 13px;
+  color: #E53E3E;
+  margin-top: 4px;
+  display: none;
+}
+.field-select {
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238A8575' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+.field-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+.field-conditional {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .3s ease, opacity .3s ease, margin .3s ease;
+  margin-top: 0;
+}
+.field-conditional.show {
+  max-height: 100px;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+/* ── Radio Group (Consent) ── */
+.radio-group {
+  display: flex;
+  gap: 12px;
+}
+.radio-option {
+  flex: 1;
+  position: relative;
+}
+.radio-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.radio-option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border: 1.5px solid #E0DDD5;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #8A8575;
+  cursor: pointer;
+  transition: all .2s;
+  background: #FFFFFF;
+}
+.radio-option input[type="radio"]:checked + label {
+  border-color: #1B1917;
+  color: #1B1917;
+  background: #F5F4EF;
+  font-weight: 600;
+}
+.radio-option label:hover {
+  border-color: #1B1917;
+}
+
+/* ── Consent Box ── */
+.consent-box {
+  background: #F5F4EF;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #5A5750;
+  line-height: 1.6;
+}
+.consent-box strong {
+  color: #1B1917;
+}
+
+/* ── Buttons ── */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #EEEDE8;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  border: none;
+  font-family: inherit;
+}
+.btn-primary {
+  background: #1B1917;
+  color: #FAFAF5;
+}
+.btn-primary:hover { background: #2F2C25; }
+.btn-primary:disabled {
+  background: #B5B1A8;
+  cursor: not-allowed;
+}
+.btn-secondary {
+  background: transparent;
+  color: #1B1917;
+  border: 1.5px solid #E0DDD5;
+}
+.btn-secondary:hover {
+  border-color: #1B1917;
+}
+.btn-ghost {
+  background: transparent;
+  color: #8A8575;
+  padding: 14px 16px;
+}
+.btn-ghost:hover { color: #1B1917; }
+.btn .arrow { transition: transform .2s; }
+.btn:hover .arrow { transform: translateX(3px); }
+.btn-loading .btn-text { opacity: 0; }
+.btn-loading .spinner { display: block; }
+.spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(250,250,245,.3);
+  border-top-color: #FAFAF5;
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+  position: absolute;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Progress Bar ── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #FF6600;
+  transition: width .4s ease;
+  z-index: 1000;
+}
+
+/* ── Success State ── */
+.apply-success {
+  display: none;
+  text-align: center;
+  padding: 80px 24px;
+  max-width: 560px;
+  margin: 0 auto;
+  animation: fadeIn .5s ease;
+}
+.apply-success.show { display: block; }
+.success-icon {
+  width: 72px;
+  height: 72px;
+  background: #FF6600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  animation: scaleIn .4s ease;
+}
+@keyframes scaleIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+.success-icon svg { width: 32px; height: 32px; }
+.apply-success h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1B1917;
+  margin: 0 0 12px;
+}
+.apply-success p {
+  font-size: 16px;
+  color: #8A8575;
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+
+/* ── Word Count ── */
+.word-count {
+  font-size: 12px;
+  color: #B5B1A8;
+  text-align: right;
+  margin-top: 4px;
+  transition: color .2s;
+}
+.word-count.warn { color: #E53E3E; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .apply-header { padding: 80px 20px 32px; }
+  .apply-header h1 { font-size: 30px; }
+  .apply-container {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 20px 60px;
+  }
+  .apply-sidebar {
+    width: 100%;
+    position: static;
+    display: flex;
+    gap: 0;
+    padding: 0 0 24px;
+    border-bottom: 1px solid #EEEDE8;
+    margin-bottom: 32px;
+  }
+  .step-item {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 8px 0;
+  }
+  .step-item:not(:last-child)::after {
+    left: calc(50% + 18px);
+    top: 18px;
+    bottom: auto;
+    right: -50%;
+    width: auto;
+    height: 1.5px;
+  }
+  .step-number { width: 32px; height: 32px; font-size: 13px; }
+  .step-label { font-size: 12px; padding-top: 0; }
+  .field-row { flex-direction: column; gap: 0; }
+  .form-actions { gap: 12px; }
+  .btn { padding: 12px 24px; font-size: 14px; }
+}
+</style>
+</head>
+
+<body class="apply-page">
+<div class="progress-bar" id="progressBar" style="width: 33%"></div>
+
+<!-- ══════ NAV ══════ -->
+<div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav"><div class="main-container-2 navbar-container"><div class="navbar-row"><a href="/" class="nav-logo-link w-inline-block"><img src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4846f_Outsome%20Full_Black.svg" alt="Outsome" width="115" class="nav-logo"/></a><div class="navigation-wrap"><nav role="navigation" class="navbar-menu w-nav-menu"><div class="nav-links"><div data-hover="true" data-delay="150" class="nav-dropdown show-screen w-dropdown"><div class="dropdown-toggle w-dropdown-toggle"><div>Programs</div></div><nav class="dropdown-wrap wide w-dropdown-list"><div class="dropdown-content-wide"><div class="main-container dropdown-container"><div class="dropdown-columns"><div class="dropdown-column"><div id="w-node-b6d603d1-fcc8-3e06-a78d-00aa8fc28c35-6d7bf580" class="text---badge dropdown-title">For Startups</div><a href="/programs/founder-sprint" class="dropdown-item w-inline-block"><div class="text---bold">Founder Sprint</div><div class="dropdown-item-text">Build the foundation that actually holds in 4 weeks here in Seoul.</div></a><a href="/programs/us-track" class="dropdown-item w-inline-block"><div class="text---bold">US Track</div><div class="dropdown-item-text">Enter the US market under real pressure. On-the-ground immersion in SF.</div></a></div><div id="w-node-_9ea90178-8518-898a-1708-8a4f650ee9c5-6d7bf580" class="dropdown-cta-wrap"><img sizes="100vw" srcset="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM-p-500.png 500w, https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM-p-800.png 800w, https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM-p-1080.png 1080w, https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM.png 1170w" alt="" src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/69b8025dffe6fd2083031981_Screenshot%202026-03-16%20at%209.58.16%E2%80%AFPM.png" class="dropdown-cta-bg"/><div class="glass-surface dropdown-cta-content"><div class="text---badge">Outsome</div><div class="heading---h4">Hands-on Acceleration</div><a data-wf--button--variant="default" href="#apply-form" class="button w-inline-block"><div class="button-text-wrap"><div class="button-text-initial">Apply Now</div><div class="button-text-reveal">Apply Now</div></div></a></div></div></div></div></div></nav></div><div data-hover="true" data-delay="200" class="nav-dropdown w-dropdown"><div class="dropdown-toggle w-dropdown-toggle"><div>Startups</div></div><nav class="dropdown-wrap w-dropdown-list"><div class="dropdown-content"><div class="dropdown-menus"><div id="w-node-_6e76180c-f8b7-3ad2-2d76-f82e2eb806c6-6d7bf580" class="links"><a href="/startups/startupstories" class="dropdown-link">Startup Stories</a></div><div id="w-node-_72b2d463-1e62-a70a-d7af-761ff50c480b-6d7bf580" class="links"><a rel="nofollow" href="https://bookface.outsome.co/" target="_blank" class="dropdown-link">Join Bookface</a><a href="/startups/contact" class="dropdown-link">Contact</a></div></div></div></nav></div><div data-hover="true" data-delay="200" class="nav-dropdown w-dropdown"><div class="dropdown-toggle w-dropdown-toggle"><div>Resources</div></div><nav class="dropdown-wrap w-dropdown-list"><div class="dropdown-content narrow"><div class="links"><a href="/resources/program-design" class="dropdown-link">Program Design</a><a href="/resources/privacy" class="dropdown-link">Privacy Policy</a><a href="/resources/style-guide" class="dropdown-link">Style Guide</a></div></div></nav></div></div></nav></div><div class="navbar-right-contents"><div class="nav-buttons-wrapper-2"><a href="/startups/contact" rel="nofollow" class="button-2 bg-light-2---small w-inline-block"><div class="button-text-wrap-2 bg-light-2---small-2"><div class="button-text-initial bg-light-2---small-3">Book a call</div><div class="button-text-reveal bg-light-2---small-4">Book a call</div></div></a><a data-wf--application-button--variant="open" href="#apply-form" class="button-2 default---small-5-copy w-inline-block"><div class="button-text-wrap-2 default---small-6"><div class="button-text-initial default---small-7">Join the Next Batch</div><div class="button-text-reveal default---small-4">Join the Next Batch</div></div></a></div><div class="menu-button w-nav-button"><div class="menu-button-icon-wrapper"><img alt="Menu icon" src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4837d_icon-interface-menu.svg" class="menu-button-icon"/><img alt="Cross icon" src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4831a_icon-interface-cross.svg" class="menu-button-icon"/></div></div></div></div></div></div>
+
+<!-- ══════ HEADER ══════ -->
+<div class="apply-header" id="apply-form">
+  <h1>Founder Sprint Application</h1>
+  <p>Pre-Seed 단계 스타트업을 위한 실리콘밸리 스타일 액셀러레이팅 프로그램에 지원하세요.</p>
+</div>
+
+<!-- ══════ FORM ══════ -->
+<div class="apply-container" id="formContainer">
+
+  <!-- Sidebar -->
+  <aside class="apply-sidebar">
+    <div class="step-item active" data-step="1" onclick="goToStep(1)">
+      <div class="step-number">1</div>
+      <div class="step-label">대표자 정보</div>
+    </div>
+    <div class="step-item" data-step="2" onclick="goToStep(2)">
+      <div class="step-number">2</div>
+      <div class="step-label">기업 정보</div>
+    </div>
+    <div class="step-item" data-step="3" onclick="goToStep(3)">
+      <div class="step-number">3</div>
+      <div class="step-label">심층 질문</div>
+    </div>
+  </aside>
+
+  <!-- Form Area -->
+  <div class="apply-form-area">
+    <form id="applicationForm" novalidate>
+
+      <!-- ── Step 1: 대표자 정보 ── -->
+      <div class="form-step active" data-step="1">
+        <h2 class="step-title">대표자 정보</h2>
+        <p class="step-subtitle">팀의 대표자 정보를 입력해 주세요.</p>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">한글 이름 <span class="required">*</span></label>
+            <input type="text" name="founderNameKr" class="field-input" placeholder="홍길동" required />
+            <div class="field-error-msg">이름을 입력해 주세요.</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">영문 이름</label>
+            <input type="text" name="founderNameEn" class="field-input" placeholder="Gildong Hong" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">연락처</label>
+          <input type="tel" name="phone" class="field-input" placeholder="010-1234-5678" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">이메일 주소 <span class="required">*</span></label>
+          <input type="email" name="email" class="field-input" placeholder="founder@startup.com" required />
+          <div class="field-error-msg">유효한 이메일을 입력해 주세요.</div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">LinkedIn URL</label>
+          <input type="url" name="linkedin" class="field-input" placeholder="https://linkedin.com/in/username" />
+        </div>
+
+        <div class="form-actions">
+          <div></div>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">
+            다음 <span class="arrow">&rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Step 2: 기업 정보 ── -->
+      <div class="form-step" data-step="2">
+        <h2 class="step-title">기업 정보</h2>
+        <p class="step-subtitle">기업과 서비스에 대해 알려주세요.</p>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">기업명 <span class="required">*</span></label>
+            <input type="text" name="companyName" class="field-input" placeholder="(주)스타트업" required />
+            <div class="field-error-msg">기업명을 입력해 주세요.</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">서비스 웹사이트</label>
+            <input type="url" name="website" class="field-input" placeholder="https://startup.com" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">한 문장 서비스 설명 <span class="required">*</span></label>
+          <div class="field-hint">30자 이내로 간결하게 작성해 주세요.</div>
+          <input type="text" name="oneLiner" class="field-input" placeholder="AI 기반 B2B SaaS로 물류비를 50% 절감합니다." maxlength="30" required />
+          <div class="field-error-msg">서비스 설명을 입력해 주세요.</div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">프로덕트/서비스 분야</label>
+          <select name="industry" class="field-select" onchange="toggleConditional('industryOther', this.value === '그외')">
+            <option value="" disabled selected>분야를 선택해 주세요</option>
+            <option>핀테크</option><option>스마트시티</option><option>엔터테인먼트</option>
+            <option>AR/VR</option><option>바이오 테크</option><option>Dev 툴</option>
+            <option>라이프스타일</option><option>의료</option><option>E-Sports</option>
+            <option>뷰티</option><option>미디어</option><option>하드웨어</option>
+            <option>AI</option><option>블록체인</option><option>식음료</option>
+            <option>웰니스/핏니스</option><option>농업</option><option>커뮤니티</option>
+            <option>에듀테크/교육</option><option>게임</option><option>보안</option>
+            <option>관광/레저</option><option>헬스케어</option><option>패션</option>
+            <option>오픈소스</option><option>ESG/환경/에너지</option><option>펫 푸드/테크</option>
+            <option>그외</option>
+          </select>
+          <div class="field-conditional" id="industryOther">
+            <input type="text" name="industryOtherText" class="field-input" placeholder="분야를 직접 입력해 주세요" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">IR 덱 링크</label>
+          <div class="field-hint">Google Drive, Notion 등 공유 링크를 붙여넣어 주세요. (선택)</div>
+          <input type="url" name="deckUrl" class="field-input" placeholder="https://drive.google.com/..." />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">프로덕트 개발 정도</label>
+          <div class="field-hint">Pre-launch인 경우, 예정 런칭 날짜도 적어주세요.</div>
+          <input type="text" name="productStage" class="field-input" placeholder="MVP 완성, 베타 테스트 중" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">서비스의 Business Model</label>
+          <select name="businessModel" class="field-select" onchange="toggleConditional('bmOther', this.value === '그외')">
+            <option value="" disabled selected>비즈니스 모델을 선택해 주세요</option>
+            <option>API</option><option>광고모델</option>
+            <option>프로젝트 계약/에이전시</option><option>B2B SaaS</option>
+            <option>B2B 구독서비스</option><option>온라인 판매</option>
+            <option>B2C 구독서비스</option><option>B2B2C 마켓플레이스</option>
+            <option>B2G</option><option>Brokerage/중개업</option>
+            <option>유통</option><option>프랜차이즈</option>
+            <option>라이센싱</option><option>제조</option>
+            <option>수수료 모델</option><option>그외</option>
+          </select>
+          <div class="field-conditional" id="bmOther">
+            <input type="text" name="bmOtherText" class="field-input" placeholder="비즈니스 모델을 직접 입력해 주세요" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">
+            &larr; 이전
+          </button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">
+            다음 <span class="arrow">&rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Step 3: 심층 질문 ── -->
+      <div class="form-step" data-step="3">
+        <h2 class="step-title">심층 질문</h2>
+        <p class="step-subtitle">팀의 비전과 방향성에 대해 더 알려주세요.</p>
+
+        <div class="field-group">
+          <label class="field-label">팀이 타겟하는 분야 또는 문제가 무엇인가요?</label>
+          <div class="field-hint">최대 100단어 이내</div>
+          <textarea name="targetProblem" class="field-textarea" placeholder="우리 팀이 해결하려는 핵심 문제를 설명해 주세요." oninput="updateWordCount(this, 100)"></textarea>
+          <div class="word-count" id="wc-targetProblem">0 / 100 단어</div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">프로덕트의 타겟 고객에 대해 자세히 설명해 주세요.</label>
+          <textarea name="targetCustomer" class="field-textarea" placeholder="누가 우리의 첫 번째 고객인지, 그들이 현재 어떤 대안을 쓰고 있는지 알려주세요."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">우리가 한국보다 미국에서 더 잘 될 이유가 뭔가요?</label>
+          <textarea name="whyUS" class="field-textarea" placeholder="미국 시장에서의 기회와 차별화 포인트를 설명해 주세요."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">어떻게 알고 신청하게 되셨나요?</label>
+          <textarea name="referral" class="field-textarea" placeholder="소개, 검색, SNS 등" style="min-height: 80px;"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">개인정보 수집 및 이용 동의 <span class="required">*</span></label>
+          <div class="consent-box">
+            <strong>개인정보 수집 목적:</strong> Founder Sprint 지원서 심사 및 연락<br/>
+            <strong>수집 항목:</strong> 이름, 이메일, 연락처, LinkedIn URL, 기업 정보<br/>
+            <strong>보유 기간:</strong> 지원 심사 완료 후 1년, 또는 동의 철회 시 즉시 파기<br/>
+            자세한 사항은 <a href="/resources/privacy" target="_blank" style="color:#FF6600;text-decoration:underline;">개인정보처리방침</a>을 확인해 주세요.
+          </div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="consentYes" name="consent" value="YES" required />
+              <label for="consentYes">동의합니다</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="consentNo" name="consent" value="NO" />
+              <label for="consentNo">동의하지 않습니다</label>
+            </div>
+          </div>
+          <div class="field-error-msg" id="consentError">개인정보 수집에 동의해 주셔야 지원이 가능합니다.</div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">
+            &larr; 이전
+          </button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="position:relative;">
+            <span class="btn-text">지원서 제출하기</span>
+            <span class="spinner"></span>
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- ══════ SUCCESS ══════ -->
+<div class="apply-success" id="successState">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#FAFAF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+  <h2>지원이 완료되었습니다!</h2>
+  <p>소중한 지원서를 잘 받았습니다.<br/>심사 결과는 입력하신 이메일로 안내드리겠습니다.</p>
+  <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<section class="footer"><div class="main-container"><div class="footer-content"><div class="footer-top"><div class="footer-top-left"><div class="heading---h3 footer-slogan"><strong>Build globally.<br/><em>Start with Outsome</em>.</strong></div><div class="group"><div class="text---badge">Outsome Founder Circle</div><div class="form-block w-form"><form id="wf-form-Footer-Subscribe-Form" name="wf-form-Footer-Subscribe-Form" data-name="Footer Subscribe Form" method="get" class="subscribe-form"><input class="form-input light w-input" maxlength="256" name="Subscriber-Email" data-name="Subscriber Email" placeholder="Your Email" type="email" id="Subscriber-Email" required=""/><input type="submit" data-wait="Please wait..." class="button light w-button" value="Join the founders"/></form><div class="form-success w-form-done"><div>Thank you! Your submission has been received!</div></div><div class="form-error w-form-fail"><div>Oops! Something went wrong while submitting the form.</div></div></div><div class="text---muted">Get insights on building global startups, founder stories, and upcoming programs.</div></div></div><div class="footer-menus"><div class="footer-menu"><div class="text---badge">social</div><div class="links"><a href="https://www.linkedin.com/school/outsome" target="_blank" class="footer-link">Linkedin</a><a href="https://www.threads.com/@outsome.co" target="_blank" class="footer-link">Threads</a><a href="https://www.instagram.com/outsome.co" target="_blank" class="footer-link">Instagram</a><a href="https://brunch.co.kr/@shndon0220" target="_blank" class="footer-link">Brunch</a></div></div></div></div><div class="footer-bottom"><a href="/" class="footer-logo-link w-inline-block"><img src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe48318_logo-prospect-light.svg" alt="Outsome" class="footer-logo-image"/></a><div class="footer-copyright-row"><div class="copyright-wrap"><div class="text---small">&copy; Copyright Outsome</div></div></div></div></div></div></section>
+
+<!-- ══════ SCRIPTS ══════ -->
+<script src="https://assets.outsome.co/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+<script src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/js/webflow.schunk.36b8fb49256177c8.js" type="text/javascript"></script>
+<script src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/js/webflow.schunk.5986ee9e16c37b60.js" type="text/javascript"></script>
+<script src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/js/webflow.3ad10de2.c17e5f61295199b1.js" type="text/javascript"></script>
+<script src="/assets/js/form-handler.js"></script>
+
+<script>
+/* ── Apply Form Logic ── */
+var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbwdCFqeK0OXNwu7YkeM-nzoP7TbW7gzYJUw3SN0-GUgj8-ovdEIwV9vjp4O0ULMMLZZ/exec";
+var currentStep = 1;
+var totalSteps = 3;
+
+function goToStep(step) {
+  if (step < 1 || step > totalSteps) return;
+  /* validate current step before moving forward */
+  if (step > currentStep && !validateStep(currentStep)) return;
+  currentStep = step;
+  updateUI();
+}
+function nextStep() { goToStep(currentStep + 1); }
+function prevStep() { goToStep(currentStep - 1); }
+
+function updateUI() {
+  /* Steps */
+  document.querySelectorAll('.form-step').forEach(function(el) {
+    el.classList.toggle('active', +el.dataset.step === currentStep);
+  });
+  /* Sidebar */
+  document.querySelectorAll('.step-item').forEach(function(el) {
+    var s = +el.dataset.step;
+    el.classList.remove('active', 'completed');
+    if (s === currentStep) el.classList.add('active');
+    else if (s < currentStep) el.classList.add('completed');
+  });
+  /* Completed step numbers → checkmark */
+  document.querySelectorAll('.step-item.completed .step-number').forEach(function(el) {
+    el.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FAFAF5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+  });
+  /* Restore numbers for non-completed */
+  document.querySelectorAll('.step-item:not(.completed) .step-number').forEach(function(el) {
+    el.textContent = el.closest('.step-item').dataset.step;
+  });
+  /* Progress bar */
+  document.getElementById('progressBar').style.width = (currentStep / totalSteps * 100) + '%';
+  /* Scroll to top of form */
+  document.getElementById('apply-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function validateStep(step) {
+  var stepEl = document.querySelector('.form-step[data-step="' + step + '"]');
+  var valid = true;
+  stepEl.querySelectorAll('[required]').forEach(function(input) {
+    var errEl = input.closest('.field-group') ?
+      input.closest('.field-group').querySelector('.field-error-msg') : null;
+    if (!input.value.trim() || (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value))) {
+      input.classList.add('error');
+      if (errEl) errEl.style.display = 'block';
+      valid = false;
+    } else {
+      input.classList.remove('error');
+      if (errEl) errEl.style.display = 'none';
+    }
+  });
+  /* Special: consent radio on step 3 */
+  if (step === 3) {
+    var consent = document.querySelector('input[name="consent"]:checked');
+    var consentErr = document.getElementById('consentError');
+    if (!consent || consent.value !== 'YES') {
+      consentErr.style.display = 'block';
+      valid = false;
+    } else {
+      consentErr.style.display = 'none';
+    }
+  }
+  return valid;
+}
+
+function toggleConditional(id, show) {
+  var el = document.getElementById(id);
+  el.classList.toggle('show', show);
+  if (!show) el.querySelector('input').value = '';
+}
+
+function updateWordCount(textarea, limit) {
+  var words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+  var el = document.getElementById('wc-' + textarea.name);
+  if (el) {
+    el.textContent = words + ' / ' + limit + ' 단어';
+    el.classList.toggle('warn', words > limit);
+  }
+}
+
+/* Clear errors on input */
+document.addEventListener('input', function(e) {
+  if (e.target.classList.contains('error')) {
+    e.target.classList.remove('error');
+    var errEl = e.target.closest('.field-group') ?
+      e.target.closest('.field-group').querySelector('.field-error-msg') : null;
+    if (errEl) errEl.style.display = 'none';
+  }
+});
+
+/* Form submit */
+document.getElementById('applicationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (!validateStep(3)) return;
+
+  var btn = document.getElementById('submitBtn');
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+
+  var form = this;
+  var data = {
+    formType: 'application',
+    founderNameKr: form.founderNameKr.value,
+    founderNameEn: form.founderNameEn.value,
+    phone: form.phone.value,
+    email: form.email.value,
+    linkedin: form.linkedin.value,
+    companyName: form.companyName.value,
+    website: form.website.value,
+    oneLiner: form.oneLiner.value,
+    industry: form.industry.value === '그외'
+      ? (form.industryOtherText.value || '그외')
+      : form.industry.value,
+    deckUrl: form.deckUrl.value,
+    productStage: form.productStage.value,
+    businessModel: form.businessModel.value === '그외'
+      ? (form.bmOtherText.value || '그외')
+      : form.businessModel.value,
+    targetProblem: form.targetProblem.value,
+    targetCustomer: form.targetCustomer.value,
+    whyUS: form.whyUS.value,
+    referral: form.referral.value,
+    consent: form.consent.value
+  };
+
+  fetch(FORM_ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    mode: 'no-cors'
+  }).then(function() {
+    document.getElementById('formContainer').style.display = 'none';
+    document.querySelector('.apply-header').style.display = 'none';
+    var success = document.getElementById('successState');
+    success.classList.add('show');
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }).catch(function() {
+    alert('제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
+  });
+});
+</script>
+</body>
+</html>
