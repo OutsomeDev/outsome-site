@@ -139,7 +139,7 @@ html{scroll-behavior:smooth}
 .prog li{list-style:none;display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:12px;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6);font-size:13px;color:var(--muted-2);line-height:1.35}
 .prog li b{color:var(--ink);font-weight:600;display:block;font-size:12px}
 .prog li small{display:block;font-size:10.5px;color:var(--muted);margin-top:1px}
-.prog .ic{width:26px;height:26px;border-radius:50%;background:transparent;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prog .ic{width:26px;height:26px;border-radius:50%;background:transparent;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .prog .ic svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── Steps ── */
@@ -199,11 +199,11 @@ html{scroll-behavior:smooth}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:1.5px solid rgba(27,25,23,.13);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s cubic-bezier(.2,.8,.2,1);line-height:1.2;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden}
 .chip:hover{background:#fff;transform:translateY(-2px);border-color:var(--ink);box-shadow:0 6px 14px rgba(27,25,23,.08)}
-.chip:active{transform:scale(.93);transition-duration:.08s}
-.chip.on{background:linear-gradient(135deg,#2A2724,#1B1917);color:var(--paper);border-color:transparent;animation:chipPop .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 4px 12px rgba(27,25,23,.18)}
+.chip:active{transform:scale(.96);transition-duration:.1s}
+.chip.on{background:linear-gradient(135deg,#2A2724,#1B1917);color:var(--paper);border-color:transparent;animation:chipPop .35s cubic-bezier(.25,1,.5,1);box-shadow:0 4px 12px rgba(27,25,23,.18)}
 .chip.on::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 55%);pointer-events:none}
 .chip.dim{opacity:.4;pointer-events:none}
-@keyframes chipPop{0%{transform:scale(.92)}35%{transform:scale(1.08)}65%{transform:scale(.96)}100%{transform:scale(1)}}
+@keyframes chipPop{0%{transform:scale(.95)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
 .chips-wrap.error .chip{border-color:#F3B3B3}
 .chips-note{font-size:12px;color:var(--muted);margin-top:8px}
 .chips-note b{color:var(--ink)}
@@ -296,7 +296,7 @@ html{scroll-behavior:smooth}
 
 
 /* ── Tip inline icon ── */
-.tip-ic{width:26px;height:26px;border-radius:50%;background:transparent;border:1.5px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.tip-ic{width:26px;height:26px;border-radius:50%;background:transparent;border:1px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .tip-ic svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── Step promo (FS tips) ── */
@@ -409,8 +409,8 @@ html{scroll-behavior:smooth}
         <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span><b>4주 집중</b><small>11.9~12.4, 서울</small></span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><span><b>Peter와 1:1</b><small>매주 직접 멘토링</small></span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg></span><span><b>YC 파운더, SV 빅테크</b><small>PM/CTO 1:1</small></span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/><circle cx="12" cy="12" r="10"/></svg></span><span><b>SF 현지 2주</b><small>선발팀 대상</small></span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span><b>한미 VC 웜인트로</b><small>팀별 맞춤</small></span></li>
+        
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span><b>Kor-US VC Warm Intros</b><small>팀별 맞춤</small></span></li>
       </ul>
     </div>
   </aside>
