@@ -17,7 +17,7 @@
   var STAGES = ['아이디어 단계','프로토타입 / 목업','MVP 개발 중','MVP 완성, 런칭 전','베타 테스트 중','정식 런칭, 매출 전','유료 고객 확보','월 매출 발생 중','투자 유치 완료'];
   var REFERRALS = ['피터 LinkedIn','Outsome LinkedIn','Outsome Instagram','Outsome Threads','Outsome YouTube','Outsome TikTok','피터 Brunch','피터 Disquiet','피터 Facebook','Naver 검색','Google 검색','Founder Sprint 알럼나이','지인 소개','기타'];
   var RAINBOW = ['Founder Sprint 알럼나이','지인 소개'];
-  var ALUMNI = 'Founder Sprint 알럼나이', OTHER = '기타', ETC = '그외';
+  var ALUMNI = 'Founder Sprint 알럼나이', FRIEND = '지인 소개', OTHER = '기타', ETC = '그외';
 
   /* Peter's posts, per question */
   var REFS = {
@@ -52,7 +52,7 @@
     ]
   };
 
-  var FIELDS = ['founderNameKr','founderNameEn','phone','email','linkedin','companyName','website','oneLiner','industry','industryOtherText','productStage','stageDetail','businessModel','bmOtherText','deckUrl','targetProblem','targetCustomer','whyUS','referral','referralAlumniName','referralOtherText'];
+  var FIELDS = ['founderNameKr','founderNameEn','phone','email','linkedin','companyName','website','oneLiner','industry','industryOtherText','productStage','stageDetail','businessModel','bmOtherText','deckUrl','targetProblem','targetCustomer','whyUS','referral','referralAlumniName','referralFriendName','referralOtherText'];
   var STEP_FIELDS = {
     1: ['founderNameKr','founderNameEn','phone','email','linkedin'],
     2: ['companyName','website','oneLiner','industry','productStage','businessModel','deckUrl'],
@@ -252,6 +252,7 @@
     var ind = splitList(d.industry).map(function (x) { return x === ETC ? (d.industryOtherText || ETC) : x; });
     var ref = splitList(d.referral).map(function (x) {
       if (x === ALUMNI) return ALUMNI + (d.referralAlumniName ? ' (' + d.referralAlumniName + ')' : '');
+      if (x === FRIEND) return FRIEND + (d.referralFriendName ? ' (' + d.referralFriendName + ')' : '');
       if (x === OTHER) return OTHER + (d.referralOtherText ? ' (' + d.referralOtherText + ')' : '');
       return x;
     });
@@ -280,6 +281,7 @@
     refs.forEach(function (x) {
       var m = x.match(/^(.*?)\s*\((.*)\)$/), base = m ? m[1] : x, extra = m ? m[2] : '';
       if (base === ALUMNI) { rk.push(ALUMNI); d.referralAlumniName = extra; }
+      else if (base === FRIEND) { rk.push(FRIEND); d.referralFriendName = extra; }
       else if (base === OTHER) { rk.push(OTHER); d.referralOtherText = extra; }
       else if (REFERRALS.indexOf(base) > -1) rk.push(base);
       else { if (rk.indexOf(OTHER) < 0) rk.push(OTHER); d.referralOtherText = x; }
@@ -392,7 +394,7 @@
     form = $('applicationForm');
     var indReveal = {}; indReveal[ETC] = 'industryOther';
     var bmReveal = {}; bmReveal[ETC] = 'bmOther';
-    var refReveal = {}; refReveal[ALUMNI] = 'referralAlumni'; refReveal[OTHER] = 'referralOther';
+    var refReveal = {}; refReveal[ALUMNI] = 'referralAlumni'; refReveal[FRIEND] = 'referralFriend'; refReveal[OTHER] = 'referralOther';
     groups.industry = chipGroup({ wrapId: 'industryChips', hiddenId: 'industry', list: INDUSTRIES, multi: true, max: CONFIG.maxIndustries, reveals: indReveal, onChange: function (arr) { $('industryNote').innerHTML = arr.length ? '<b>' + arr.length + '/' + CONFIG.maxIndustries + '</b> 선택됨' + (arr.length >= CONFIG.maxIndustries ? '. 바꾸려면 하나 빼고 다시 골라주세요' : '') : '해당하는 분야를 <b>최대 3개</b>까지 골라주세요'; } });
     groups.stage = chipGroup({ wrapId: 'stageChips', hiddenId: 'productStage', list: STAGES });
     groups.bm = chipGroup({ wrapId: 'bmChips', hiddenId: 'businessModel', list: BMS, reveals: bmReveal });
