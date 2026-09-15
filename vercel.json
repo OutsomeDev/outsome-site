@@ -1,6 +1,10 @@
 {
   "outputDirectory": "out",
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/apply", "destination": "/ko/apply", "permanent": false },
+    { "source": "/apply.html", "destination": "/ko/apply", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/assets/js/(.*)",

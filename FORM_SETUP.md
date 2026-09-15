@@ -11,7 +11,7 @@ Apps Script 프로젝트: "Webflow Contact Us Forms" (script.google.com, peter@o
 
 ## 프론트엔드
 - Contact/Subscribe: `out/assets/js/form-handler.js` (no-cors POST)
-- Application: `out/apply.html` + `out/assets/js/apply.js`
+- Application: `out/ko/apply.html` + `out/assets/js/apply.js` (경로: /ko/apply, /apply 는 307 리다이렉트)
   - POST formType `application` → 토큰 발급 + 확인 메일(MailApp, 수정 링크 포함) → 응답 `{ok, token}`
   - GET `?token=` → 지원서 JSON (수정 모드 프리필)
   - POST formType `application_update` + token → 해당 행 덮어쓰기, Updated At 기록
@@ -95,7 +95,7 @@ function doPost(e) {
 
 function sendConfirmation(d, token) {
   if (!d.email) return;
-  var editUrl = "https://outsome.co/apply?edit=" + token;
+  var editUrl = "https://outsome.co/ko/apply?edit=" + token;
   var name = d.founderNameKr || "대표님";
   var subject = "[Outsome] Founder Sprint 8기 지원서가 접수되었습니다";
   var html =
@@ -127,7 +127,7 @@ function authorizeScopes() {
 ## Analytics (GA4)
 - 속성: Google Analytics 계정 "Outsome" / 속성 "outsome.co" (ID 553872459), 스트림 "outsome.co web", 측정 ID `G-LR0M0YV67G`. 로그인: peter@outsome.co
 - 태그: 모든 HTML `<head>` 상단 (out/ 11개 + public/pages 9개). 페이지뷰/스크롤/이탈 클릭은 향상된 측정으로 자동.
-- /apply 이벤트 (apply.js `track()`; PII 없음, 범주값만):
+- /ko/apply 이벤트 (apply.js `track()`; PII 없음, 범주값만):
   apply_start, apply_step_view{step,step_name,via}, apply_step_complete{step,step_name}, apply_select{field,value,step},
   apply_validation_error{step,step_name}, apply_hint_open{field}, apply_ref_click{title,field},
   apply_draft_resume{step}, apply_draft_discard, apply_submit_attempt, apply_submit_success{industry,stage,business_model,referral,has_deck,has_website} (핵심 이벤트),

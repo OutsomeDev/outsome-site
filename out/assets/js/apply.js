@@ -366,7 +366,7 @@
   function showSuccess(d, token, wasEdit) {
     $('formContainer').style.display = 'none'; $('apply-form').style.display = 'none'; $('editBanner').classList.remove('show'); $('resumeBanner').classList.remove('show');
     var name = d.founderNameKr || '대표님';
-    var editUrl = location.origin + '/apply?edit=' + encodeURIComponent(token || '');
+    var editUrl = location.origin + '/ko/apply?edit=' + encodeURIComponent(token || '');
     if (wasEdit) {
       $('successTitle').textContent = '수정이 저장됐어요';
       $('successLead').innerHTML = '<b>' + esc(name) + '</b>님의 지원서가 최신 내용으로 반영됐어요.<br/>마감 전까지 같은 링크로 다시 수정할 수 있어요.';
