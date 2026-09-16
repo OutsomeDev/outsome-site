@@ -117,8 +117,11 @@
   /* ═══════════ i18n ═══════════
      English is the default. Chip *values* stay canonical (what lands in the
      spreadsheet); only their labels are translated. */
-  var LANG_KEY = 'outsome_fs8_apply_lang';
-  var lang = 'en';
+  /* the URL is the single source of truth: /apply = English, /ko/apply = Korean */
+  var KO_PATH = '/ko/apply', EN_PATH = '/apply';
+  function pathLang() { return /^\/ko(\/|$)/.test(location.pathname) ? 'ko' : 'en'; }
+  function pathFor(l) { return l === 'ko' ? KO_PATH : EN_PATH; }
+  var lang = pathLang();
 
   var STAGE_LABELS = {
     '아이디어 단계':'Idea stage','프로토타입 / 목업':'Prototype / mockup','MVP 개발 중':'Building MVP',
@@ -183,7 +186,7 @@
       'meta.saved':'saved','ago.now':'just now','ago.min':'{n}m ago','ago.hour':'{n}h ago','ago.day':'{n}d ago',
       'edit.note':'Use the link below to edit your application until the deadline, Oct 30. We also emailed you the same link.',
       'edit.sub':'You can edit until the deadline, Oct 30.',
-      'title.edit':'Edit Application'
+      'title.edit':'Edit Application','doc.title':'Apply | Outsome Founder Sprint'
     },
     ko: {
       'nav.saved':'저장됨','nav.contact':'문의','state.loading':'불러오는 중',
@@ -228,7 +231,7 @@
       'meta.saved':'저장','ago.now':'방금','ago.min':'{n}분 전','ago.hour':'{n}시간 전','ago.day':'{n}일 전',
       'edit.note':'아래 링크로 마감일인 10월 30일까지 지원서를 수정할 수 있습니다. 같은 링크를 확인 메일로도 보냈습니다.',
       'edit.sub':'마감일인 10월 30일까지 수정할 수 있습니다.',
-      'title.edit':'지원서 수정'
+      'title.edit':'지원서 수정','doc.title':'지원서 | Outsome Founder Sprint'
     }
   };
   function t(key, vars) {
@@ -583,7 +586,7 @@
     setBanner('editBanner', false);
     setBanner('resumeBanner', false);
     var name = d.founderNameKr || '대표님';
-    var editUrl = location.origin + '/ko/apply?edit=' + encodeURIComponent(token || '');
+    var editUrl = location.origin + pathFor(lang) + '?edit=' + encodeURIComponent(token || '');
     if (wasEdit) {
       $('successTitle').textContent = t('success.titleEdit');
       $('successLead').textContent = t('success.leadEdit');
@@ -626,10 +629,12 @@
     if (wrapId === 'bmChips') return 'businessModel';
     return '';
   }
-  function applyLang(next, persist) {
-    lang = (next === 'ko') ? 'ko' : 'en';
+  function applyLang() {
+    lang = pathLang();
     document.documentElement.setAttribute('lang', lang);
-    if (persist !== false) { try { localStorage.setItem(LANG_KEY, lang); } catch (e) { } }
+    document.title = t('doc.title');
+    var can = $('canonicalLink');
+    if (can) can.setAttribute('href', 'https://outsome.co' + pathFor(lang));
 
     qsa('[data-t]').forEach(function (el) { el.textContent = t(el.dataset.t); });
     qsa('[data-tp]').forEach(function (el) { el.placeholder = t(el.dataset.tp); });
@@ -658,13 +663,16 @@
       var draft = loadDraft();
       if (draft) $('resumeMeta').textContent = (draft.data.companyName ? draft.data.companyName + ' · ' : '') + ago(draft.savedAt) + ' ' + t('meta.saved');
     }
-    track('apply_lang', { lang: lang });
   }
-  function initLang() {
-    var param = new URLSearchParams(location.search).get('lang');
-    var saved = null;
-    try { saved = localStorage.getItem(LANG_KEY); } catch (e) { }
-    applyLang(param || saved || 'en', !!param);
+  /* switching language = navigating; the draft rides along so nothing is lost */
+  function switchLang(next) {
+    if (next === lang) return;
+    track('apply_lang', { lang: next });
+    saveDraft(true);
+    var qs = new URLSearchParams(location.search);
+    if (!editToken && Object.keys(collectRaw()).some(function (k) { return collectRaw()[k]; })) qs.set('resume', '1');
+    var q = qs.toString();
+    location.href = pathFor(next) + (q ? '?' + q : '');
   }
 
   /* ---------- section nav: scroll spy + reveal ---------- */
@@ -716,9 +724,9 @@
     groups.referral = chipGroup({ wrapId: 'referralChips', hiddenId: 'referral', list: REFERRALS, multi: true, reveals: refReveal });
 
     qsa('#langSwitch button').forEach(function (b) {
-      b.addEventListener('click', function () { applyLang(b.dataset.lang); });
+      b.addEventListener('click', function () { switchLang(b.dataset.lang); });
     });
-    initLang();
+    applyLang();
     renderDday(); setInterval(renderDday, 1000);
 
     form.addEventListener('input', onChange);
@@ -766,6 +774,12 @@
     if (editParam) { enterEditMode(editParam); return; }
 
     var draft = loadDraft();
+    if (draft && draft.data && new URLSearchParams(location.search).get('resume') === '1') {
+      applyRaw(draft.data);
+      var clean = new URLSearchParams(location.search); clean.delete('resume');
+      history.replaceState(null, '', location.pathname + (clean.toString() ? '?' + clean : ''));
+      return;
+    }
     if (draft && draft.data && Object.keys(draft.data).some(function (k) { return draft.data[k]; })) {
       $('resumeMeta').textContent = (draft.data.companyName ? draft.data.companyName + ' · ' : '') + ago(draft.savedAt) + ' ' + t('meta.saved');
       setBanner('resumeBanner', true);

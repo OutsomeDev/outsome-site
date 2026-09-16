@@ -6,14 +6,17 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR0M0YV67G"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LR0M0YV67G',{send_page_view:true});</script>
 
-<title>지원서 | Outsome Founder Sprint</title>
-<meta content="Outsome Founder Sprint 8기 지원서." name="description"/>
-<meta content="지원서 | Outsome Founder Sprint" property="og:title"/>
-<meta content="Outsome Founder Sprint 8기 지원서." property="og:description"/>
+<title>Apply | Outsome Founder Sprint</title>
+<meta content="Apply to Outsome Founder Sprint, Batch 8." name="description"/>
+<meta content="Apply | Outsome Founder Sprint" property="og:title"/>
+<meta content="Apply to Outsome Founder Sprint, Batch 8." property="og:description"/>
 <meta content="https://assets.outsome.co/697c6a48edd6e073484fe65f/697dc26b2760b16241c691b0_Website%20Open%20Graph%20Image.png" property="og:image"/>
-<meta content="https://outsome.co/ko/apply" property="og:url"/>
-<link rel="canonical" href="https://outsome.co/ko/apply"/>
-<meta content="지원서 | Outsome Founder Sprint" name="twitter:title"/>
+<meta content="https://outsome.co/apply" property="og:url"/>
+<link rel="canonical" href="https://outsome.co/apply" id="canonicalLink"/>
+<link rel="alternate" hreflang="en" href="https://outsome.co/apply"/>
+<link rel="alternate" hreflang="ko" href="https://outsome.co/ko/apply"/>
+<link rel="alternate" hreflang="x-default" href="https://outsome.co/apply"/>
+<meta content="Apply | Outsome Founder Sprint" name="twitter:title"/>
 <meta content="https://assets.outsome.co/697c6a48edd6e073484fe65f/697dc26b2760b16241c691b0_Website%20Open%20Graph%20Image.png" name="twitter:image"/>
 <meta property="og:type" content="website"/>
 <meta content="summary_large_image" name="twitter:card"/>
@@ -119,9 +122,9 @@ h1.ap-title{font-family:var(--serif);font-style:italic;font-size:40px;line-heigh
 .sec-note{margin:-14px 0 20px;font-size:13px;color:var(--muted)}
 
 /* ───────── fields ───────── */
-.fg{margin:0 0 20px}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 20px}
-.fr .fg{margin:0}
+.fg{margin:0 0 20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.fr .fg{margin:0;padding-bottom:0;border-bottom:none}
 label.lbl{display:block;font-size:15px;font-weight:500;line-height:1.4;margin:0 0 6px;color:var(--ink)}
 .lbl .req{color:var(--accent);font-weight:400}
 .lbl .opt{color:var(--muted);font-weight:400}
@@ -177,7 +180,7 @@ label.lbl{display:block;font-size:15px;font-weight:500;line-height:1.4;margin:0 
 
 /* reference links — sit under the question they belong to; the rule below
    separates them from the next question */
-.refs{margin-top:7px;padding-bottom:14px;border-bottom:1px solid var(--line);
+.refs{margin-top:7px;padding-bottom:0;border-bottom:none;
   font-size:12px;line-height:1.7;color:#ADA99F}
 .refs:empty{display:none}
 .refs .rl{margin-right:7px;color:#BDB9AF}
@@ -186,7 +189,6 @@ label.lbl{display:block;font-size:15px;font-weight:500;line-height:1.4;margin:0 
   transition:color .2s var(--ease),text-decoration-color .2s var(--ease)}
 .refs a:hover{color:var(--ink);text-decoration-color:rgba(22,20,15,.45)}
 .refs .sp{color:#D2CEC4;margin:0 6px}
-.ap-sec > .fg:last-child .refs{border-bottom:0;padding-bottom:0}
 
 /* consent */
 .consent{display:flex;gap:11px;align-items:flex-start;padding:13px 15px;border-radius:10px;cursor:pointer;
@@ -359,7 +361,8 @@ body.locked{overflow:hidden}
   .ap-main{padding:calc(var(--nav-h) + 34px) 20px 30px}
   h1.ap-title,.done-state h2{font-size:30px}
   .fr{grid-template-columns:1fr;gap:0}
-  .fr .fg{margin-bottom:20px}
+  .fr .fg{margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .fr .fg:last-child{margin-bottom:0}
   .ap-nav .where,.ap-nav .sep{display:none}
   .ap-note{left:12px;right:12px;width:auto;max-width:none;
     transform:translate(0,-10px) scale(.985)}
@@ -669,6 +672,6 @@ html[lang="en"] .ko-only{display:none}
   </div>
 </div>
 
-<script src="/assets/js/apply.js?v=202609161400"></script>
+<script src="/assets/js/apply.js?v=202609161500"></script>
 </body>
 </html>
