@@ -389,6 +389,24 @@ body.locked{overflow:hidden}
   .sheet-wrap{background:rgba(244,243,239,.92)}
   .sheet,.ap-note__in,.toast,.consent,.chip{background:#FFF}
 }
+
+/* ───────── language switch ───────── */
+.ap-lang{display:inline-flex;align-items:center;gap:1px;padding:2px;border-radius:980px;
+  background:rgba(22,20,15,.05);border:1px solid rgba(22,20,15,.08)}
+.ap-lang button{font-family:var(--sans);font-size:12px;font-weight:500;line-height:1;letter-spacing:.01em;
+  padding:5px 10px;border-radius:980px;border:0;background:transparent;color:var(--muted);cursor:pointer;
+  transition:color .18s var(--ease),background-color .18s var(--ease),box-shadow .18s var(--ease)}
+.ap-lang button:hover{color:var(--ink-2)}
+.ap-lang button.on{color:var(--ink);background:#FFF;
+  box-shadow:0 1px 2px rgba(22,20,15,.08),inset 0 1px 0 rgba(255,255,255,.9)}
+html[lang="ko"] .en-only{display:none}
+/* Korean has no italic; keep KO button labels upright in the sans face */
+html[lang="ko"] .btn{font-family:var(--sans);font-style:normal;font-size:13px}
+html[lang="ko"] .ap-back,html[lang="ko"] .rev-h a{font-family:var(--serif)}
+html[lang="en"] .ko-only{display:none}
+@media (max-width:680px){
+  .ap-lang button{padding:5px 9px;font-size:11.5px}
+}
 </style>
 </head>
 <body class="apply-page">
@@ -398,22 +416,26 @@ body.locked{overflow:hidden}
     <img src="https://assets.outsome.co/695c6ec8a5446f1d3fe4830e/695c6ec8a5446f1d3fe4846f_Outsome%20Full_Black.svg" alt="Outsome"/>
   </a>
   <div class="right">
-    <span class="ap-save" id="saveState"><i></i><span>저장됨</span></span>
-    <a class="help" href="/startups/contact">문의</a>
+    <span class="ap-save" id="saveState"><i></i><span data-t="nav.saved">Saved</span></span>
+    <a class="help" href="/startups/contact" data-t="nav.contact">Contact</a>
+    <div class="ap-lang" id="langSwitch" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="ko">한국어</button>
+    </div>
   </div>
 </header>
 
 <div class="ap-note" id="resumeBanner">
   <div class="ap-note__in">
-    <p class="ap-note__t">작성 중인 지원서가 있습니다. <b id="resumeMeta"></b></p>
+    <p class="ap-note__t"><span data-t="banner.draft">You have an application in progress.</span> <b id="resumeMeta"></b></p>
     <div class="ap-note__a">
-      <button type="button" onclick="resumeDraft()">이어서 작성</button>
-      <button type="button" class="ghost" onclick="discardDraft()">새로 시작</button>
+      <button type="button" onclick="resumeDraft()" data-t="banner.resume">Continue</button>
+      <button type="button" class="ghost" onclick="discardDraft()" data-t="banner.discard">Start over</button>
     </div>
   </div>
 </div>
 <div class="ap-note" id="editBanner">
-  <div class="ap-note__in"><p class="ap-note__t"><b>수정 모드</b> · <span id="editMeta"></span></p></div>
+  <div class="ap-note__in"><p class="ap-note__t"><b data-t="banner.editMode">Edit mode</b> · <span id="editMeta"></span></p></div>
 </div>
 
 <main class="ap-main">
@@ -424,12 +446,12 @@ body.locked{overflow:hidden}
     <p class="ap-sub" id="pageSub"></p>
   </div>
 
-  <div class="loading" id="loadingState"><div class="sp"></div>불러오는 중</div>
+  <div class="loading" id="loadingState"><div class="sp"></div><span data-t="state.loading">Loading</span></div>
 
   <div class="ap-grid" id="formContainer">
 
     <div class="ap-rail">
-    <nav class="ap-side" aria-label="섹션">
+    <nav class="ap-side" aria-label="Sections">
       <ol id="sectionNav">
         <li><a href="#sec-founder" data-sec="founder">Founder</a></li>
         <li><a href="#sec-company" data-sec="company">Company</a></li>
@@ -442,158 +464,152 @@ body.locked{overflow:hidden}
 
     <aside class="ap-info">
       <dl>
-        <div class="row"><dt>Dates</dt><dd>Nov 9 – Dec 4, 2026</dd></div>
-        <div class="row"><dt>Location</dt><dd>Seoul</dd></div>
-        <div class="row"><dt>Cohort</dt><dd>10 teams</dd></div>
-        <div class="row"><dt>Deadline</dt><dd>Oct 30, 2026<span class="ap-dday" id="dday"></span></dd></div>
+        <div class="row"><dt>Dates</dt><dd data-t="rail.dates">Nov 9 – Dec 4, 2026</dd></div>
+        <div class="row"><dt>Location</dt><dd data-t="rail.location">Seoul</dd></div>
+        <div class="row"><dt>Cohort</dt><dd data-t="rail.cohort">10 teams</dd></div>
+        <div class="row"><dt>Deadline</dt><dd><span data-t="rail.deadline">Oct 30, 2026</span><span class="ap-dday" id="dday"></span></dd></div>
       </dl>
     </aside>
     </div>
 
     <form id="applicationForm" novalidate autocomplete="on">
 
-      <!-- 1. 대표자 -->
       <section class="ap-sec" id="sec-founder" data-sec="founder">
         <h2 class="sec-title">Founder</h2>
         <div class="fr">
           <div class="fg">
-            <label class="lbl" for="founderNameKr">한글 이름 <span class="req">*</span></label>
+            <label class="lbl" for="founderNameKr"><span data-t="q.nameKr">Name (Korean)</span> <span class="req">*</span></label>
             <input type="text" id="founderNameKr" name="founderNameKr" class="inp" required autocomplete="name"/>
-            <p class="err">이름을 입력해 주십시오.</p>
+            <p class="err" data-t="err.nameKr">Please enter your name.</p>
           </div>
           <div class="fg">
-            <label class="lbl" for="founderNameEn">영문 이름 <span class="opt">(선택)</span></label>
+            <label class="lbl" for="founderNameEn"><span data-t="q.nameEn">Name (English)</span> <span class="opt" data-t="tag.optional">(optional)</span></label>
             <input type="text" id="founderNameEn" name="founderNameEn" class="inp"/>
           </div>
         </div>
         <div class="fr">
           <div class="fg">
-            <label class="lbl" for="phone">연락처 <span class="req">*</span></label>
+            <label class="lbl" for="phone"><span data-t="q.phone">Phone</span> <span class="req">*</span></label>
             <input type="tel" id="phone" name="phone" class="inp" required autocomplete="tel" inputmode="numeric"/>
-            <p class="err">연락처를 입력해 주십시오.</p>
+            <p class="err" data-t="err.phone">Please enter your phone number.</p>
           </div>
           <div class="fg">
-            <label class="lbl" for="email">이메일 <span class="req">*</span></label>
+            <label class="lbl" for="email"><span data-t="q.email">Email</span> <span class="req">*</span></label>
             <input type="email" id="email" name="email" class="inp" required autocomplete="email"/>
-            <p class="err">올바른 이메일 주소를 입력해 주십시오.</p>
+            <p class="err" data-t="err.email">Please enter a valid email address.</p>
           </div>
         </div>
         <div class="fg">
-          <label class="lbl" for="linkedin">LinkedIn <span class="req">*</span></label>
+          <label class="lbl" for="linkedin"><span data-t="q.linkedin">LinkedIn</span> <span class="req">*</span></label>
           <input type="url" id="linkedin" name="linkedin" class="inp" placeholder="linkedin.com/in/" required/>
-          <p class="err">LinkedIn 주소를 입력해 주십시오.</p>
+          <p class="err" data-t="err.linkedin">Please enter your LinkedIn URL.</p>
         </div>
       </section>
 
-      <!-- 2. 기업 -->
       <section class="ap-sec" id="sec-company" data-sec="company">
         <h2 class="sec-title">Company</h2>
         <div class="fr">
           <div class="fg">
-            <label class="lbl" for="companyName">기업명 또는 팀명 <span class="req">*</span></label>
+            <label class="lbl" for="companyName"><span data-t="q.companyName">Company or team name</span> <span class="req">*</span></label>
             <input type="text" id="companyName" name="companyName" class="inp" required autocomplete="organization"/>
-            <p class="err">기업명 또는 팀명을 입력해 주십시오.</p>
+            <p class="err" data-t="err.companyName">Please enter your company or team name.</p>
           </div>
           <div class="fg">
-            <label class="lbl" for="website">웹사이트 <span class="opt">(선택)</span></label>
+            <label class="lbl" for="website"><span data-t="q.website">Website</span> <span class="opt" data-t="tag.optional">(optional)</span></label>
             <input type="url" id="website" name="website" class="inp" placeholder="https://"/>
           </div>
         </div>
         <div class="fg">
-          <label class="lbl" for="oneLiner">무엇을 하는 회사입니까? 30자 이내로 작성해 주십시오. <span class="req">*</span></label>
+          <label class="lbl" for="oneLiner"><span data-t="q.oneLiner">What does your company do? Please answer in 30 characters or less.</span> <span class="req">*</span></label>
           <input type="text" id="oneLiner" name="oneLiner" class="inp" maxlength="30" required/>
-          <div class="foot"><span class="count" id="cc-oneLiner">0 / 30자</span></div>
-          <p class="err">한 문장 설명을 입력해 주십시오.</p>
+          <div class="foot"><span class="count" id="cc-oneLiner"></span></div>
+          <p class="err" data-t="err.oneLiner">Please describe what your company does.</p>
           <div class="refs" data-refs="oneLiner"></div>
         </div>
         <div class="fg">
-          <label class="lbl">분야를 선택해 주십시오. 최대 3개. <span class="req">*</span></label>
+          <label class="lbl"><span data-t="q.industry">Select your industry. Up to 3.</span> <span class="req">*</span></label>
           <div class="chips-wrap" id="industryChips"><div class="chips"></div></div>
           <p class="chips-note" id="industryNote"></p>
           <input type="hidden" name="industry" id="industry" required/>
-          <div class="cond" id="industryOther"><input type="text" name="industryOtherText" class="inp" placeholder="분야 직접 입력"/></div>
-          <p class="err">분야를 하나 이상 선택해 주십시오.</p>
+          <div class="cond" id="industryOther"><input type="text" name="industryOtherText" class="inp" data-tp="ph.industryOther" placeholder="Enter your industry"/></div>
+          <p class="err" data-t="err.industry">Please select at least one industry.</p>
         </div>
         <div class="fg">
-          <label class="lbl">수익 모델은 무엇입니까? <span class="req">*</span></label>
+          <label class="lbl"><span data-t="q.bm">What is your revenue model?</span> <span class="req">*</span></label>
           <div class="chips-wrap" id="bmChips"><div class="chips"></div></div>
           <input type="hidden" name="businessModel" id="businessModel" required/>
-          <div class="cond" id="bmOther"><input type="text" name="bmOtherText" class="inp" placeholder="비즈니스 모델 직접 입력"/></div>
-          <p class="err">비즈니스 모델을 선택해 주십시오.</p>
+          <div class="cond" id="bmOther"><input type="text" name="bmOtherText" class="inp" data-tp="ph.bmOther" placeholder="Enter your business model"/></div>
+          <p class="err" data-t="err.bm">Please select a business model.</p>
           <div class="refs" data-refs="businessModel"></div>
         </div>
         <div class="fg">
-          <label class="lbl" for="deckUrl">IR 덱 또는 회사 소개서 링크 <span class="opt">(선택)</span></label>
+          <label class="lbl" for="deckUrl"><span data-t="q.deck">Link to your deck or company overview</span> <span class="opt" data-t="tag.optional">(optional)</span></label>
           <input type="url" id="deckUrl" name="deckUrl" class="inp" placeholder="https://"/>
         </div>
       </section>
 
-      <!-- 3. 진행 상황 -->
       <section class="ap-sec" id="sec-progress" data-sec="progress">
         <h2 class="sec-title">Progress</h2>
         <div class="fg">
-          <label class="lbl">지금 어디까지 왔습니까? <span class="req">*</span></label>
+          <label class="lbl"><span data-t="q.stage">How far along are you?</span> <span class="req">*</span></label>
           <div class="chips-wrap" id="stageChips"><div class="chips"></div></div>
           <input type="hidden" name="productStage" id="productStage" required/>
           <div style="margin-top:12px">
-            <input type="text" id="stageDetail" name="stageDetail" class="inp" placeholder="예: 유료 고객 3곳, MRR 200만원 (선택)"/>
+            <input type="text" id="stageDetail" name="stageDetail" class="inp" data-tp="ph.stageDetail" placeholder="e.g. 3 paying customers, 2M KRW MRR (optional)"/>
           </div>
-          <p class="err">현재 단계를 선택해 주십시오.</p>
+          <p class="err" data-t="err.stage">Please select your current stage.</p>
           <div class="refs" data-refs="productStage"></div>
         </div>
       </section>
 
-      <!-- 4. 아이디어 -->
       <section class="ap-sec" id="sec-idea" data-sec="idea">
         <h2 class="sec-title">Idea</h2>
 
         <div class="fg">
-          <label class="lbl" for="targetProblem">어떤 문제를 풀고 있습니까? 누가, 어떤 상황에서 겪는 문제인지, 지금은 그 문제를 어떻게 해결하고 있는지 작성해 주십시오. <span class="req">*</span></label>
+          <label class="lbl" for="targetProblem"><span data-t="q.problem">What problem are you solving? Describe who has it, in what situation, and how they deal with it today.</span> <span class="req">*</span></label>
           <textarea id="targetProblem" name="targetProblem" class="txt" required data-words="100"></textarea>
-          <div class="foot"><span class="count" id="wc-targetProblem">0 / 100 단어</span></div>
-          <p class="err">답변을 입력해 주십시오.</p>
+          <div class="foot"><span class="count" id="wc-targetProblem"></span></div>
+          <p class="err" data-t="err.answer">Please write an answer.</p>
           <div class="refs" data-refs="targetProblem"></div>
         </div>
 
         <div class="fg">
-          <label class="lbl" for="targetCustomer">고객은 누구입니까? 첫 고객 10명이 누구인지, 그들이 지금 어떤 대안에 얼마를 쓰고 있는지 작성해 주십시오. <span class="req">*</span></label>
+          <label class="lbl" for="targetCustomer"><span data-t="q.customer">Who exactly are your customers? Name your first 10, and what they pay for today instead.</span> <span class="req">*</span></label>
           <textarea id="targetCustomer" name="targetCustomer" class="txt" required data-words="150"></textarea>
-          <div class="foot"><span class="count" id="wc-targetCustomer">0 / 150 단어</span></div>
-          <p class="err">답변을 입력해 주십시오.</p>
+          <div class="foot"><span class="count" id="wc-targetCustomer"></span></div>
+          <p class="err" data-t="err.answer">Please write an answer.</p>
           <div class="refs" data-refs="targetCustomer"></div>
         </div>
 
         <div class="fg">
-          <label class="lbl" for="whyUS">한국이 아니라 미국에서 더 잘 될 이유는 무엇입니까? 시장 규모 외의 근거를 작성해 주십시오. <span class="req">*</span></label>
+          <label class="lbl" for="whyUS"><span data-t="q.whyUS">Why will this work better in the US than in Korea? Give reasons beyond market size.</span> <span class="req">*</span></label>
           <textarea id="whyUS" name="whyUS" class="txt" required data-words="150"></textarea>
-          <div class="foot"><span class="count" id="wc-whyUS">0 / 150 단어</span></div>
-          <p class="err">답변을 입력해 주십시오.</p>
+          <div class="foot"><span class="count" id="wc-whyUS"></span></div>
+          <p class="err" data-t="err.answer">Please write an answer.</p>
           <div class="refs" data-refs="whyUS"></div>
         </div>
       </section>
 
-      <!-- 5. 경로 -->
       <section class="ap-sec" id="sec-curious" data-sec="curious">
         <h2 class="sec-title">Referral</h2>
         <div class="fg">
-          <label class="lbl">Founder Sprint를 어떻게 알게 되셨습니까? 해당하는 것을 모두 선택해 주십시오. <span class="req">*</span></label>
+          <label class="lbl"><span data-t="q.referral">How did you hear about Founder Sprint? Select all that apply.</span> <span class="req">*</span></label>
           <div class="chips-wrap" id="referralChips"><div class="chips"></div></div>
           <input type="hidden" name="referral" id="referral" required/>
-          <div class="cond" id="referralAlumni"><input type="text" name="referralAlumniName" class="inp" placeholder="알럼나이 이름 / 회사"/></div>
-          <div class="cond" id="referralFriend"><input type="text" name="referralFriendName" class="inp" placeholder="소개해준 사람 이름 / 회사"/></div>
-          <div class="cond" id="referralOther"><input type="text" name="referralOtherText" class="inp" placeholder="직접 입력"/></div>
-          <p class="err">하나 이상 선택해 주십시오.</p>
+          <div class="cond" id="referralAlumni"><input type="text" name="referralAlumniName" class="inp" data-tp="ph.alumni" placeholder="Alumni name / company"/></div>
+          <div class="cond" id="referralFriend"><input type="text" name="referralFriendName" class="inp" data-tp="ph.friend" placeholder="Who referred you? Name / company"/></div>
+          <div class="cond" id="referralOther"><input type="text" name="referralOtherText" class="inp" data-tp="ph.other" placeholder="Please specify"/></div>
+          <p class="err" data-t="err.referral">Please select at least one.</p>
         </div>
       </section>
 
-      <!-- 6. 제출 -->
       <section class="ap-sec" id="sec-submit" data-sec="submit">
         <h2 class="sec-title">Submit</h2>
         <label class="consent" id="consentBox">
           <input type="checkbox" id="consent" name="consent" value="YES" required/>
-          <div class="c"><b>개인정보 수집 및 이용에 동의합니다.</b><br/>목적: 지원서 심사 및 연락. 항목: 이름, 이메일, 연락처, LinkedIn, 기업 정보. 보유: 심사 완료 후 1년 또는 동의 철회 시 파기. <a href="/resources/privacy" target="_blank">개인정보처리방침</a></div>
+          <div class="c"><b data-t="consent.title">I agree to the collection and use of my personal information.</b><br/><span data-t="consent.body">Purpose: reviewing this application and contacting you. Data: name, email, phone, LinkedIn, company details. Retention: one year after review, or deleted immediately on withdrawal of consent.</span> <a href="/resources/privacy" target="_blank" data-t="consent.link">Privacy policy</a></div>
         </label>
-        <p class="err" id="consentError">개인정보 수집에 동의해 주십시오.</p>
+        <p class="err" id="consentError" data-t="err.consent">Please agree to the collection of personal information.</p>
       </section>
 
     </form>
@@ -601,17 +617,17 @@ body.locked{overflow:hidden}
 
   <div class="done-state" id="successState">
     <div class="tick"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <h2 id="successTitle">지원서가 접수됐습니다</h2>
+    <h2 id="successTitle"></h2>
     <p id="successLead"></p>
     <div class="tl" id="timeline">
-      <div class="r on"><span class="d"></span><span>접수</span><span class="w">완료</span></div>
-      <div class="r"><span class="d"></span><span>서류 검토</span><span class="w">롤링 리뷰</span></div>
-      <div class="r"><span class="d"></span><span>인터뷰</span><span class="w">온라인 또는 대면</span></div>
-      <div class="r"><span class="d"></span><span>결과 통보</span><span class="w">11월 4일</span></div>
+      <div class="r on"><span class="d"></span><span data-t="tl.received">Received</span><span class="w" data-t="tl.receivedNote">Done</span></div>
+      <div class="r"><span class="d"></span><span data-t="tl.review">Application review</span><span class="w" data-t="tl.reviewNote">Rolling</span></div>
+      <div class="r"><span class="d"></span><span data-t="tl.interview">Interview</span><span class="w" data-t="tl.interviewNote">Online or in person</span></div>
+      <div class="r"><span class="d"></span><span data-t="tl.decision">Decision</span><span class="w" data-t="tl.decisionNote">Nov 4</span></div>
     </div>
     <div class="done-acts">
-      <a class="btn btn-primary" id="editLink" href="#">Edit</a>
-      <a class="btn btn-ghost" href="/">Home</a>
+      <a class="btn btn-primary" id="editLink" href="#" data-t="btn.edit">Edit</a>
+      <a class="btn btn-ghost" href="/" data-t="btn.home">Home</a>
     </div>
     <div class="edit-note" id="editNote"></div>
   </div>
@@ -620,26 +636,25 @@ body.locked{overflow:hidden}
 
 <footer class="ap-foot">
   <span>© Outsome</span>
-  <a href="/resources/privacy">개인정보처리방침</a>
-  <a href="/startups/contact">문의</a>
+  <a href="/resources/privacy" data-t="foot.privacy">Privacy policy</a>
+  <a href="/startups/contact" data-t="foot.contact">Contact</a>
   <a href="/programs/founder-sprint">Founder Sprint</a>
 </footer>
 
-<!-- ══════ REVIEW SHEET (before submit) ══════ -->
 <div class="sheet-wrap" id="reviewSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="sheet" tabindex="-1">
     <div class="sheet-head">
       <div>
-        <h2 id="sheetTitle">제출 전 확인</h2>
-        <p>제출 후에도 마감일인 10월 30일까지 수정할 수 있습니다.</p>
+        <h2 id="sheetTitle"></h2>
+        <p data-t="sheet.note">You can still edit your application until the deadline, Oct 30.</p>
       </div>
-      <button type="button" class="sheet-x" id="sheetClose" aria-label="닫기">
+      <button type="button" class="sheet-x" id="sheetClose" aria-label="Close">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
     <div class="sheet-body" id="reviewArea"></div>
     <div class="sheet-foot">
-      <button type="button" class="btn btn-ghost" id="sheetEdit">Keep editing</button>
+      <button type="button" class="btn btn-ghost" id="sheetEdit" data-t="btn.keepEditing">Keep editing</button>
       <button type="button" class="btn btn-primary" id="sheetSubmit"><span class="sp"></span><span id="sheetSubmitLabel">Submit</span></button>
     </div>
   </div>
@@ -654,6 +669,6 @@ body.locked{overflow:hidden}
   </div>
 </div>
 
-<script src="/assets/js/apply.js?v=202609160013"></script>
+<script src="/assets/js/apply.js?v=202609161400"></script>
 </body>
 </html>
