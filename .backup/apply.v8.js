@@ -14,29 +14,11 @@
     showRefs: true
   };
 
-  var INDUSTRIES = ['AI','Fintech','Healthcare','Medical','Biotech','Dev Tools','Security','Hardware','Blockchain','AR/VR','Edtech','Community','Media','Entertainment','Gaming','E-Sports','Lifestyle','Beauty','Fashion','Food & Beverage','Wellness & Fitness','Pet','Travel & Leisure','Smart City','Agriculture','Climate & Energy','Open Source','Other'];
-  var BMS = ['B2B SaaS','B2B Subscription','B2C Subscription','B2B2C Marketplace','E-commerce','API','Advertising','Transaction Fee','B2G','Services / Agency','Brokerage','Distribution','Franchise','Licensing','Manufacturing','Other'];
-  /* submissions made before 2026-09-16 stored these values in Korean — map them
-     back to the English options when an applicant opens their edit link */
-  var LEGACY = {
-    '핀테크':'Fintech','헬스케어':'Healthcare','의료':'Medical','바이오 테크':'Biotech','Dev 툴':'Dev Tools',
-    '보안':'Security','하드웨어':'Hardware','블록체인':'Blockchain','에듀테크/교육':'Edtech','커뮤니티':'Community',
-    '미디어':'Media','엔터테인먼트':'Entertainment','게임':'Gaming','라이프스타일':'Lifestyle','뷰티':'Beauty',
-    '패션':'Fashion','식음료':'Food & Beverage','웰니스/핏니스':'Wellness & Fitness','펫 푸드/테크':'Pet',
-    '관광/레저':'Travel & Leisure','스마트시티':'Smart City','농업':'Agriculture','ESG/환경/에너지':'Climate & Energy',
-    '오픈소스':'Open Source','그외':'Other',
-    'B2B 구독서비스':'B2B Subscription','B2C 구독서비스':'B2C Subscription','B2B2C 마켓플레이스':'B2B2C Marketplace',
-    '온라인 판매':'E-commerce','광고모델':'Advertising','수수료 모델':'Transaction Fee',
-    '프로젝트 계약/에이전시':'Services / Agency','Brokerage/중개업':'Brokerage','유통':'Distribution',
-    '프랜차이즈':'Franchise','라이센싱':'Licensing','제조':'Manufacturing'
-  };
-  function unlegacy(v) { return LEGACY[v] || v; }
-
+  var INDUSTRIES = ['AI','핀테크','헬스케어','의료','바이오 테크','Dev 툴','보안','하드웨어','블록체인','AR/VR','에듀테크/교육','커뮤니티','미디어','엔터테인먼트','게임','E-Sports','라이프스타일','뷰티','패션','식음료','웰니스/핏니스','펫 푸드/테크','관광/레저','스마트시티','농업','ESG/환경/에너지','오픈소스','그외'];
+  var BMS = ['B2B SaaS','B2B 구독서비스','B2C 구독서비스','B2B2C 마켓플레이스','온라인 판매','API','광고모델','수수료 모델','B2G','프로젝트 계약/에이전시','Brokerage/중개업','유통','프랜차이즈','라이센싱','제조','그외'];
   var STAGES = ['아이디어 단계','프로토타입 / 목업','MVP 개발 중','MVP 완성, 런칭 전','베타 테스트 중','정식 런칭, 매출 전','유료 고객 확보','월 매출 발생 중','투자 유치 완료'];
   var REFERRALS = ['피터 LinkedIn','Outsome LinkedIn','Outsome Instagram','Outsome Threads','Outsome YouTube','Outsome TikTok','피터 Brunch','피터 Disquiet','피터 Facebook','Naver 검색','Google 검색','Founder Sprint 알럼나이','지인 소개','기타'];
-  var ALUMNI = 'Founder Sprint 알럼나이', FRIEND = '지인 소개', OTHER = '기타', ETC = 'Other';
-  /* referral options that get the rotating orange ring */
-  var HIGHLIGHT = [ALUMNI, FRIEND];
+  var ALUMNI = 'Founder Sprint 알럼나이', FRIEND = '지인 소개', OTHER = '기타', ETC = '그외';
 
   /* Peter's posts, per question */
   var REFS = {
@@ -101,31 +83,11 @@
   function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
   function normUrl(v) { v = (v || '').trim(); if (!v) return ''; if (!/^https?:\/\//i.test(v)) v = 'https://' + v; return v; }
   function words(v) { v = (v || '').trim(); return v ? v.split(/\s+/).length : 0; }
-  function deadlineAt() { return new Date(CONFIG.deadline + 'T23:59:59+09:00'); }
-  function pad2(n) { return (n < 10 ? '0' : '') + n; }
-  /* live countdown under the Deadline row */
-  function renderDday() {
-    var el = $('dday'); if (!el) return;
-    var diff = deadlineAt() - new Date();
-    if (diff <= 0) { el.className = 'ap-dday past'; el.innerHTML = '<b>마감</b>'; return; }
-    var days = Math.floor(diff / 86400000);
-    var h = Math.floor(diff / 3600000) % 24, m = Math.floor(diff / 60000) % 60, s = Math.floor(diff / 1000) % 60;
-    var clock = pad2(h) + ':' + pad2(m) + ':' + pad2(s);
-    el.innerHTML = days > 0
-      ? '<b>D-' + days + '</b><span class="clock">' + clock + '</span>'
-      : '<b>D-DAY</b><span class="clock">' + clock + '</span>';
-  }
+  function daysLeft() { var d = new Date(CONFIG.deadline + 'T23:59:59+09:00'); return Math.ceil((d - new Date()) / 86400000); }
   function splitList(v) { return (v || '').split(/\s*,\s*/).filter(Boolean); }
   function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function groupOf(el) { return el.closest('.fg') || el.closest('section'); }
   function errOf(el) { var g = groupOf(el); return g ? g.querySelector('.err') : null; }
-
-  /* banners float above the page; the page makes room for them */
-  function setBanner(id, on) {
-    $(id).classList.toggle('show', !!on);
-    var any = $('resumeBanner').classList.contains('show') || $('editBanner').classList.contains('show');
-    document.body.classList.toggle('has-banner', any);
-  }
 
   function toast(msg) {
     var t = $('toast');
@@ -157,8 +119,7 @@
     }
     opts.list.forEach(function (label) {
       var b = document.createElement('button');
-      b.type = 'button'; b.textContent = label;
-      b.className = 'chip' + (opts.hiddenId === 'referral' && HIGHLIGHT.indexOf(label) > -1 ? ' spin' : '');
+      b.type = 'button'; b.className = 'chip'; b.textContent = label;
       b.addEventListener('click', function () {
         var cur = selected(), i = cur.indexOf(label);
         if (opts.multi) {
@@ -181,7 +142,7 @@
     if (!CONFIG.showRefs) { qsa('.refs[data-refs]').forEach(function (b) { b.remove(); }); return; }
     qsa('.refs[data-refs]').forEach(function (box) {
       var list = REFS[box.dataset.refs]; if (!list) return;
-      box.innerHTML = '<span class="rl">Peter 글 참고</span>' + list.map(function (r) {
+      box.innerHTML = '<span class="rl">참고</span>' + list.map(function (r) {
         return '<a href="' + r[1] + '" target="_blank" rel="noopener">' + esc(r[0]) + '</a>';
       }).join('<span class="sp">·</span>');
     });
@@ -267,15 +228,14 @@
   function decompose(data) {
     var d = {};
     FIELDS.forEach(function (f) { d[f] = data[f] || ''; });
-    var inds = splitList(data.industry).map(unlegacy), known = [], other = '';
+    var inds = splitList(data.industry), known = [], other = '';
     inds.forEach(function (x) { if (INDUSTRIES.indexOf(x) > -1 && x !== ETC) known.push(x); else other = x; });
     if (other) { known.push(ETC); d.industryOtherText = other === ETC ? '' : other; }
     d.industry = known.slice(0, CONFIG.maxIndustries).join(', ');
     var ps = (data.productStage || '').split(', ');
     d.productStage = STAGES.indexOf(ps[0]) > -1 ? ps[0] : '';
     d.stageDetail = STAGES.indexOf(ps[0]) > -1 ? ps.slice(1).join(', ') : (data.productStage || '');
-    d.businessModel = unlegacy(d.businessModel);
-    if (d.businessModel && BMS.indexOf(d.businessModel) < 0) { d.bmOtherText = d.businessModel; d.businessModel = ETC; }
+    if (data.businessModel && BMS.indexOf(data.businessModel) < 0) { d.businessModel = ETC; d.bmOtherText = data.businessModel; }
     var refs = splitList(data.referral), rk = [];
     refs.forEach(function (x) {
       var m = x.match(/^(.*?)\s*\((.*)\)$/), base = m ? m[1] : x, extra = m ? m[2] : '';
@@ -293,14 +253,14 @@
   function renderReview() {
     var c = composed();
     var secs = [
-      { t: 'Founder', id: 'founder', keys: ['founderNameKr', 'founderNameEn', 'phone', 'email', 'linkedin'] },
+      { t: 'Founders', id: 'founder', keys: ['founderNameKr', 'founderNameEn', 'phone', 'email', 'linkedin'] },
       { t: 'Company', id: 'company', keys: ['companyName', 'website', 'oneLiner', 'industry', 'businessModel', 'deckUrl'] },
       { t: 'Progress', id: 'progress', keys: ['productStage'] },
       { t: 'Idea', id: 'idea', keys: ['targetProblem', 'targetCustomer', 'whyUS'] },
       { t: 'Referral', id: 'curious', keys: ['referral'] }
     ];
     $('reviewArea').innerHTML = secs.map(function (sec) {
-      return '<div class="rev-h"><h3>' + sec.t + '</h3><a data-goto="sec-' + sec.id + '">수정</a></div><div class="rev">' +
+      return '<div class="rev-h"><h3>' + sec.t + '</h3><a href="#sec-' + sec.id + '">수정</a></div><div class="rev">' +
         sec.keys.map(function (k) {
           var v = c[k];
           return '<div class="rev-row"><div class="rev-k">' + LABELS[k] + '</div><div class="rev-v' + (v ? '' : ' empty') + '">' + (v ? esc(v) : '입력 안 함') + '</div></div>';
@@ -330,7 +290,7 @@
   function applyRaw(d) {
     FIELDS.forEach(function (f) { if (d[f] !== undefined) setVal(f, d[f]); });
     Object.keys(groups).forEach(function (k) { groups[k].sync(); });
-    updateCounters(); updateProgress();
+    updateCounters(); updateProgress(); renderReview();
   }
   function ago(ts) {
     var m = Math.round((Date.now() - ts) / 60000);
@@ -344,12 +304,12 @@
     var d = loadDraft(); if (!d) return;
     track('apply_draft_resume', {});
     applyRaw(d.data);
-    setBanner('resumeBanner', false);
+    $('resumeBanner').classList.remove('show');
   };
   window.discardDraft = function () {
     track('apply_draft_discard', {});
     try { localStorage.removeItem(CONFIG.draftKey); } catch (e) { }
-    setBanner('resumeBanner', false);
+    $('resumeBanner').classList.remove('show');
   };
 
   /* ---------- edit mode ---------- */
@@ -365,11 +325,11 @@
         if (!res || !res.ok) { editToken = null; toast('수정 링크를 찾을 수 없습니다.'); return; }
         track('apply_edit_open', {});
         applyRaw(decompose(res.data));
-        setBanner('editBanner', true);
+        $('editBanner').classList.add('show');
         $('editMeta').textContent = (res.data.companyName || res.data.founderNameKr || '') + (res.updatedAt ? ' · 마지막 수정 ' + res.updatedAt : '');
         $('pageTitle').textContent = 'Edit Application';
         $('pageSub').textContent = '마감 10월 30일까지 수정할 수 있습니다.';
-        $('submitLabel').textContent = 'Save changes';
+        $('submitLabel').textContent = '수정 내용 저장';
       })
       .catch(function () {
         $('loadingState').classList.remove('show');
@@ -379,30 +339,11 @@
       });
   }
 
-  /* ---------- review sheet ---------- */
-  function openSheet() {
-    renderReview();
-    $('sheetTitle').textContent = editToken ? '수정 내용 확인' : '제출 전 확인';
-    $('sheetSubmitLabel').textContent = editToken ? 'Save changes' : 'Submit';
-    $('reviewSheet').classList.add('show');
-    document.body.classList.add('locked');
-    track('apply_review_open', {});
-    setTimeout(function () { var s = qs('.sheet', $('reviewSheet')); if (s) s.focus({ preventScroll: true }); }, 60);
-  }
-  function closeSheet() {
-    $('reviewSheet').classList.remove('show');
-    document.body.classList.remove('locked');
-  }
-
   /* ---------- submit ---------- */
   function onSubmit(e) {
     e.preventDefault();
     if (!validateAll()) return;
-    openSheet();
-  }
-
-  function doSubmit() {
-    var btn = $('sheetSubmit');
+    var btn = $('submitBtn');
     btn.classList.add('loading'); btn.disabled = true;
     var c = composed();
     track(editToken ? 'apply_edit_save_attempt' : 'apply_submit_attempt', {});
@@ -428,12 +369,11 @@
   }
 
   function showSuccess(d, token, wasEdit) {
-    closeSheet();
     $('formContainer').style.display = 'none';
     qs('.ap-head').style.display = 'none';
     $('actionBar').style.display = 'none';
-    setBanner('editBanner', false);
-    setBanner('resumeBanner', false);
+    $('editBanner').classList.remove('show');
+    $('resumeBanner').classList.remove('show');
     var name = d.founderNameKr || '대표님';
     var editUrl = location.origin + '/ko/apply?edit=' + encodeURIComponent(token || '');
     if (wasEdit) {
@@ -460,7 +400,7 @@
         var err = errOf(t); if (err) err.style.display = 'none';
       }
     }
-    updateCounters(); updateProgress(); saveDraft(false);
+    updateCounters(); updateProgress(); renderReview(); saveDraft(false);
   }
   function formatPhone(el) {
     var v = el.value.replace(/[^\d]/g, '');
@@ -517,7 +457,7 @@
     groups.referral = chipGroup({ wrapId: 'referralChips', hiddenId: 'referral', list: REFERRALS, multi: true, reveals: refReveal });
 
     renderRefs();
-    renderDday(); setInterval(renderDday, 1000);
+    renderReview();
 
     form.addEventListener('input', onChange);
     form.addEventListener('change', onChange);
@@ -530,21 +470,6 @@
       var inputs = qsa('.inp', form).filter(function (i) { return i.offsetParent !== null; });
       var idx = inputs.indexOf(e.target);
       if (idx > -1 && idx < inputs.length - 1) inputs[idx + 1].focus();
-    });
-
-    $('sheetSubmit').addEventListener('click', doSubmit);
-    $('sheetClose').addEventListener('click', closeSheet);
-    $('sheetEdit').addEventListener('click', closeSheet);
-    $('reviewSheet').addEventListener('click', function (e) { if (e.target === this) closeSheet(); });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && $('reviewSheet').classList.contains('show')) closeSheet();
-    });
-    $('reviewArea').addEventListener('click', function (e) {
-      var a = e.target.closest('a[data-goto]');
-      if (!a) return;
-      closeSheet();
-      var sec = document.getElementById(a.dataset.goto);
-      if (sec) setTimeout(function () { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
     });
 
     $('consent').addEventListener('change', function () {
@@ -566,7 +491,7 @@
     var draft = loadDraft();
     if (draft && draft.data && Object.keys(draft.data).some(function (k) { return draft.data[k]; })) {
       $('resumeMeta').textContent = (draft.data.companyName ? draft.data.companyName + ' · ' : '') + ago(draft.savedAt) + ' 저장';
-      setBanner('resumeBanner', true);
+      $('resumeBanner').classList.add('show');
     }
   });
 })();
