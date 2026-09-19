@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('form[data-name="Contact Form"]').forEach(function(form) {
     form.addEventListener("submit", function(e) {
       e.preventDefault();
+      e.stopPropagation();
       var data = {
         formType: "contact",
         name: form.querySelector('[name="Contact-Name"]') ? form.querySelector('[name="Contact-Name"]').value : "",
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('form[data-name="Footer Subscribe Form"], form[data-name="Subscribe Form"], form[data-name="Hero Subscribe Form"], form[data-name="Email Form"]').forEach(function(form) {
     form.addEventListener("submit", function(e) {
       e.preventDefault();
+      e.stopPropagation();
       var emailInput = form.querySelector('[name="Subscriber-Email"]') || form.querySelector('[name="Signup-Email"]') || form.querySelector('[type="email"]');
       var data = {
         formType: "subscribe",
