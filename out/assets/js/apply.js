@@ -1,4 +1,5 @@
-/* Outsome Founder Sprint — /ko/apply (v4)
+/* Outsome Founder Sprint — application form (v5)
+   One file, two routes: /apply (EN) and /ko/apply (KO, Vercel rewrite).
    Single-page application form (YC form factor) with Apple-style motion.
    Keeps the v3 data contract: same endpoint, same field names, same GA4 event names. */
 (function () {

@@ -11,7 +11,9 @@ Apps Script 프로젝트: "Webflow Contact Us Forms" (script.google.com, peter@o
 
 ## 프론트엔드
 - Contact/Subscribe: `out/assets/js/form-handler.js` (no-cors POST)
-- Application: `out/ko/apply.html` + `out/assets/js/apply.js` (경로: /ko/apply, /apply 는 307 리다이렉트)
+- Application: `out/apply.html` + `out/assets/js/apply.js`
+  - 파일은 하나. `/apply` = 영문, `/ko/apply` = 한글 (vercel.json rewrite로 같은 파일 서빙)
+  - 언어는 URL 경로로만 결정된다 (`apply.js`의 `pathLang()`). localStorage/쿼리파라미터 사용 안 함
   - POST formType `application` → 토큰 발급 + 확인 메일(MailApp, 수정 링크 포함) → 응답 `{ok, token}`
   - GET `?token=` → 지원서 JSON (수정 모드 프리필)
   - POST formType `application_update` + token → 해당 행 덮어쓰기, Updated At 기록
@@ -95,25 +97,12 @@ function doPost(e) {
 
 function sendConfirmation(d, token) {
   if (!d.email) return;
-  var editUrl = "https://outsome.co/ko/apply?edit=" + token;
-  var name = d.founderNameKr || "대표님";
-  var subject = "[Outsome] Founder Sprint 8기 지원서가 접수되었습니다";
-  var html =
-    '<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1B1917;line-height:1.6">' +
-    '<p style="font-size:12px;letter-spacing:.08em;color:#8A8575;text-transform:uppercase;margin:0 0 16px">Outsome · Founder Sprint Batch 8</p>' +
-    '<h2 style="font-size:22px;margin:0 0 12px">' + name + '님, 지원서 잘 받았어요.</h2>' +
-    '<p style="margin:0 0 20px;color:#5A5750">' + (d.companyName ? '<b>' + d.companyName + '</b>의 이야기, 꼼꼼히 읽을게요. ' : '') + '서류는 롤링으로 검토하고 순차적으로 연락드려요. 최종 마감은 <b>10월 30일</b>, 합격 통보는 <b>11월 4일</b>이에요.</p>' +
-    '<div style="background:#F5F4EF;border-radius:12px;padding:16px 18px;margin:0 0 20px">' +
-    '<p style="margin:0 0 8px;font-weight:600">마감 전까지 언제든 수정할 수 있어요</p>' +
-    '<p style="margin:0 0 12px;font-size:14px;color:#5A5750">아래 링크는 이 지원서 전용이에요. 다른 사람과 공유하지 마세요.</p>' +
-    '<a href="' + editUrl + '" style="display:inline-block;background:#1B1917;color:#FAFAF5;text-decoration:none;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px">지원서 수정하기</a>' +
-    '<p style="margin:12px 0 0;font-size:12px;color:#8A8575;word-break:break-all">' + editUrl + '</p>' +
-    '</div>' +
-    '<p style="margin:0 0 6px;font-size:14px;color:#5A5750"><b>다음 단계</b></p>' +
-    '<ol style="margin:0 0 20px;padding-left:18px;font-size:14px;color:#5A5750"><li>서류 검토 (롤링)</li><li>진단 미팅 · 인터뷰 (온라인 또는 대면)</li><li>합격 통보 11.4 · 10팀</li><li>FS 8기 시작 11.9</li></ol>' +
-    '<p style="margin:0;font-size:14px;color:#5A5750">궁금한 게 있으면 이 메일에 바로 답장 주세요.<br/>— Peter Shin, Outsome</p>' +
-    '</div>';
-  MailApp.sendEmail({ to: d.email, subject: subject, htmlBody: html, name: "Outsome", replyTo: "peter@outsome.co" });
+  var editUrl = "https://outsome.co/apply?edit=" + token;
+  var name = String(d.founderNameEn || d.founderNameKr || "").trim();
+  var greeting = name ? "Hi " + name + "," : "Hi,";
+  var subject = "Your Founder Sprint application";
+  // Plain, first-person, YC-style. Sent as both text and minimal HTML.
+  // Full source lives in the Apps Script project (Code.gs, deployment v9).
 }
 
 function authorizeScopes() {
@@ -127,7 +116,7 @@ function authorizeScopes() {
 ## Analytics (GA4)
 - 속성: Google Analytics 계정 "Outsome" / 속성 "outsome.co" (ID 553872459), 스트림 "outsome.co web", 측정 ID `G-LR0M0YV67G`. 로그인: peter@outsome.co
 - 태그: 모든 HTML `<head>` 상단 (out/ 11개 + public/pages 9개). 페이지뷰/스크롤/이탈 클릭은 향상된 측정으로 자동.
-- /ko/apply 이벤트 (apply.js `track()`; PII 없음, 범주값만):
+- /apply 이벤트 (apply.js `track()`; PII 없음, 범주값만):
   apply_start, apply_step_view{step,step_name,via}, apply_step_complete{step,step_name}, apply_select{field,value,step},
   apply_validation_error{step,step_name}, apply_hint_open{field}, apply_ref_click{title,field},
   apply_draft_resume{step}, apply_draft_discard, apply_submit_attempt, apply_submit_success{industry,stage,business_model,referral,has_deck,has_website} (핵심 이벤트),

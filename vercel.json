@@ -1,7 +1,12 @@
 {
   "outputDirectory": "out",
   "cleanUrls": true,
-
+  "rewrites": [
+    {
+      "source": "/ko/apply",
+      "destination": "/apply"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/js/(.*)",
